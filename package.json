@@ -1,0 +1,20 @@
+{
+  "name": "esti",
+  "version": "1.0.0",
+  "description": ":one: :two: :three: :five: :eight: :one::three:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yannickoo/esti.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yannickoo/esti/issues"
+  },
+  "homepage": "https://github.com/yannickoo/esti#readme"
+}
