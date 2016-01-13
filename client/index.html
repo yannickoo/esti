@@ -4,46 +4,50 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
   <title>Esti 👲🏻</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700">
 </head>
 <body>
-  <header>
-    <a href="index.html" class="name">Esti</a>
+  <div id="esti">
+    <header>
+      <a href="index.html" class="name">Esti</a>
 
-    <div class="menu">
-      <a href="#" class="trigger"></a>
-      <form>
-        <input type="text" id="name" placeholder="Enter your name">
-        <button type="submit">Save</button>
-      </form>
-    </div>
-  </header>
+      <div class="menu">
+        <a href="#" class="trigger"></a>
+        <form>
+          <input type="text" id="name" placeholder="Enter your name">
+          <button type="submit">Save</button>
+        </form>
+      </div>
+    </header>
 
-  <main>
-    <h1>KLUBNACHT</h1>
+    <main>
+      <h1>KLUBNACHT</h1>
 
-    <section class="ticket-container">
-      <form>
-        <input type="text" id="ticket" placeholder="Select ticket" list="tickets">
+      <section class="ticket-container">
+        <form>
+          <input type="text" id="ticket" placeholder="Select ticket" list="tickets">
 
-        <datalist id="tickets">
-          <option value="Implement server-side rendering">KN-420</option>
-          <option value="Cache invalidation">KN-345</option>
-          <option value="Fix markup">KN-121</option>
-        </datalist>
-      </form>
+          <datalist id="tickets">
+            <option value="Implement server-side rendering">KN-420</option>
+            <option value="Cache invalidation">KN-345</option>
+            <option value="Fix markup">KN-121</option>
+          </datalist>
+        </form>
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          var ticket = document.querySelector('#ticket');
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            var ticket = document.querySelector('#ticket');
 
-          ticket.addEventListener('change', function () {
-            location.href = 'voting-stop.html';
+            ticket.addEventListener('change', function () {
+              location.href = 'voting-stop.html';
+            });
           });
-        });
-      </script>
-    </section>
-  </main>
+        </script>
+      </section>
+    </main>
+  </div>
+
+  <script src="esti.js"></script>
 </body>
 </html>

@@ -4,7 +4,10 @@
   "description": ":one: :two: :three: :five: :eight: :one::three:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebrowserify": "mkdirp dist && cp -r client/* dist",
+    "browserify": "browserify app/esti.js -t babelify --outfile dist/esti.js",
+    "start": "npm install && npm run browserify && echo 'OPEN index.html IN YOUR BROWSER'"
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,17 @@
   "bugs": {
     "url": "https://github.com/yannickoo/esti/issues"
   },
-  "homepage": "https://github.com/yannickoo/esti#readme"
+  "homepage": "https://github.com/yannickoo/esti#readme",
+  "dependencies": {
+    "@cycle/core": "^6.0.0",
+    "@cycle/dom": "^9.0.1",
+    "rx": "^4.0.7",
+    "socket.io-client": "^1.4.4"
+  },
+  "devDependencies": {
+    "browserify": "11.0.1",
+    "babel": "5.6.x",
+    "babelify": "6.1.x",
+    "mkdirp": "0.5.x"
+  }
 }
