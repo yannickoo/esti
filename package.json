@@ -10,7 +10,7 @@
     "browserify": "browserify dist/client/esti.js -o dist/esti.js",
     "babel": "npm run babel:actions && npm run babel:client",
     "babel:client": "babel client/ --out-dir dist/client/ && cp client/tags/*.tag dist/client/tags",
-    "babel:server": "babel server/index.js -o dist/server/index.js",
+    "babel:server": "mkdirp dist/server && babel server/index.js -o dist/server/index.js",
     "babel:actions": "babel actions/ --out-dir dist/actions/",
     "start": "npm install && npm run browserify && echo 'OPEN index.html IN YOUR BROWSER'",
     "dev": "npm run browserify && pushstate-server dist 4200"

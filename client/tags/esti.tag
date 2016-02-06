@@ -43,5 +43,5 @@ esti
 
       e.preventDefault()
 
-      riot.route.to(`/${this['room-name'].value}`)
+      riot.route(this['room-name'].value)
     }
