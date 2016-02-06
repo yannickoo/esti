@@ -27,8 +27,17 @@ esti
     this.dispatchify({ join, setRoom, setName, changeName, claim })
 
     const subRoute = riot.route.create()
+
+    subRoute('/*-*', (room, name) => {
+      this.setRoom(room)
+      this.setName(name)
+      this.join(room, name)
+    })
+
     subRoute('/*', (room) => {
       this.setRoom(room)
+
+      this.name && this.join(room, this.name)
     })
 
     this.subscribe((state) => {

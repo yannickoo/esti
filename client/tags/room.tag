@@ -1,8 +1,8 @@
 room
-  h1 { name }
+  h1 { room.name }
 
   ul
-    li(each='{ user in users }')
+    li(each='{ user in room.users }')
       span { user }
 
   .token(if='{ !pm }')
@@ -18,13 +18,12 @@ room
     this.subscribe((state) => {
       return {
         pm: state.user.pm,
-        name: state.room.name,
-        users: state.room.users
+        room: state.room
       }
     })
 
     this.claimRoom = () => {
-      if (this.room && this.token.value) {
-        this.claim(this.room, this.token.value)
+      if (this.room.name && this.token.value) {
+        this.claim(this.room.name, this.token.value)
       }
     }
