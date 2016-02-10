@@ -8,8 +8,8 @@ const io = Socket()
 const low = require('lowdb')
 const storage = require('lowdb/file-async')
 
-import { userConnected, pmConnected } from '../actions/room'
-import { authenticated } from '../actions/user'
+import { userConnected, userDisconnected, pmConnected, pmUnavailable } from '../actions/room'
+import { authenticated, setName } from '../actions/user'
 import { ticketInfo } from '../actions/pm'
 import { start, end, userVote } from '../actions/round'
 
@@ -39,8 +39,23 @@ function addPM (roomName, socket) {
   rooms.set(roomName, room)
 }
 
+function addUser(roomName, user) {
+  let room = rooms.get(roomName)
+
+  if (!room) {
+    room = Room()
+  }
+
+  if (!room.users.has(user)) {
+    room.users.add(user)
+  }
+
+  rooms.set(roomName, room)
+}
+
 function claimRoom (name, token) {
   let room = db('rooms').find({ name })
+  const roomExists = !!room
 
   if (!room) {
     console.log('claimed room:', name, 'with token:', token)
@@ -51,10 +66,14 @@ function claimRoom (name, token) {
     return Promise.resolve(false)
   }
 
-  return db('rooms')
-    .push(room)
-    .then(() => true)
-    .catch(console.error)
+  if (!roomExists) {
+    return db('rooms')
+      .push(room)
+      .then(() => true)
+      .catch(console.error)
+  }
+
+  return Promise.resolve(true)
 }
 
 server.listen(3000, () => console.log('Listening...'))
@@ -65,30 +84,36 @@ io.on('connection', (socket) => {
 
   socket.on('action', (action) => {
     if (action.type === 'server/join') {
-      const { room, name } = action
+      const { name, room } = action
+      const user = { name, socket: socket.id }
       console.log(name, `(${socket.id})`, 'joins room:', room)
+      console.log('DEBUG', rooms.has(room), rooms.get(room))
+      const hasPm = rooms.has(room) && rooms.get(room).managers.length
+      const pmAction = hasPm ? pmConnected() : pmUnavailable()
+
+      socket.username = name
+      socket.userRooms = socket.userRooms || [];
+      socket.userRooms.push(room)
       socket.join(room)
 
-      if (rooms.has(room)) {
-        console.log('Sending userConnected')
-        socket.to(room).emit('action', userConnected(name))
-      }
+      addUser(room, user)
+
+      console.log('Sending userConnected to', room)
+      io.in(room).emit('action', userConnected(user))
+      io.in(room).emit('action', pmAction)
     }
 
     if (action.type === 'server/claim') {
-      const room = action.room
-      const token = action.token
+      const { room, token } = action
 
-      console.log('Claiming:', room, token)
+      socket.join(room)
 
       claimRoom(room, token)
         .then((claimed) => {
           if (claimed) {
             addPM(room, socket.id)
-            socket.broadcast.to(room).emit('action', pmConnected())
+            io.in(room).emit('action', pmConnected())
           }
-
-          console.log('Claimed:', claimed)
 
           socket.emit('action', authenticated(claimed))
         })
@@ -138,7 +163,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    // ...
-    console.log(socket.id, 'disconnected')
+    const userRooms = socket.userRooms || []
+    userRooms.forEach((room) => {
+      socket.broadcast.to(room).emit('action', userDisconnected(socket.username))
+      console.log(socket.username, 'has been disconnected from', room)
+    })
   })
 })

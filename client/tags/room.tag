@@ -1,40 +1,33 @@
-room
+room(class='{ active: room.active }')
   h1 { room.name }
 
   ul
     li(each='{ user in room.users }')
-      span { user }
+      span { user.name }
 
-  .token(if='{ !user.pm }')
-    input(type='text' name='token' placeholder='Enter your token')
-    button(type='submit' onclick='{ claimRoom }') Claim
+  form(if='{ !room.active && !user.pm }' onsubmit='{ unlockRoom }')
+    div
+     label(for='token') Token
+      input(type='text' id='token' name='token' required='required')
 
-  .username(if='{ !user.name }')
-    input(type='text' name='username' placeholder='Enter your username')
-    button(type='submit' onclick='{ setUsername }') Claim
+     div
+      button(type='submit') Unlock room
 
   script(type='babel').
     this.mixin('redux')
 
-    import { claim } from '../../actions/room'
-    import { join, setName } from '../../actions/user'
-    this.dispatchify({ claim, join, setName })
+    import { claim, pmConnected, pmUnavailable, userDisconnected } from '../../actions/room'
+    this.dispatchify({ claim, pmConnected, pmUnavailable, userDisconnected })
 
     this.subscribe((state) => {
+      console.log('ROOM', state.room)
       return {
         user: state.user,
         room: state.room
       }
     })
 
-    this.claimRoom = () => {
-      if (this.room.name && this.token.value) {
-        this.claim(this.room.name, this.token.value)
-      }
-    }
-
-    this.setUsername = () => {
-      const name = this.username.value
-      this.setName(name)
-      this.join(this.room.name, name)
+    this.unlockRoom = (e) => {
+      e.preventDefault()
+      this.claim(this.room.name, this.token.value)
     }
