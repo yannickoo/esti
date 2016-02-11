@@ -1,7 +1,6 @@
 import { USER_CONNECTED, USER_DISCONNECTED, USER_NAMECHANGE, SET_ROOM, PM_UNAVAILABLE, PM_CONNECTED } from '../../actions/room'
 
 export default function room (state = { users: [], name: '', active: false }, action) {
-  console.log('reducers/room.js', action)
   if (action.type === USER_CONNECTED) {
     const { user } = action
     const users = [...state.users, user]

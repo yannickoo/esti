@@ -20,7 +20,6 @@ room(class='{ active: room.active }')
     this.dispatchify({ claim, pmConnected, pmUnavailable, userDisconnected })
 
     this.subscribe((state) => {
-      console.log('ROOM', state.room)
       return {
         user: state.user,
         room: state.room
