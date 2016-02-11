@@ -1,35 +1,31 @@
 esti
   header
-    a(href='index.html' class='name') Esti
+    a(href='/' class='name') 👲 Esti
 
-  .create-room(if='{ !room.name }')
-    h1 Create new room
-    form(onsubmit='{ createRoom }')
-      div
-        label(for='username') Your name
-        input(type='text' id='username' name='username' required='required')
+  main
+    .create-room(if='{ !room.name }')
+      h1 Create new room
 
-      div
-        label(for='room-name') Room name
-        input(type='text' id='room-name' name='room-name' required='required')
+      form(onsubmit='{ createRoom }')
+        input(type='text' name='username' placeholder='Your name' required='required' autofocus='autofocus')
 
-      div
-        label(for='room-token') Token
-        input(type='text' id='room-token' name='room-token' required='required')
+        input(type='text' name='room-name' placeholder='Room name' required='required')
 
-      div
-        button(type='submit') Create room
+        input(type='text' name='room-token' placeholder='Token' required='required')
 
-  .room-enter(if='{ !user.name && room.name }')
-    form(onsubmit='{ joinRoom }')
-      div
-        label(for='room-username') Your name
-        input(type='text' id='room-username' name='room-username' required='required')
+        div.actions
+          button(type='submit') Create room
 
-      div
-        button(type='submit') Join room
+    .room-enter(if='{ !user.name && room.name }')
+      h1 { room.name }
 
-  room(if='{ user.name && room.name }')
+      form(onsubmit='{ joinRoom }')
+        input(type='text' name='room-username' placeholder='Your name' required='required' autofocus='autofocus')
+
+        div.actions
+          button(type='submit') Join room
+
+    room(if='{ user.name && room.name }')
 
   script(type='babel').
     this.mixin('redux')
@@ -40,6 +36,10 @@ esti
     this.dispatchify({ join, setRoom, setName, changeName, claim })
 
     const subRoute = riot.route.create()
+
+    subRoute('/', () => {
+      this.setRoom('')
+    })
 
     subRoute('/*', (room) => {
       this.setRoom(room)

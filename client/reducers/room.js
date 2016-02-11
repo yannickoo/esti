@@ -1,4 +1,4 @@
-import { USER_CONNECTED, USER_DISCONNECTED, USER_NAMECHANGE, SET_ROOM, PM_UNAVAILABLE, PM_CONNECTED } from '../../actions/room'
+import { USER_CONNECTED, USER_DISCONNECTED, USER_NAMECHANGE, USER_KICK, SET_ROOM, PM_UNAVAILABLE, PM_CONNECTED } from '../../actions/room'
 
 export default function room (state = { users: [], name: '', active: false }, action) {
   if (action.type === USER_CONNECTED) {
@@ -21,6 +21,13 @@ export default function room (state = { users: [], name: '', active: false }, ac
     const users = [...without, after]
 
     return { ...state, users }
+  }
+
+  if (action.type === USER_KICK) {
+    const { id } = action
+    const users = state.users.filter((u) => u.socket !== id)
+
+    return { ...state, users}
   }
 
   if (action.type === SET_ROOM) {

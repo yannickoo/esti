@@ -6,6 +6,7 @@ export const PM_UNAVAILABLE = 'room/pmUnavailable'
 export const SET_ROOM = 'room/set'
 
 export const CLAIM = 'server/claim'
+export const USER_KICK = 'server/userKick'
 
 export function userConnected (user) {
   return {
@@ -14,10 +15,10 @@ export function userConnected (user) {
   }
 }
 
-export function userDisconnected (user) {
+export function userDisconnected (name) {
   return {
     type: USER_DISCONNECTED,
-    user
+    name
   }
 }
 
@@ -26,6 +27,14 @@ export function userNamechange (before, after) {
     type: USER_NAMECHANGE,
     before,
     after
+  }
+}
+
+export function userKick (room, id) {
+  return {
+    type: USER_KICK,
+    room,
+    id
   }
 }
 

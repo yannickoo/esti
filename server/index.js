@@ -9,7 +9,7 @@ const low = require('lowdb')
 const storage = require('lowdb/file-async')
 
 import { userConnected, userDisconnected, pmConnected, pmUnavailable } from '../actions/room'
-import { authenticated, setName } from '../actions/user'
+import { authenticated, kicked, setName } from '../actions/user'
 import { ticketInfo } from '../actions/pm'
 import { start, end, userVote } from '../actions/round'
 
@@ -86,20 +86,27 @@ io.on('connection', (socket) => {
     if (action.type === 'server/join') {
       const { name, room } = action
       const user = { name, socket: socket.id }
-      console.log(name, `(${socket.id})`, 'joins room:', room)
-      console.log('DEBUG', rooms.has(room), rooms.get(room))
-      const hasPm = rooms.has(room) && rooms.get(room).managers.length
+      const mapRoom = rooms.get(room)
+      const hasPm = mapRoom && mapRoom.managers.size
       const pmAction = hasPm ? pmConnected() : pmUnavailable()
 
+      console.log(name, `(${socket.id})`, 'joins room:', room)
+
       socket.username = name
-      socket.userRooms = socket.userRooms || [];
+      socket.userRooms = socket.userRooms || []
       socket.userRooms.push(room)
       socket.join(room)
 
       addUser(room, user)
 
+      rooms.get(room).users.forEach((user) => {
+        if (user.name !== name) {
+          socket.emit('action', userConnected(user))
+        }
+      })
+
       console.log('Sending userConnected to', room)
-      io.in(room).emit('action', userConnected(user))
+      socket.broadcast.to(room).emit('action', userConnected(user))
       io.in(room).emit('action', pmAction)
     }
 
@@ -118,6 +125,28 @@ io.on('connection', (socket) => {
           socket.emit('action', authenticated(claimed))
         })
         .catch(console.error)
+    }
+
+    if (action.type === 'server/userKick') {
+      const roomName = action.room
+      const room = rooms.get(roomName)
+      const id = action.id
+      const users = Array.from(room.users.values())
+
+      const userIndex = users.findIndex((u) => u.socket === id)
+      const user = users.find((u) => u.socket === id)
+
+      if (userIndex !== -1) {
+        room.users.delete(userIndex)
+
+        if (io.sockets.sockets[id]) {
+          io.sockets.sockets[id].emit('action', kicked())
+        }
+
+        socket.broadcast.to(roomName).emit('action', userDisconnected(user.name))
+
+        rooms.set(roomName, room)
+      }
     }
 
     if (action.type === 'server/ticket') {
@@ -164,9 +193,39 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     const userRooms = socket.userRooms || []
+    const username = socket.username
+
     userRooms.forEach((room) => {
-      socket.broadcast.to(room).emit('action', userDisconnected(socket.username))
-      console.log(socket.username, 'has been disconnected from', room)
+      const mapRoom = rooms.get(room)
+
+      console.log('Diconnect', username, 'from', room)
+
+      if (!mapRoom) {
+        return
+      }
+
+      const managerIndex = Array.from(mapRoom.managers.values()).findIndex((s) => s === socket.id)
+      const userIndex = Array.from(mapRoom.users.values()).findIndex((u) => u.socket === socket.id)
+
+      if (managerIndex !== -1) {
+        console.log('Delete', username, 'from', room, 'manager list')
+        mapRoom.managers.delete(managerIndex)
+
+        // It seems like size property was not updated after deleting manager.
+        if (!mapRoom.managers.size - 1) {
+          console.log('There is no PM in', room)
+          socket.broadcast.to(room).emit('action', pmUnavailable())
+        }
+      }
+
+      if (userIndex !== -1) {
+        console.log('Delete', username, 'from', room, 'user list')
+        mapRoom.users.delete(userIndex)
+      }
+
+      socket.broadcast.to(room).emit('action', userDisconnected(username))
+
+      rooms.set(room, mapRoom)
     })
   })
 })

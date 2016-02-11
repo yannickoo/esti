@@ -1,23 +1,25 @@
 room(class='{ active: room.active }')
-  h1 { room.name }
+  h1 {room.name } #[span(class='{ hidden: room.active }' class='padlock' onclick='{ unlock }')]
 
-  ul
-    li(each='{ user in room.users }')
-      span { user.name }
+  div.online-users
+    h2(if='{ room.users.length }') Online users
+    h2(if='{ !room.users.length }') No online users
+    ul
+      li(each='{ u in room.users }')
+        span { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
 
-  form(if='{ !room.active && !user.pm }' onsubmit='{ unlockRoom }')
+  form(if='{ enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
     div
-     label(for='token') Token
-      input(type='text' id='token' name='token' required='required')
+      input(type='text' name='token' placeholder='Token' required='required')
 
-     div
+     div.actions
       button(type='submit') Unlock room
 
   script(type='babel').
     this.mixin('redux')
 
-    import { claim, pmConnected, pmUnavailable, userDisconnected } from '../../actions/room'
-    this.dispatchify({ claim, pmConnected, pmUnavailable, userDisconnected })
+    import { claim, pmConnected, pmUnavailable, userDisconnected, userKick } from '../../actions/room'
+    this.dispatchify({ claim, pmConnected, pmUnavailable, userDisconnected, userKick })
 
     this.subscribe((state) => {
       return {
@@ -26,7 +28,24 @@ room(class='{ active: room.active }')
       }
     })
 
+    this.on('updated', function () {
+      if (!this.user.active) {
+        console.warn('You got kicked!')
+        riot.route('/')
+      }
+    })
+
     this.unlockRoom = (e) => {
       e.preventDefault()
+      this.enterToken = false
       this.claim(this.room.name, this.token.value)
+    }
+
+    this.removeUser = (e) => {
+      e.preventDefault()
+      this.userKick(this.room.name, e.item.u.socket)
+    }
+
+    this.unlock = (e) => {
+      this.enterToken = true
     }
