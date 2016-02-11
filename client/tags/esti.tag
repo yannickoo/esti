@@ -9,7 +9,7 @@ esti
       form(onsubmit='{ createRoom }')
         input(type='text' name='username' placeholder='Your name' required='required' autofocus='autofocus')
 
-        input(type='text' name='room-name' placeholder='Room name' required='required')
+        input(type='text' name='room-name' placeholder='Room name' pattern='[a-z0-9\s]+' required='required')
 
         input(type='text' name='room-token' placeholder='Token' required='required')
 
