@@ -1,5 +1,7 @@
-room(class='{ active: room.active }')
+room
   h1 {room.name } #[span(class='{ hidden: room.active }' class='padlock' onclick='{ unlock }')]
+
+  vote
 
   div.online-users
     h2(if='{ room.users.length }') Online users
@@ -18,7 +20,8 @@ room(class='{ active: room.active }')
   script(type='babel').
     this.mixin('redux')
 
-    import { claim, pmConnected, pmUnavailable, userDisconnected, userKick } from '../../actions/room'
+    import { pmConnected, pmUnavailable, userDisconnected } from '../../actions/server'
+    import { claim, userKick } from '../../actions/server'
     this.dispatchify({ claim, pmConnected, pmUnavailable, userDisconnected, userKick })
 
     this.subscribe((state) => {

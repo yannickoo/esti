@@ -5,9 +5,6 @@ export const PM_CONNECTED = 'room/pmConnected'
 export const PM_UNAVAILABLE = 'room/pmUnavailable'
 export const SET_ROOM = 'room/set'
 
-export const CLAIM = 'server/claim'
-export const USER_KICK = 'server/userKick'
-
 export function userConnected (user) {
   return {
     type: USER_CONNECTED,
@@ -30,14 +27,6 @@ export function userNamechange (before, after) {
   }
 }
 
-export function userKick (room, id) {
-  return {
-    type: USER_KICK,
-    room,
-    id
-  }
-}
-
 export function pmConnected () {
   return {
     type: PM_CONNECTED
@@ -54,13 +43,5 @@ export function setRoom (room) {
   return {
     type: SET_ROOM,
     room
-  }
-}
-
-export function claim (room, token) {
-  return {
-    type: CLAIM,
-    room,
-    token
   }
 }

@@ -9,9 +9,12 @@ const low = require('lowdb')
 const storage = require('lowdb/file-async')
 
 import { userConnected, userDisconnected, pmConnected, pmUnavailable } from '../actions/room'
-import { authenticated, kicked, setName } from '../actions/user'
+import { joined, authenticated, kicked, setName } from '../actions/user'
 import { ticketInfo } from '../actions/pm'
 import { start, end, userVote } from '../actions/round'
+
+import * as round from '../actions/round'
+import * as actions from '../actions/server'
 
 const db = low('db.json', { storage })
 
@@ -39,7 +42,7 @@ function addPM (roomName, socket) {
   rooms.set(roomName, room)
 }
 
-function addUser(roomName, user) {
+function addUser (roomName, user) {
   let room = rooms.get(roomName)
 
   if (!room) {
@@ -83,34 +86,25 @@ io.on('connection', (socket) => {
   console.log('Socket connected:', socket.id)
 
   socket.on('action', (action) => {
-    if (action.type === 'server/join') {
+    if (action.type === actions.JOIN) {
       const { name, room } = action
       const user = { name, socket: socket.id }
-      const mapRoom = rooms.get(room)
-      const hasPm = mapRoom && mapRoom.managers.size
-      const pmAction = hasPm ? pmConnected() : pmUnavailable()
+      const { users, managers } = rooms.get(room)
 
       console.log(name, `(${socket.id})`, 'joins room:', room)
 
       socket.username = name
-      socket.userRooms = socket.userRooms || []
-      socket.userRooms.push(room)
+      socket.room = room
       socket.join(room)
+      socket.emit(joined({ name, users, managers }))
 
       addUser(room, user)
 
-      rooms.get(room).users.forEach((user) => {
-        if (user.name !== name) {
-          socket.emit('action', userConnected(user))
-        }
-      })
-
       console.log('Sending userConnected to', room)
       socket.broadcast.to(room).emit('action', userConnected(user))
-      io.in(room).emit('action', pmAction)
     }
 
-    if (action.type === 'server/claim') {
+    if (action.type === actions.CLAIM) {
       const { room, token } = action
 
       socket.join(room)
@@ -129,7 +123,7 @@ io.on('connection', (socket) => {
         .catch(console.error)
     }
 
-    if (action.type === 'server/userKick') {
+    if (action.type === actions.USER_KICK) {
       const roomName = action.room
       const room = rooms.get(roomName)
       const id = action.id
@@ -151,7 +145,7 @@ io.on('connection', (socket) => {
       }
     }
 
-    if (action.type === 'server/ticket') {
+    if (action.type === actions.TICKET) {
       const room = rooms.get(action.room)
       const ticket = action.ticket
 
@@ -173,14 +167,14 @@ io.on('connection', (socket) => {
       }))
     }
 
-    if (action.type === 'server/round') {
+    if (action.type === actions.START) {
       const room = action.room
       const data = action.data
 
       socket.broadcast.to(room).emit('action', start(data))
     }
 
-    if (action.type === 'server/vote') {
+    if (action.type === actions.VOTE) {
       const room = rooms.get(action.room)
       const { user, estimation } = action
 

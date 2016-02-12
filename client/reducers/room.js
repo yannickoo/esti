@@ -27,7 +27,7 @@ export default function room (state = { users: [], name: '', active: false }, ac
     const { id } = action
     const users = state.users.filter((u) => u.socket !== id)
 
-    return { ...state, users}
+    return { ...state, users }
   }
 
   if (action.type === SET_ROOM) {

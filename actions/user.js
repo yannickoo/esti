@@ -1,8 +1,6 @@
 export const AUTHENTICATED = 'user/authenticated'
 export const KICKED = 'user/kicked'
-export const JOIN = 'server/join'
-export const CHANGE_NAME = 'server/changeName'
-export const SET_NAME = 'server/setName'
+export const JOINED = 'user/joined'
 
 export function authenticated (auth) {
   return {
@@ -18,25 +16,10 @@ export function kicked () {
   }
 }
 
-export function join (room, name) {
+export function joined ({ users, managers, name }) {
   return {
-    type: JOIN,
-    room,
-    name
-  }
-}
-
-export function changeName (before, after) {
-  return {
-    type: CHANGE_NAME,
-    before,
-    after
-  }
-}
-
-export function setName (name) {
-  return {
-    type: SET_NAME,
+    managers,
+    joined,
     name
   }
 }

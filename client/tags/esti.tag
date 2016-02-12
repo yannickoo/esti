@@ -30,9 +30,8 @@ esti
   script(type='babel').
     this.mixin('redux')
 
-    import { join, setName, changeName } from '../../actions/user'
-    import { setRoom, claim } from '../../actions/room'
-
+    import { setRoom } from '../../actions/room'
+    import { join, setName, changeName, claim } from '../../actions/server'
     this.dispatchify({ join, setRoom, setName, changeName, claim })
 
     const subRoute = riot.route.create()
