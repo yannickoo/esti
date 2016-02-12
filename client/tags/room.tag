@@ -28,7 +28,7 @@ room(class='{ active: room.active }')
       }
     })
 
-    this.on('updated', function () {
+    this.on('update', function () {
       if (!this.user.active) {
         console.warn('You got kicked!')
         riot.route('/')

@@ -119,6 +119,8 @@ io.on('connection', (socket) => {
         .then((claimed) => {
           if (claimed) {
             addPM(room, socket.id)
+            socket.userRooms = socket.userRooms || []
+            socket.userRooms.push(room)
             io.in(room).emit('action', pmConnected())
           }
 
