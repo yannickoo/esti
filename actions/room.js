@@ -1,9 +1,8 @@
 export const USER_CONNECTED = 'room/userConnected'
 export const USER_DISCONNECTED = 'room/userDisconnected'
 export const USER_NAMECHANGE = 'room/userNamechange'
-export const PM_CONNECTED = 'room/pmConnected'
-export const PM_UNAVAILABLE = 'room/pmUnavailable'
 export const SET_ROOM = 'room/set'
+export const UNLOCKED = 'room/unlocked'
 
 export function userConnected (user) {
   return {
@@ -12,30 +11,17 @@ export function userConnected (user) {
   }
 }
 
-export function userDisconnected (name) {
+export function userDisconnected (user) {
   return {
     type: USER_DISCONNECTED,
-    name
+    user
   }
 }
 
-export function userNamechange (before, after) {
+export function userNamechange (user) {
   return {
     type: USER_NAMECHANGE,
-    before,
-    after
-  }
-}
-
-export function pmConnected () {
-  return {
-    type: PM_CONNECTED
-  }
-}
-
-export function pmUnavailable () {
-  return {
-    type: PM_UNAVAILABLE
+    user
   }
 }
 
@@ -43,5 +29,12 @@ export function setRoom (room) {
   return {
     type: SET_ROOM,
     room
+  }
+}
+
+export function unlocked (user) {
+  return {
+    type: UNLOCKED,
+    user
   }
 }

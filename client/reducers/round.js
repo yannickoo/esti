@@ -1,9 +1,10 @@
-import { START, VOTE, END, RESTART } from '../../actions/round'
+import { START, VOTE, END, RESTART, VOTE_SELECTED } from '../../actions/round'
+const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 
-export default function round (state = { ticket: {}, userVotes: [], active: false }, action) {
+export default function round (state = { ticket: {}, userVotes: [], points: points, active: false, pending: false }, action) {
   if (action.type === START) {
-    const { id, title, description } = action
-    const ticket = { id, title, description }
+    const { id, title, url } = action
+    const ticket = { id, title, url }
 
     return { ...state, ticket, userVotes: [], active: true }
   }
@@ -21,6 +22,11 @@ export default function round (state = { ticket: {}, userVotes: [], active: fals
 
   if (action.type === RESTART) {
     return { ...state, userVotes: [], active: true }
+  }
+
+  if (action.type === VOTE_SELECTED) {
+    const { value } = action
+    return { ...state, userVote: value }
   }
 
   return state

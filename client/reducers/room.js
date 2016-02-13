@@ -1,6 +1,16 @@
-import { USER_CONNECTED, USER_DISCONNECTED, USER_NAMECHANGE, USER_KICK, SET_ROOM, PM_UNAVAILABLE, PM_CONNECTED } from '../../actions/room'
+import {
+  USER_CONNECTED,
+  USER_DISCONNECTED,
+  USER_NAMECHANGE,
+  USER_KICK,
+  SET_ROOM,
+  UNLOCKED
+} from '../../actions/room'
 
-export default function room (state = { users: [], name: '', active: false }, action) {
+import { JOINED, AUTHENTICATED } from '../../actions/user'
+
+export default function room (state = { name: '', users: [], unlocked: false }, action) {
+  console.log(action.type, action)
   if (action.type === USER_CONNECTED) {
     const { user } = action
     const users = [...state.users, user]
@@ -9,23 +19,24 @@ export default function room (state = { users: [], name: '', active: false }, ac
   }
 
   if (action.type === USER_DISCONNECTED) {
-    const { name } = action
-    const users = state.users.filter((u) => u.name !== name)
+    const { user } = action
+    const users = state.users.filter((u) => u.socket !== user.socket)
+    const unlocked = users.some((u) => u.pm)
 
-    return { ...state, users }
+    return { ...state, users, unlocked }
   }
 
   if (action.type === USER_NAMECHANGE) {
-    const { before, after } = action
-    const without = state.users.filter((u) => u.name !== before)
-    const users = [...without, after]
+    const { user } = action
+    const without = state.users.filter((u) => u.socket !== user.socket)
+    const users = [...without, user]
 
     return { ...state, users }
   }
 
   if (action.type === USER_KICK) {
-    const { id } = action
-    const users = state.users.filter((u) => u.socket !== id)
+    const { user } = action
+    const users = state.users.filter((u) => u.socket !== user.socket)
 
     return { ...state, users }
   }
@@ -36,12 +47,22 @@ export default function room (state = { users: [], name: '', active: false }, ac
     return { ...state, name: room }
   }
 
-  if (action.type === PM_UNAVAILABLE) {
-    return { ...state, active: false }
+  if (action.type === JOINED) {
+    const { users } = action
+    const unlocked = users.some((u) => u.pm)
+    return { ...state, users, unlocked }
   }
 
-  if (action.type === PM_CONNECTED) {
-    return { ...state, active: true }
+  if (action.type === UNLOCKED) {
+    const { user } = action
+    const without = state.users.filter((u) => u.socket !== user.socket)
+    const users = [...without, user]
+    return { ...state, users, unlocked: true }
+  }
+
+  if (action.type === AUTHENTICATED) {
+    const { authenticated: unlocked } = action
+    return { ...state, unlocked }
   }
 
   return state

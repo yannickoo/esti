@@ -1,5 +1,5 @@
 room
-  h1 {room.name } #[span(class='{ hidden: room.active }' class='padlock' onclick='{ unlock }')]
+  h1 {room.name } #[span(class='{ hidden: room.unlocked }' class='padlock' onclick='{ unlock }')]
 
   vote
 
@@ -8,7 +8,7 @@ room
     h2(if='{ !room.users.length }') No online users
     ul
       li(each='{ u in room.users }')
-        span { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
+        span(class='{ pm: u.pm }') { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
 
   form(if='{ enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
     div
@@ -20,9 +20,8 @@ room
   script(type='babel').
     this.mixin('redux')
 
-    import { pmConnected, pmUnavailable, userDisconnected } from '../../actions/server'
     import { claim, userKick } from '../../actions/server'
-    this.dispatchify({ claim, pmConnected, pmUnavailable, userDisconnected, userKick })
+    this.dispatchify({ claim, userKick })
 
     this.subscribe((state) => {
       return {

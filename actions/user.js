@@ -16,10 +16,11 @@ export function kicked () {
   }
 }
 
-export function joined ({ users, managers, name }) {
+export function joined ({ name, users, managers }) {
   return {
-    managers,
-    joined,
-    name
+    type: JOINED,
+    name,
+    users,
+    managers
   }
 }

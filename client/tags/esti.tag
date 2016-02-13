@@ -31,8 +31,8 @@ esti
     this.mixin('redux')
 
     import { setRoom } from '../../actions/room'
-    import { join, setName, changeName, claim } from '../../actions/server'
-    this.dispatchify({ join, setRoom, setName, changeName, claim })
+    import { join, changeName, claim } from '../../actions/server'
+    this.dispatchify({ join, setRoom, changeName, claim })
 
     const subRoute = riot.route.create()
 
@@ -54,7 +54,7 @@ esti
     this.createRoom = (e) => {
       e.preventDefault()
 
-      this.setName(this.username.value)
+      this.join(this.room.name, this['room-username'].value)
       this.claim(this['room-name'].value, this['room-token'].value)
 
       riot.route(this['room-name'].value)
@@ -62,6 +62,5 @@ esti
 
     this.joinRoom = (e) => {
       e.preventDefault()
-      this.setName(this['room-username'].value)
       this.join(this.room.name, this['room-username'].value)
     }

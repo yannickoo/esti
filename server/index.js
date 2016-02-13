@@ -8,8 +8,8 @@ const io = Socket()
 const low = require('lowdb')
 const storage = require('lowdb/file-async')
 
-import { userConnected, userDisconnected, pmConnected, pmUnavailable } from '../actions/room'
-import { joined, authenticated, kicked, setName } from '../actions/user'
+import { userConnected, userDisconnected, unlocked } from '../actions/room'
+import { joined, authenticated, kicked } from '../actions/user'
 import { ticketInfo } from '../actions/pm'
 import { start, end, userVote } from '../actions/round'
 
@@ -18,42 +18,42 @@ import * as actions from '../actions/server'
 
 const db = low('db.json', { storage })
 
-const rooms = new Map()
+const rooms = {}
 
-function Room () {
-  return {
-    managers: new Set([]),
-    users: new Set([]),
-    round: null
-  }
+function slug (name) {
+  return name.toLowerCase()
 }
 
-function addPM (roomName, socket) {
-  let room = rooms.get(roomName)
-
-  if (!room) {
-    room = Room()
+class Room {
+  constructor (name) {
+    this.users = []
+    this.round = null
+    this.slug = slug(name)
+    this.name = name
   }
 
-  if (!room.managers.has(socket)) {
-    room.managers.add(socket)
+  addUser (user) {
+    const exists = this.findUser(user)
+
+    if (!exists) {
+      this.users = [...this.users, user]
+    }
+
+    return this
   }
 
-  rooms.set(roomName, room)
-}
-
-function addUser (roomName, user) {
-  let room = rooms.get(roomName)
-
-  if (!room) {
-    room = Room()
+  findUser (user) {
+    return this.users.find((u) => u.socket === user.socket)
   }
 
-  if (!room.users.has(user)) {
-    room.users.add(user)
-  }
+  removeUser (user) {
+    const users = this.users
+      .filter((u) => u.socket !== user.socket)
 
-  rooms.set(roomName, room)
+    this.users = users
+
+    return this
+  }
 }
 
 function claimRoom (name, token) {
@@ -87,35 +87,47 @@ io.on('connection', (socket) => {
 
   socket.on('action', (action) => {
     if (action.type === actions.JOIN) {
-      const { name, room } = action
+      const { name, room: roomName } = action
       const user = { name, socket: socket.id }
-      const { users, managers } = rooms.get(room)
+      const slugged = slug(roomName)
+      const room = rooms[slugged] || new Room(roomName)
 
-      console.log(name, `(${socket.id})`, 'joins room:', room)
+      console.log(name, `(${socket.id})`, 'joins room:', roomName)
 
       socket.username = name
-      socket.room = room
-      socket.join(room)
-      socket.emit(joined({ name, users, managers }))
+      socket.room = slugged
+      socket.join(slugged)
 
-      addUser(room, user)
+      socket.emit('action', joined({
+        name,
+        users: room.users
+      }))
 
-      console.log('Sending userConnected to', room)
-      socket.broadcast.to(room).emit('action', userConnected(user))
+      room.addUser(user)
+
+      console.log('Sending userConnected to', slugged)
+      socket.broadcast.to(slugged).emit('action', userConnected(user))
+
+      rooms[slugged] = room
     }
 
     if (action.type === actions.CLAIM) {
-      const { room, token } = action
+      const { room: roomName, token } = action
 
-      socket.join(room)
+      const slugged = slug(roomName)
+      const room = rooms[slugged]
 
-      claimRoom(room, token)
+      const user = room.users.find((u) => u.socket === socket.id)
+
+      claimRoom(slugged, token)
         .then((claimed) => {
           if (claimed) {
-            addPM(room, socket.id)
-            socket.userRooms = socket.userRooms || []
-            socket.userRooms.push(room)
-            io.in(room).emit('action', pmConnected())
+            const roomUser = room
+              .findUser(user)
+
+            roomUser.pm = true
+
+            socket.to(slugged).emit('action', unlocked(roomUser))
           }
 
           socket.emit('action', authenticated(claimed))
@@ -167,61 +179,36 @@ io.on('connection', (socket) => {
       }))
     }
 
-    if (action.type === actions.START) {
-      const room = action.room
-      const data = action.data
+    if (action.type === actions.ROUND_START) {
+      const { ticket } = action
 
-      socket.broadcast.to(room).emit('action', start(data))
+      io.to(socket.room).emit('action', start(ticket))
     }
 
     if (action.type === actions.VOTE) {
-      const room = rooms.get(action.room)
-      const { user, estimation } = action
+      const room = rooms[socket.room]
+      const { estimation } = action
+      const user = room.findUser({ socket: socket.id })
 
-      if (!room) {
-        socket.emit('action', { type: 'vote/error', error: true, message: 'No such room' })
-        return
-      }
+      console.log(socket.username, 'voted', estimation)
 
-      room.managers.forEach((manager) => manager.emit('action', userVote(user, estimation)))
+      room.users
+        .filter((u) => u.pm)
+        .forEach((manager) => socket.to(manager.socket).emit('action', userVote(user, estimation)))
     }
   })
 
   socket.on('disconnect', () => {
-    const userRooms = socket.userRooms || []
-    const username = socket.username
+    const roomName = socket.room
+    const room = rooms[roomName]
 
-    userRooms.forEach((room) => {
-      const mapRoom = rooms.get(room)
+    if (!room) {
+      return
+    }
 
-      console.log('Diconnect', username, 'from', room)
+    const user = room.users.find((u) => u.socket === socket.id)
+    room.removeUser(user)
 
-      if (!mapRoom) {
-        return
-      }
-
-      const managerIndex = Array.from(mapRoom.managers.values()).findIndex((s) => s === socket.id)
-      const userIndex = Array.from(mapRoom.users.values()).findIndex((u) => u.socket === socket.id)
-
-      if (managerIndex !== -1) {
-        console.log('Delete', username, 'from', room, 'manager list')
-        mapRoom.managers.delete(managerIndex)
-
-        // It seems like size property was not updated after deleting manager.
-        if (!mapRoom.managers.size - 1) {
-          console.log('There is no PM in', room)
-          socket.broadcast.to(room).emit('action', pmUnavailable())
-        }
-      }
-
-      if (userIndex !== -1) {
-        console.log('Delete', username, 'from', room, 'user list')
-        mapRoom.users.delete(userIndex)
-      }
-
-      socket.broadcast.to(room).emit('action', userDisconnected(username))
-
-      rooms.set(room, mapRoom)
-    })
+    io.to(roomName).emit('action', userDisconnected(user))
   })
 })

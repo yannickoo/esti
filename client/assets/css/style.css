@@ -90,30 +90,30 @@ button:active {
   margin-top: 20px;
 }
 
-.result-container {
+.points {
   display: flex;
   justify-content: space-between;
   margin-top: 60px;
 }
 
-.result-container > div {
+.points > div {
   display: inline-block;
   vertical-align: top;
 }
 
-.result-container button:not([disabled]):hover,
-.result-container button:not([disabled]):focus,
-.result-container > .winner button {
+.points button:not([disabled]):hover,
+.points button:not([disabled]):focus,
+.points > .winner button {
   background: #ccc;
   color: #000;
 }
 
-.result-container > .votes button {
+.points button {
   background: #ddd;
   color: #bbb;
 }
 
-.result-container button {
+.points button {
   display: block;
   width: 80px;
   padding: 20px 15px;
@@ -125,7 +125,7 @@ button:active {
   border: 0;
 }
 
-.result-container ul {
+.points ul {
   text-align: left;
 }
 
@@ -194,6 +194,10 @@ room {
 .online-users h2 {
   font-size: 16px;
   text-transform: uppercase;
+}
+
+.online-users .pm {
+  color: gray;
 }
 
 .padlock {
