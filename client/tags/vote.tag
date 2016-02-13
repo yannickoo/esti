@@ -12,20 +12,20 @@ vote
             div.actions
               button(type='submit') Start round
 
-    div(if='{ round.active }')
-      h2 #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }
+  div(if='{ round.active }')
+    h2 #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }
 
-    div(if='{ round.active }')
-      div(if='{ user.pm }')
-        button(onclick='{ endRound }') End round
+  div(if='{ round.active }')
+    div(if='{ user.pm }')
+      button(onclick='{ endRound }') End round
 
-    .points(if='{ round.active }')
-      div(each='{ point in votesByPoints }')
-        div(class='{ chosen: point.chosen, current: round.estimation === point.value }')
-          button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
+  .points(if='{ round.active }')
+    div(each='{ point in votesByPoints }')
+      div(class='{ chosen: point.chosen, current: round.estimation === point.value }')
+        button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
 
-        ul(if='{ user.pm && point.userVotes.length }')
-          li(each='{ user in point.userVotes }') { user.name }
+      ul(if='{ user.pm && point.userVotes.length }')
+        li(each='{ user in point.userVotes }') { user.name }
 
   .vote-inactive(if='{ !round.active && !user.pm }')
     h2 No active voting
