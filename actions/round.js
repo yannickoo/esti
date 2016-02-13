@@ -13,13 +13,13 @@ export function vote (user) {
 }
 
 export function end () {
-  return { type: START }
+  return { type: END }
 }
 
 export function restart () {
   return { type: RESTART }
 }
 
-export function voteSelected () {
-  return { type: VOTE_SELECTED }
+export function voteSelected (chosen) {
+  return { type: VOTE_SELECTED, chosen }
 }

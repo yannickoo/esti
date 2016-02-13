@@ -13,7 +13,7 @@ vote
 
   .vote-results(if='{ round.active }')
     div(if='{ user.pm }')
-      button(type='submit') End round
+      button(onclick='{ endRound }') End round
 
     div(if='{ !user.pm }')
       h2 #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }
@@ -33,9 +33,9 @@ vote
     this.mixin('redux')
 
     import { start, restart, end } from '../../actions/round'
-    import { startRound, vote } from '../../actions/server'
+    import { startRound, vote, endRound } from '../../actions/server'
     import { voted } from '../../actions/user'
-    this.dispatchify({ start, restart, end, startRound, vote, voted })
+    this.dispatchify({ start, restart, end, startRound, vote, endRound, voted })
 
     this.subscribe((state) => {
       return {
@@ -48,6 +48,7 @@ vote
     this.on('update', () => {
       this.votesByPoints = this.round.points.map((value) => ({
         userVotes: this.estimations.filter((vote) => vote.estimation === value),
+        chosen: this.round.chosen === value,
         value
       }))
     })

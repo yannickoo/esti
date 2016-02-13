@@ -185,6 +185,10 @@ io.on('connection', (socket) => {
       io.to(socket.room).emit('action', start(ticket))
     }
 
+    if (action.type === actions.ROUND_END) {
+      io.to(socket.room).emit('action', end())
+    }
+
     if (action.type === actions.VOTE) {
       const room = rooms[socket.room]
       const { estimation } = action

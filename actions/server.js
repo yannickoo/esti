@@ -5,6 +5,7 @@ export const JOIN = 'server/join'
 export const CHANGE_NAME = 'server/changeName'
 export const SET_NAME = 'server/setName'
 export const ROUND_START = 'server/startRound'
+export const ROUND_END = 'server/endRound'
 
 export function vote (estimation) {
   return {
@@ -56,5 +57,11 @@ export function startRound (ticket) {
   return {
     type: ROUND_START,
     ticket
+  }
+}
+
+export function endRound () {
+  return {
+    type: ROUND_END
   }
 }
