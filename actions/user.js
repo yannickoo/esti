@@ -1,6 +1,7 @@
 export const AUTHENTICATED = 'user/authenticated'
 export const KICKED = 'user/kicked'
 export const JOINED = 'user/joined'
+export const VOTED = 'user/voted'
 
 export function authenticated (auth) {
   return {
@@ -22,5 +23,12 @@ export function joined ({ name, users, managers }) {
     name,
     users,
     managers
+  }
+}
+
+export function voted (estimation) {
+  return {
+    type: VOTED,
+    estimation
   }
 }

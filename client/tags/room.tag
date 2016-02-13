@@ -8,7 +8,7 @@ room
     h2(if='{ !room.users.length }') No online users
     ul
       li(each='{ u in room.users }')
-        span(class='{ pm: u.pm }') { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
+        span(class='{ pm: u.pm, voted: hasVoted(u) }') { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
 
   form(if='{ enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
     div
@@ -26,7 +26,8 @@ room
     this.subscribe((state) => {
       return {
         user: state.user,
-        room: state.room
+        room: state.room,
+        round: state.round
       }
     })
 
@@ -50,4 +51,8 @@ room
 
     this.unlock = (e) => {
       this.enterToken = true
+    }
+
+    this.hasVoted = (user) => {
+      return !!this.round.userVotes.find((vote) => vote.socket === user.socket)
     }

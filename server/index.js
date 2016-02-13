@@ -10,8 +10,8 @@ const storage = require('lowdb/file-async')
 
 import { userConnected, userDisconnected, unlocked } from '../actions/room'
 import { joined, authenticated, kicked } from '../actions/user'
-import { ticketInfo } from '../actions/pm'
-import { start, end, userVote } from '../actions/round'
+import { ticketInfo, userVote } from '../actions/pm'
+import { start, end, voteSelected } from '../actions/round'
 
 import * as round from '../actions/round'
 import * as actions from '../actions/server'
@@ -190,11 +190,15 @@ io.on('connection', (socket) => {
       const { estimation } = action
       const user = room.findUser({ socket: socket.id })
 
-      console.log(socket.username, 'voted', estimation)
+      console.log(socket.username, `(PM: ${user.pm})`, 'voted', estimation)
+
+      if (user.pm) {
+        return io.to(socket.room).emit('action', voteSelected(estimation))
+      }
 
       room.users
         .filter((u) => u.pm)
-        .forEach((manager) => socket.to(manager.socket).emit('action', userVote(user, estimation)))
+        .forEach((pm) => socket.to(pm.socket).emit('action', userVote(user, estimation)))
     }
   })
 

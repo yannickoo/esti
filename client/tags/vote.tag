@@ -32,20 +32,22 @@ vote
   script(type='babel').
     this.mixin('redux')
 
-    import { start, restart, end, voteSelected } from '../../actions/round'
+    import { start, restart, end } from '../../actions/round'
     import { startRound, vote } from '../../actions/server'
-    this.dispatchify({ start, restart, end, startRound, voteSelected, vote })
+    import { voted } from '../../actions/user'
+    this.dispatchify({ start, restart, end, startRound, vote, voted })
 
     this.subscribe((state) => {
       return {
         user: state.user,
-        round: state.round
+        round: state.round,
+        estimations: state.pm.votes
       }
     })
 
     this.on('update', () => {
       this.votesByPoints = this.round.points.map((value) => ({
-        userVotes: this.round.userVotes.filter((vote) => vote.value === value),
+        userVotes: this.estimations.filter((vote) => vote.estimation === value),
         value
       }))
     })
@@ -62,6 +64,8 @@ vote
     }
 
     this.voteSelect = (e) => {
-      this.voteSelected(e.item.point.value)
-      this.vote(e.item.point.value)
+      const estimation = e.item.point.value
+
+      this.vote(estimation)
+      this.voted(estimation)
     }

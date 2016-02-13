@@ -1,9 +1,11 @@
 import { USER_VOTE, TICKET_INFO, TICKET_LIST } from '../../actions/pm'
 
-export default function pm (state = { votes: {}, ticket: {}, tickets: [] }, action) {
+export default function pm (state = { votes: [], ticket: {}, tickets: [] }, action) {
   if (action.type === USER_VOTE) {
     const { user, estimation } = action
-    const votes = { ...state.votes, [user]: estimation }
+    const vote = { ...user, estimation }
+    const without = state.votes.filter((vote) => vote.socket !== user.socket)
+    const votes = [...without, vote]
 
     return { ...state, votes }
   }
