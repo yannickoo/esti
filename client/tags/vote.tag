@@ -20,7 +20,7 @@ vote
 
     .points
       div(each='{ point in votesByPoints }')
-        div(class='{ point.chosen }')
+        div(class='{ chosen: point.chosen, current: round.estimation === point.value }')
           button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
 
         ul(if='{ user.pm && point.userVotes.length }')
