@@ -49,7 +49,9 @@ input + input {
   margin-top: 15px;
 }
 
+summary,
 button {
+    padding: 5px 10px;
   font-size: 1.2em;
   text-shadow: 1px 1px #1887b5;
   border: 2px solid #1887b5;
@@ -64,18 +66,30 @@ button[disabled] {
   cursor: not-allowed;
 }
 
+summary:focus,
 button:focus {
   outline: 0;
 }
 
+summary:focus,
+summary:active,
 button:focus,
 button:active {
   background: #30B2E8;
 }
 
+summary:active,
 button:active {
   position: relative;
   top: 1px;
+}
+
+summary {
+  display: inline-block;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 .ticket-container {
@@ -88,45 +102,6 @@ button:active {
 
 .ticket-container button {
   margin-top: 20px;
-}
-
-.points {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 60px;
-}
-
-.points > div {
-  display: inline-block;
-  vertical-align: top;
-}
-
-.points button:not([disabled]):hover,
-.points button:not([disabled]):focus,
-.points > .winner button {
-  background: #ccc;
-  color: #000;
-}
-
-.points button {
-  background: #ddd;
-  color: #bbb;
-}
-
-.points button {
-  display: block;
-  width: 80px;
-  padding: 20px 15px;
-  background: #F7F7F7;
-  color: #ddd;
-  font-size: 2.5em;
-  line-height: 1em;
-  text-shadow: none;
-  border: 0;
-}
-
-.points ul {
-  text-align: left;
 }
 
 header {
@@ -184,31 +159,6 @@ room {
   margin-top: 30px;
 }
 
-.online-users {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  text-align: right;
-}
-
-.online-users h2 {
-  font-size: 16px;
-  text-transform: uppercase;
-}
-
-.online-users .pm {
-  color: gray;
-}
-
-.padlock {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background: url(../images/icons/padlock.svg);
-  background-size: 100%;
-  cursor: pointer;
-}
-
 .hidden {
   visibility: hidden;
 }
@@ -224,5 +174,14 @@ room {
 }
 
 .remove {
+  cursor: pointer;
+}
+
+.padlock {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background: url(../images/icons/padlock.svg);
+  background-size: 100%;
   cursor: pointer;
 }

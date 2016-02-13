@@ -1,5 +1,5 @@
 room
-  h1 {room.name } #[span(class='{ hidden: room.unlocked }' class='padlock' onclick='{ unlock }')]
+  h1 {room.name } #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
 
   vote
 
@@ -16,6 +16,23 @@ room
 
      div.actions
       button(type='submit') Unlock room
+
+  style(scoped).
+    .online-users {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      text-align: right;
+    }
+
+    .online-users h2 {
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .online-users .pm {
+      color: gray;
+    }
 
   script(type='babel').
     this.mixin('redux')

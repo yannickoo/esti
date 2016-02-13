@@ -9,14 +9,15 @@ vote
             input(type='text' name='ticket-title' placeholder='Ticket title' required)
             input(type='url' name='ticket-url' placeholder='Ticket URL' required)
 
-            button(type='submit') Start round
+            div.actions
+              button(type='submit') Start round
 
-  .vote-results(if='{ round.active }')
-    div(if='{ user.pm }')
-      button(onclick='{ endRound }') End round
-
-    div(if='{ !user.pm }')
+    div
       h2 #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }
+
+    div(if='{ round.active }')
+      div(if='{ user.pm }')
+        button(onclick='{ endRound }') End round
 
     .points
       div(each='{ point in votesByPoints }')
@@ -26,8 +27,55 @@ vote
         ul(if='{ user.pm && point.userVotes.length }')
           li(each='{ user in point.userVotes }') { user.name }
 
-  .vote-inactive(if='{ !round.active }')
-    h2 Round inactive
+  .vote-inactive(if='{ !round.active && !user.pm }')
+    h2 No active voting
+
+  style(scoped).
+    .points {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 60px;
+    }
+
+    .points > div {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .points .current button,
+    .points button:not([disabled]):hover,
+    .points button:not([disabled]):focus,
+    .points > .winner button {
+      background: #ccc;
+      color: #000;
+    }
+
+    .points button {
+      background: #ddd;
+      color: #bbb;
+    }
+
+    .points button {
+      display: block;
+      width: 80px;
+      padding: 20px 15px;
+      background: #F7F7F7;
+      color: #ddd;
+      font-size: 2.5em;
+      line-height: 1em;
+      text-shadow: none;
+      border: 0;
+    }
+
+    .points ul {
+      text-align: left;
+      margin-top: 10px;
+      line-height: 1.4em;
+    }
+
+    .round-create details[open] summary {
+      display: none;
+    }
 
   script(type='babel').
     this.mixin('redux')
