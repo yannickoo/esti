@@ -8,8 +8,8 @@ export function start (ticket) {
   return { type: START, ...ticket }
 }
 
-export function vote (user, estimation) {
-  return { type: START, user, estimation }
+export function vote (user) {
+  return { type: VOTE, user }
 }
 
 export function end () {

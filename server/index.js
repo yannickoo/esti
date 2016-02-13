@@ -11,7 +11,7 @@ const storage = require('lowdb/file-async')
 import { userConnected, userDisconnected, unlocked } from '../actions/room'
 import { joined, authenticated, kicked } from '../actions/user'
 import { ticketInfo, userVote } from '../actions/pm'
-import { start, end, voteSelected } from '../actions/round'
+import { start, end, vote, voteSelected } from '../actions/round'
 
 import * as round from '../actions/round'
 import * as actions from '../actions/server'
@@ -199,6 +199,10 @@ io.on('connection', (socket) => {
       room.users
         .filter((u) => u.pm)
         .forEach((pm) => socket.to(pm.socket).emit('action', userVote(user, estimation)))
+
+      room.users
+        .filter((u) => !u.pm)
+        .forEach((u) => socket.to(u.socket).emit('action', vote(user)))
     }
   })
 
