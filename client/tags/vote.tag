@@ -42,19 +42,6 @@ vote
       vertical-align: top;
     }
 
-    .points .current button,
-    .points button:not([disabled]):hover,
-    .points button:not([disabled]):focus,
-    .points > .winner button {
-      background: #ccc;
-      color: #000;
-    }
-
-    .points button {
-      background: #ddd;
-      color: #bbb;
-    }
-
     .points button {
       display: block;
       width: 80px;
@@ -65,6 +52,19 @@ vote
       line-height: 1em;
       text-shadow: none;
       border: 0;
+    }
+
+    .points .current button,
+    .points button:not([disabled]):hover,
+    .points button:not([disabled]):focus {
+      background: #ccc;
+      color: #000;
+    }
+
+    .points .chosen button:hover,
+    .points .chosen button:focus,
+    .points .chosen button {
+      background: #808080;
     }
 
     .points ul {
