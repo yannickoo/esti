@@ -1,10 +1,11 @@
-import { START, VOTE, END, RESTART, VOTE_SELECTED } from '../../actions/round'
+import { START, VOTE, END, RESTART, VOTE_SELECTED, RECOMMENDED } from '../../actions/round'
 import { VOTED } from '../../actions/user'
 const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 const defaultState = {
   ticket: {},
   userVotes: [],
   points: points,
+  recommended: [],
   active: false,
   pending: false,
   estimation: 0,
@@ -16,7 +17,7 @@ export default function round (state = defaultState, action) {
     const { id, title, url } = action
     const ticket = { id, title, url }
 
-    return { ...state, ticket, userVotes: [], active: true }
+    return { ...state, ticket, userVotes: [], active: true, recommended: [], chosen: 0, estimation: 0 }
   }
 
   if (action.type === VOTE) {
@@ -44,6 +45,11 @@ export default function round (state = defaultState, action) {
   if (action.type === VOTE_SELECTED) {
     const { chosen } = action
     return { ...state, chosen }
+  }
+
+  if (action.type === RECOMMENDED) {
+    const { recommended } = action
+    return { ...state, recommended }
   }
 
   return state

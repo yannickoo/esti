@@ -3,6 +3,7 @@ export const VOTE = 'round/vote'
 export const END = 'round/end'
 export const RESTART = 'round/restart'
 export const VOTE_SELECTED = 'round/voteSelected'
+export const RECOMMENDED = 'round/recommended'
 
 export function start (ticket) {
   return { type: START, ...ticket }
@@ -22,4 +23,8 @@ export function restart () {
 
 export function voteSelected (chosen) {
   return { type: VOTE_SELECTED, chosen }
+}
+
+export function recommended (recommended) {
+  return { type: RECOMMENDED, recommended }
 }

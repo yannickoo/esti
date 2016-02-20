@@ -54,8 +54,7 @@ esti
     this.createRoom = (e) => {
       e.preventDefault()
 
-      this.join(this.room.name, this['room-username'].value)
-      this.claim(this['room-name'].value, this['room-token'].value)
+      this.claim(this.username.value, this['room-name'].value, this['room-token'].value)
 
       riot.route(this['room-name'].value)
     }
