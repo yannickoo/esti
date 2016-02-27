@@ -5,7 +5,6 @@ const server = http.createServer()
 const Socket = require('socket.io')
 const io = Socket()
 
-import { userDisconnected } from '../actions/room'
 import { buildRoutes } from './utils'
 
 import * as actions from '../actions/server'
@@ -33,21 +32,6 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    const roomName = socket.room
-    const room = rooms[roomName]
-
-    if (!room) {
-      return
-    }
-
-    const user = room.users.find((u) => u.socket === socket.id)
-
-    if (!user) {
-      return
-    }
-
-    room.removeUser(user)
-
-    io.to(roomName).emit('action', userDisconnected(user))
+    routeducers.disconnect({ socket, rooms, io })
   })
 })

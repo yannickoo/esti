@@ -21,9 +21,7 @@ export default function joinedAction ({ socket, action, rooms }) {
   }))
 
   room.addUser(user)
-
-  console.log('Sending userConnected to', slugged)
-  socket.broadcast.to(slugged).emit('action', userConnected(user))
-
   rooms[slugged] = room
+
+  socket.broadcast.to(slugged).emit('action', userConnected(user))
 }

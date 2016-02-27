@@ -1,5 +1,5 @@
-
 import claim from './claim'
+import disconnect from './disconnect'
 import join from './join'
 import roundEnd from './round-end'
 import roundStart from './round-start'
@@ -11,6 +11,7 @@ import vote from './vote'
 
 export default {
   claim,
+  disconnect,
   join,
   roundEnd,
   roundStart,
