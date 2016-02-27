@@ -1,4 +1,4 @@
-import { userNamechange } from '../actions/room'
+import { userNamechange } from '../../actions/room'
 
 export default function setName ({ socket, action, rooms }) {
   const { name } = action

@@ -1,5 +1,5 @@
 export function buildRoutes (actions, routeducers) {
-  Object.keys(actions)
+  return Object.keys(actions)
     .reduce((routes, key) => {
       const action = key.toLowerCase().replace(/_(\w)/g, (m, p) => p.toUpperCase())
       const handler = routeducers[action]

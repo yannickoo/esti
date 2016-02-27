@@ -1,7 +1,7 @@
 import { joined } from '../../actions/user'
 import { userConnected } from '../../actions/room'
 import Room from '../room'
-import slug from '../utils'
+import { slug } from '../utils'
 
 export default function joinedAction ({ socket, action, rooms }) {
   const { name, room: roomName } = action
