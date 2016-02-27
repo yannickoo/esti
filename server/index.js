@@ -90,13 +90,13 @@ class Room {
     let maxVotes = 2
     // Array of recommended points.
     const recommended = Object.keys(allPoints).reduce((all, point) => {
-      if (allPoints[point] >= maxVotes) {
-        maxVotes = allPoints[point]
-
-        all.push(point)
+      if (allPoints[point] < maxVotes) {
+        return all
       }
 
-      return all
+      maxVotes = allPoints[point]
+
+      return [...all, point]
     }, [])
 
     return recommended
@@ -276,11 +276,11 @@ io.on('connection', (socket) => {
         .filter((u) => !u.pm)
         .forEach((u) => {
           socket.to(u.socket).emit('action', vote(user))
-
-          if (room.roundFinished()) {
-            io.to(socket.room).emit('action', recommended(room.getRecommendedPoints()))
-          }
         })
+
+      if (room.roundFinished()) {
+        io.to(socket.room).emit('action', recommended(room.getRecommendedPoints()))
+      }
     }
   })
 
