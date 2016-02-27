@@ -1,6 +1,28 @@
 esti
   header
     a(href='/' class='name') 👲 Esti
+    .menu(if='{ user.name }')
+      a.trigger(href='#')
+      form(onsubmit='{ updateSettings }')
+        div
+          label(for='menu-username') Your name
+          input(type='text' name='menu-username' id='menu-username' value='{ user.name }' required)
+
+        div(if='{ user.pm }')
+          label(for='menu-points') Available points
+          input(
+            type='textfield'
+            name='menu-points'
+            id='menu-points'
+            title='Please enter comma-separated values'
+            pattern='^([\\d\\w]+(, ?[\\d\\w]+)*)?$'
+            value='{ availablePoints }',
+            disabled='{ round.active }'
+            required
+          )
+
+        div.actions
+          button(type='submit') Save
 
   main
     .create-room(if='{ !room.name }')
@@ -31,8 +53,8 @@ esti
     this.mixin('redux')
 
     import { setRoom } from '../../actions/room'
-    import { join, changeName, claim } from '../../actions/server'
-    this.dispatchify({ join, setRoom, changeName, claim })
+    import { join, setName, claim, setPoints } from '../../actions/server'
+    this.dispatchify({ join, setRoom, setName, claim, setPoints })
 
     const subRoute = riot.route.create()
 
@@ -47,8 +69,13 @@ esti
     this.subscribe((state) => {
       return {
         user: state.user,
-        room: state.room
+        room: state.room,
+        round: state.round
       }
+    })
+
+    this.on('update', () => {
+      this.availablePoints = this.round.points.join(',')
     })
 
     this.createRoom = (e) => {
@@ -62,4 +89,19 @@ esti
     this.joinRoom = (e) => {
       e.preventDefault()
       this.join(this.room.name, this['room-username'].value)
+    }
+
+    this.updateSettings = (e) => {
+      e.preventDefault()
+
+      const nextName = this['menu-username'].value
+      const nextPoints = this['menu-points'].value
+
+      if (nextName !== this.user.name) {
+        this.setName(nextName)
+      }
+
+      if (nextPoints !== this.availablePoints) {
+        this.setPoints(nextPoints.split(/, ?/))
+      }
     }

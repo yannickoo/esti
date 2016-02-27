@@ -1,4 +1,4 @@
-import { START, VOTE, END, RESTART, VOTE_SELECTED, RECOMMENDED } from '../../actions/round'
+import { START, VOTE, END, RESTART, VOTE_SELECTED, RECOMMENDED, SET_POINTS } from '../../actions/round'
 import { VOTED } from '../../actions/user'
 const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 const defaultState = {
@@ -50,6 +50,11 @@ export default function round (state = defaultState, action) {
   if (action.type === RECOMMENDED) {
     const { recommended } = action
     return { ...state, recommended }
+  }
+
+  if (action.type === SET_POINTS) {
+    const { points } = action
+    return { ...state, points }
   }
 
   return state

@@ -2,10 +2,10 @@ export const VOTE = 'server/vote'
 export const CLAIM = 'server/claim'
 export const USER_KICK = 'server/userKick'
 export const JOIN = 'server/join'
-export const CHANGE_NAME = 'server/changeName'
 export const SET_NAME = 'server/setName'
 export const ROUND_START = 'server/startRound'
 export const ROUND_END = 'server/endRound'
+export const SET_POINTS = 'server/setPoints'
 
 export function vote (estimation) {
   return {
@@ -39,14 +39,6 @@ export function join (room, name) {
   }
 }
 
-export function changeName (before, after) {
-  return {
-    type: CHANGE_NAME,
-    before,
-    after
-  }
-}
-
 export function setName (name) {
   return {
     type: SET_NAME,
@@ -64,5 +56,12 @@ export function startRound (ticket) {
 export function endRound () {
   return {
     type: ROUND_END
+  }
+}
+
+export function setPoints (points) {
+  return {
+    type: SET_POINTS,
+    points
   }
 }

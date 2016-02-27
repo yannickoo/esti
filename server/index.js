@@ -8,12 +8,11 @@ const io = Socket()
 const low = require('lowdb')
 const storage = require('lowdb/file-async')
 
-import { userConnected, userDisconnected, unlocked } from '../actions/room'
+import { userConnected, userNamechange, userDisconnected, unlocked } from '../actions/room'
 import { joined, authenticated, kicked } from '../actions/user'
 import { ticketInfo, userVote } from '../actions/pm'
-import { start, end, vote, voteSelected, recommended } from '../actions/round'
+import { start, end, vote, voteSelected, recommended, setPoints } from '../actions/round'
 
-import * as round from '../actions/round'
 import * as actions from '../actions/server'
 
 const db = low('db.json', { storage })
@@ -44,6 +43,18 @@ class Room {
 
   findUser (user) {
     return this.users.find((u) => u.socket === user.socket)
+  }
+
+  updateUser (user) {
+    const current = this.findUser(user)
+
+    Object.keys(user)
+      .filter((key) => key !== 'socket')
+      .forEach((key) => {
+        current[key] = user[key]
+      })
+
+    return current
   }
 
   removeUser (user) {
@@ -273,6 +284,24 @@ io.on('connection', (socket) => {
       if (room.roundFinished()) {
         io.to(socket.room).emit('action', recommended(room.getRecommendedPoints()))
       }
+    }
+
+    if (action.type === actions.SET_POINTS) {
+      const { points } = action
+
+      console.log('New available points', points.join(','))
+
+      io.to(socket.room).emit('action', setPoints(points))
+    }
+
+    if (action.type === actions.SET_NAME) {
+      const { name } = action
+      const room = rooms[socket.room]
+      const user = room.updateUser({ name, socket: socket.id })
+
+      console.log(`${socket.username} ➝  ${name}`)
+
+      socket.broadcast.to(socket.room).emit('action', userNamechange(user))
     }
   })
 

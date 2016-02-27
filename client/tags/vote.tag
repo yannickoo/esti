@@ -33,7 +33,7 @@ vote
   style(scoped).
     .points {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       margin-top: 60px;
     }
 
@@ -42,9 +42,13 @@ vote
       vertical-align: top;
     }
 
+    .points > div + div {
+      margin-left: 15px;
+    }
+
     .points button {
       display: block;
-      width: 80px;
+      min-width: 80px;
       padding: 20px 15px;
       background: #F7F7F7;
       color: #ddd;
