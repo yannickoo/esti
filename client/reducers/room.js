@@ -23,7 +23,7 @@ export default function room (state = defaultState, action) {
   if (action.type === USER_DISCONNECTED) {
     const { user } = action
     const users = state.users.filter((u) => u.socket !== user.socket)
-    const unlocked = users.some((u) => u.pm)
+    const unlocked = user.pm ? users.some((u) => u.pm) : state.unlocked
 
     return { ...state, users, unlocked }
   }

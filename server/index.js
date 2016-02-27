@@ -201,11 +201,11 @@ io.on('connection', (socket) => {
       const user = room.findUser({ socket: action.id })
 
       if (user) {
+        console.log(`Kicking user: ${user.name} (${user.socket})`)
         room.removeUser(user)
 
         io.to(user.socket).emit('action', kicked())
-
-        socket.broadcast.to(roomName).emit('action', userDisconnected(user.name))
+        io.to(roomName).emit('action', userDisconnected(user))
       }
     }
 
@@ -285,6 +285,11 @@ io.on('connection', (socket) => {
     }
 
     const user = room.users.find((u) => u.socket === socket.id)
+
+    if (!user) {
+      return
+    }
+
     room.removeUser(user)
 
     io.to(roomName).emit('action', userDisconnected(user))
