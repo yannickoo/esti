@@ -10,7 +10,7 @@
     "browserify": "browserify dist/client/esti.js -o dist/esti.js",
     "babel": "npm run babel:actions && npm run babel:client",
     "babel:client": "babel client/ --out-dir dist/client/ && cp client/tags/*.tag dist/client/tags",
-    "babel:server": "mkdirp dist/server && babel server/index.js -o dist/server/index.js",
+    "babel:server": "mkdirp dist/server && babel server/ -d dist/server/",
     "babel:actions": "babel actions/ --out-dir dist/actions/",
     "start": "parallelshell 'npm run dev' 'npm run server'",
     "dev": "npm run browserify && pushstate-server dist 4200",
