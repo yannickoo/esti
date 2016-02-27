@@ -9,7 +9,7 @@ const low = require('lowdb')
 const storage = require('lowdb/file-async')
 
 import { userConnected, userNamechange, userDisconnected, unlocked } from '../actions/room'
-import { joined, authenticated, kicked } from '../actions/user'
+import { joined, authenticated, setName, kicked } from '../actions/user'
 import { ticketInfo, userVote } from '../actions/pm'
 import { start, end, vote, voteSelected, recommended, setPoints } from '../actions/round'
 
@@ -302,6 +302,7 @@ io.on('connection', (socket) => {
       console.log(`${socket.username} ➝  ${name}`)
 
       socket.broadcast.to(socket.room).emit('action', userNamechange(user))
+      socket.emit('action', setName(user.name))
     }
   })
 

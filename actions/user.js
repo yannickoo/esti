@@ -2,6 +2,7 @@ export const AUTHENTICATED = 'user/authenticated'
 export const KICKED = 'user/kicked'
 export const JOINED = 'user/joined'
 export const VOTED = 'user/voted'
+export const SET_NAME = 'user/setName'
 
 export function authenticated (auth) {
   return {
@@ -29,5 +30,12 @@ export function voted (estimation) {
   return {
     type: VOTED,
     estimation
+  }
+}
+
+export function setName (name) {
+  return {
+    type: SET_NAME,
+    name
   }
 }
