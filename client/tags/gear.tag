@@ -1,7 +1,7 @@
 gear
-  a.trigger(href='#')
+  a.trigger(href='#' onclick='{ openSettings }')
 
-  form(onsubmit='{ updateSettings }')
+  form(onsubmit='{ updateSettings }' class='{ show: showSettings }')
     div
       label(for='menu-username') Your name
       input(type='text' name='menu-username' id='menu-username' value='{ user.name }' required)
@@ -50,16 +50,6 @@ gear
       transition: transform .2s ease;
     }
 
-    :scope:hover a,
-    .trigger:focus {
-      transform: rotate(-20deg);
-    }
-
-    :scope:hover form,
-    .trigger:focus + form {
-      display: block;
-    }
-
     form {
       position: relative;
       display: none;
@@ -67,6 +57,10 @@ gear
       padding: 20px;
       border: 1px solid #828282;
       text-align: left;
+    }
+
+    form.show {
+      display: block;
     }
 
     form:before {
@@ -111,6 +105,10 @@ gear
       this.availablePoints = this.round.points.join(',')
     })
 
+    this.openSettings = (e) => {
+      this.showSettings = !this.showSettings
+    }
+
     this.updateSettings = (e) => {
       e.preventDefault()
 
@@ -124,5 +122,7 @@ gear
       if (nextPoints !== this.availablePoints) {
         this.setPoints(nextPoints.split(/, ?/))
       }
+
+      this.showSettings = false
     }
 
