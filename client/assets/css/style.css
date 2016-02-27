@@ -16,6 +16,7 @@ label {
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0px;
+  cursor: pointer;
 }
 
 a {
@@ -52,6 +53,11 @@ input {
   padding: 10px 15px;
   font-size: 1.4em;
   border: 2px solid #ddd;
+}
+
+input:focus {
+  outline: 0;
+  border-color: #ccc;
 }
 
 input + input {

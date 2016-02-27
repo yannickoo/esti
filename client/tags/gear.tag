@@ -37,6 +37,10 @@ gear
       font-size: 1em;
     }
 
+    input:invalid {
+      border-color: #da0000;
+    }
+
     .trigger {
       display: inline-block;
       width: 25px;
