@@ -1,6 +1,4 @@
-export function slug (name) {
-  return name.toLowerCase()
-}
+import { slug } from './utils'
 
 export default class Room {
   constructor (name) {
