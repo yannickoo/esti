@@ -22,9 +22,10 @@ export function userKick (room, id) {
   }
 }
 
-export function claim (room, token) {
+export function claim (username, room, token) {
   return {
     type: CLAIM,
+    username,
     room,
     token
   }

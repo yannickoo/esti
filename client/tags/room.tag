@@ -58,7 +58,7 @@ room
     this.unlockRoom = (e) => {
       e.preventDefault()
       this.enterToken = false
-      this.claim(this.room.name, this.token.value)
+      this.claim(this.user.name, this.room.name, this.token.value)
     }
 
     this.removeUser = (e) => {

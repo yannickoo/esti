@@ -11,7 +11,7 @@ const storage = require('lowdb/file-async')
 import { userConnected, userDisconnected, unlocked } from '../actions/room'
 import { joined, authenticated, kicked } from '../actions/user'
 import { ticketInfo, userVote } from '../actions/pm'
-import { start, end, vote, voteSelected } from '../actions/round'
+import { start, end, vote, voteSelected, recommended } from '../actions/round'
 
 import * as round from '../actions/round'
 import * as actions from '../actions/server'
@@ -26,10 +26,10 @@ function slug (name) {
 
 class Room {
   constructor (name) {
-    this.users = []
-    this.round = null
-    this.slug = slug(name)
     this.name = name
+    this.slug = slug(name)
+    this.users = []
+    this.round = {}
   }
 
   addUser (user) {
@@ -53,6 +53,53 @@ class Room {
     this.users = users
 
     return this
+  }
+
+  startVoteRound () {
+    this.round = { votes: {}, finished: false }
+  }
+
+  setRoundVote (user, value) {
+    this.round.votes[user] = value
+  }
+
+  roundFinished () {
+    const users = this.users.filter((u) => !u.pm)
+    const finished = Object.keys(this.round.votes).length === users.length
+
+    if (finished) {
+      this.round.finished = true
+    }
+
+    return finished || this.round.finished
+  }
+
+  getRecommendedPoints () {
+    // Object of point objects containing amount of votes.
+    const allPoints = Object.keys(this.round.votes).reduce((points, user) => {
+      const userVote = Number.parseInt(this.round.votes[user], 10)
+
+      points[userVote] = points[userVote] || 0
+      points[userVote]++
+
+      return points
+    }, {})
+
+    // Minimum amount of two because a recommendation for a point with only one
+    // user is not really helpful.
+    let maxVotes = 2
+    // Array of recommended points.
+    const recommended = Object.keys(allPoints).reduce((all, point) => {
+      if (allPoints[point] < maxVotes) {
+        return all
+      }
+
+      maxVotes = allPoints[point]
+
+      return [...all, point]
+    }, [])
+
+    return recommended
   }
 }
 
@@ -79,6 +126,31 @@ function claimRoom (name, token) {
   return Promise.resolve(true)
 }
 
+function joinedAction (socket, action) {
+  const { name, room: roomName } = action
+  const user = { name, socket: socket.id }
+  const slugged = slug(roomName)
+  const room = rooms[slugged] || new Room(roomName)
+
+  console.log(name, `(${socket.id})`, 'joins room:', roomName)
+
+  socket.username = name
+  socket.room = slugged
+  socket.join(slugged)
+
+  socket.emit('action', joined({
+    name,
+    users: room.users
+  }))
+
+  room.addUser(user)
+
+  console.log('Sending userConnected to', slugged)
+  socket.broadcast.to(slugged).emit('action', userConnected(user))
+
+  rooms[slugged] = room
+}
+
 server.listen(3000, () => console.log('Listening...'))
 io.attach(server)
 
@@ -87,41 +159,29 @@ io.on('connection', (socket) => {
 
   socket.on('action', (action) => {
     if (action.type === actions.JOIN) {
-      const { name, room: roomName } = action
-      const user = { name, socket: socket.id }
-      const slugged = slug(roomName)
-      const room = rooms[slugged] || new Room(roomName)
-
-      console.log(name, `(${socket.id})`, 'joins room:', roomName)
-
-      socket.username = name
-      socket.room = slugged
-      socket.join(slugged)
-
-      socket.emit('action', joined({
-        name,
-        users: room.users
-      }))
-
-      room.addUser(user)
-
-      console.log('Sending userConnected to', slugged)
-      socket.broadcast.to(slugged).emit('action', userConnected(user))
-
-      rooms[slugged] = room
+      joinedAction(socket, action)
     }
 
     if (action.type === actions.CLAIM) {
-      const { room: roomName, token } = action
+      const { username, room: roomName, token } = action
 
       const slugged = slug(roomName)
-      const room = rooms[slugged]
-
-      const user = room.users.find((u) => u.socket === socket.id)
 
       claimRoom(slugged, token)
         .then((claimed) => {
+          let room = rooms[slugged]
+
           if (claimed) {
+            if (!room) {
+              joinedAction(socket, {
+                name: username,
+                room: roomName
+              })
+
+              room = rooms[slugged]
+            }
+
+            const user = room.users.find((u) => u.socket === socket.id)
             const roomUser = room
               .findUser(user)
 
@@ -182,6 +242,9 @@ io.on('connection', (socket) => {
     if (action.type === actions.ROUND_START) {
       const { ticket } = action
 
+      const room = rooms[socket.room]
+      room.startVoteRound()
+
       io.to(socket.room).emit('action', start(ticket))
     }
 
@@ -194,6 +257,8 @@ io.on('connection', (socket) => {
       const { estimation } = action
       const user = room.findUser({ socket: socket.id })
 
+      room.setRoundVote(socket.id, estimation)
+
       console.log(socket.username, `(PM: ${user.pm})`, 'voted', estimation)
 
       if (user.pm) {
@@ -202,11 +267,20 @@ io.on('connection', (socket) => {
 
       room.users
         .filter((u) => u.pm)
-        .forEach((pm) => socket.to(pm.socket).emit('action', userVote(user, estimation)))
+        .forEach((pm) => {
+          socket.to(pm.socket).emit('action', userVote(user, estimation))
+          socket.to(pm.socket).emit('action', recommended(room.getRecommendedPoints()))
+        })
 
       room.users
         .filter((u) => !u.pm)
-        .forEach((u) => socket.to(u.socket).emit('action', vote(user)))
+        .forEach((u) => {
+          socket.to(u.socket).emit('action', vote(user))
+        })
+
+      if (room.roundFinished()) {
+        io.to(socket.room).emit('action', recommended(room.getRecommendedPoints()))
+      }
     }
   })
 

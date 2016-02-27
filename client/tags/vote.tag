@@ -21,7 +21,7 @@ vote
 
   .points(if='{ round.active }')
     div(each='{ point in votesByPoints }')
-      div(class='{ chosen: point.chosen, current: round.estimation === point.value }')
+      div(class='{ "has-votes": point.userVotes.length, chosen: point.chosen, current: round.estimation === point.value, recommended: point.recommended }')
         button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
 
       ul(if='{ user.pm && point.userVotes.length }')
@@ -61,6 +61,20 @@ vote
       color: #000;
     }
 
+    .points .has-votes button,
+    .points .has-votes button:hover,
+    .points .has-votes button:focus {
+      color: #fff;
+      background: #d2d2d2;
+    }
+
+    .points .recommended button,
+    .points .recommended button:hover,
+    .points .recommended button:focus {
+      color: #fff;
+      background: #15a515;
+    }
+
     .points .chosen button:hover,
     .points .chosen button:focus,
     .points .chosen button {
@@ -97,6 +111,7 @@ vote
       this.votesByPoints = this.round.points.map((value) => ({
         userVotes: this.estimations.filter((vote) => vote.estimation === value),
         chosen: this.round.chosen === value,
+        recommended: this.round.recommended.indexOf('' + value) !== -1,
         value
       }))
     })
