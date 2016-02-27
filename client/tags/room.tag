@@ -18,6 +18,12 @@ room
       button(type='submit') Unlock room
 
   style(scoped).
+    :scope {
+      display: block;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
     .online-users {
       position: absolute;
       bottom: 20px;

@@ -60,7 +60,7 @@ input + input {
 
 summary,
 button {
-    padding: 5px 10px;
+  padding: 5px 10px;
   font-size: 1.2em;
   text-shadow: 1px 1px #1887b5;
   border: 2px solid #1887b5;
@@ -115,78 +115,6 @@ summary::-webkit-details-marker {
 
 header {
   position: relative;
-}
-
-.menu {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  text-align: right
-}
-
-.menu input {
-  width: 150px;
-  padding: 5px;
-  font-size: 1em;
-}
-
-.menu .trigger {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background: url(../images/icons/gear.svg);
-  background-size: 100%;
-  transition: transform .2s ease;
-}
-
-.menu:hover a,
-.menu .trigger:focus {
-  transform: rotate(-20deg);
-}
-
-.menu:hover form,
-.menu .trigger:focus + form {
-  display: block;
-}
-
-.menu form {
-  position: relative;
-  display: none;
-  margin-top: 15px;
-  padding: 20px;
-  border: 1px solid #828282;
-  text-align: left;
-}
-
-.menu form:before {
-  display: block;
-  position: absolute;
-  top: -10px;
-  right: 2px;
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 10px 10px 10px;
-  border-color: transparent transparent #828282 transparent;
-}
-
-.menu form > div + div {
-  margin-top: 10px;
-}
-
-.menu form button {
-  font-size: 1em;
-}
-
-.menu form input {
-  width: auto;
-}
-
-room {
-  display: block;
-  max-width: 900px;
-  margin: 0 auto;
 }
 
 .actions {

@@ -1,0 +1,124 @@
+gear
+  a.trigger(href='#')
+
+  form(onsubmit='{ updateSettings }')
+    div
+      label(for='menu-username') Your name
+      input(type='text' name='menu-username' id='menu-username' value='{ user.name }' required)
+
+    div(if='{ user.pm }')
+      label(for='menu-points') Available points
+      input(
+        type='textfield'
+        name='menu-points'
+        id='menu-points'
+        title='Please enter comma-separated values'
+        pattern='^([\\d\\w]+(, ?[\\d\\w]+)*)?$'
+        value='{ availablePoints }',
+        disabled='{ round.active }'
+        required
+      )
+
+    div.actions
+      button(type='submit') Save
+
+  style(scoped).
+    :scope {
+      display: block;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      text-align: right;
+    }
+
+    input {
+      width: 150px;
+      padding: 5px;
+      font-size: 1em;
+    }
+
+    .trigger {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      background: url(/assets/images/icons/gear.svg);
+      background-size: 100%;
+      transition: transform .2s ease;
+    }
+
+    :scope:hover a,
+    .trigger:focus {
+      transform: rotate(-20deg);
+    }
+
+    :scope:hover form,
+    .trigger:focus + form {
+      display: block;
+    }
+
+    form {
+      position: relative;
+      display: none;
+      margin-top: 15px;
+      padding: 20px;
+      border: 1px solid #828282;
+      text-align: left;
+    }
+
+    form:before {
+      display: block;
+      position: absolute;
+      top: -10px;
+      right: 2px;
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 10px 10px 10px;
+      border-color: transparent transparent #828282 transparent;
+    }
+
+    form > div + div {
+      margin-top: 10px;
+    }
+
+    form button {
+      font-size: 1em;
+    }
+
+    form input {
+      width: auto;
+    }
+
+  script(type='babel').
+    this.mixin('redux')
+
+    import { setName, setPoints } from '../../actions/server'
+    this.dispatchify({ setName, setPoints })
+
+    this.subscribe((state) => {
+      return {
+        user: state.user,
+        round: state.round
+      }
+    })
+
+    this.on('update', () => {
+      this.availablePoints = this.round.points.join(',')
+    })
+
+    this.updateSettings = (e) => {
+      e.preventDefault()
+
+      const nextName = this['menu-username'].value
+      const nextPoints = this['menu-points'].value
+
+      if (nextName !== this.user.name) {
+        this.setName(nextName)
+      }
+
+      if (nextPoints !== this.availablePoints) {
+        this.setPoints(nextPoints.split(/, ?/))
+      }
+    }
+
