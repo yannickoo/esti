@@ -48,11 +48,18 @@ room
       }
     })
 
-    this.on('update', function () {
-      if (!this.user.active) {
-        console.warn('You got kicked!')
-        riot.route('/')
+    const kickHandler = () => {
+      if (this.room.name) {
+        return
       }
+
+      console.warn('You got kicked!')
+      this.off('update', kickHandler)
+      riot.route('/')
+    }
+
+    this.on('mount', () => {
+      this.on('update', kickHandler)
     })
 
     this.unlockRoom = (e) => {

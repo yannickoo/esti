@@ -1,6 +1,6 @@
-import { AUTHENTICATED, SET_NAME, KICKED, JOINED } from '../../actions/user'
+import { AUTHENTICATED, SET_NAME, JOINED } from '../../actions/user'
 
-export default function user (state = { active: true, name: '', pm: false }, action) {
+export default function user (state = { name: '', pm: false }, action) {
   if (action.type === AUTHENTICATED) {
     const { authenticated: pm } = action
 
@@ -16,10 +16,6 @@ export default function user (state = { active: true, name: '', pm: false }, act
   if (action.type === SET_NAME) {
     const { name } = action
     return { ...state, name }
-  }
-
-  if (action.type === KICKED) {
-    return { ...state, active: false }
   }
 
   return state

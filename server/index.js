@@ -197,23 +197,15 @@ io.on('connection', (socket) => {
 
     if (action.type === actions.USER_KICK) {
       const roomName = action.room
-      const room = rooms.get(roomName)
-      const id = action.id
-      const users = Array.from(room.users.values())
+      const room = rooms[roomName]
+      const user = room.findUser({ socket: action.id })
 
-      const userIndex = users.findIndex((u) => u.socket === id)
-      const user = users.find((u) => u.socket === id)
+      if (user) {
+        room.removeUser(user)
 
-      if (userIndex !== -1) {
-        room.users.delete(userIndex)
-
-        if (io.sockets.sockets[id]) {
-          io.sockets.sockets[id].emit('action', kicked())
-        }
+        io.to(user.socket).emit('action', kicked())
 
         socket.broadcast.to(roomName).emit('action', userDisconnected(user.name))
-
-        rooms.set(roomName, room)
       }
     }
 

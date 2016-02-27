@@ -7,9 +7,11 @@ import {
   UNLOCKED
 } from '../../actions/room'
 
-import { JOINED, AUTHENTICATED } from '../../actions/user'
+import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
 
-export default function room (state = { name: '', users: [], unlocked: false }, action) {
+const defaultState = { name: '', users: [], unlocked: false }
+
+export default function room (state = defaultState, action) {
   console.log(action.type, action)
   if (action.type === USER_CONNECTED) {
     const { user } = action
@@ -63,6 +65,10 @@ export default function room (state = { name: '', users: [], unlocked: false }, 
   if (action.type === AUTHENTICATED) {
     const { authenticated: unlocked } = action
     return { ...state, unlocked }
+  }
+
+  if (action.type === KICKED) {
+    return defaultState
   }
 
   return state

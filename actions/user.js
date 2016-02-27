@@ -12,8 +12,7 @@ export function authenticated (auth) {
 
 export function kicked () {
   return {
-    type: KICKED,
-    active: false
+    type: KICKED
   }
 }
 
