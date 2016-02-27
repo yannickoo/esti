@@ -1,7 +1,14 @@
 room
   h1 {room.name } #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
 
-  vote
+  form(if='{ enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
+    div
+      input(type='password' name='token' placeholder='Token' required='required')
+
+     div.actions
+      button(type='submit') Unlock room
+
+  vote(if='{ !enterToken }')
 
   div.online-users
     h2(if='{ room.users.length }') Online users
@@ -9,13 +16,6 @@ room
     ul
       li(each='{ u in room.users }')
         span(class='{ pm: u.pm, voted: hasVoted(u) }') { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
-
-  form(if='{ enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
-    div
-      input(type='text' name='token' placeholder='Token' required='required')
-
-     div.actions
-      button(type='submit') Unlock room
 
   style(scoped).
     :scope {
@@ -80,7 +80,7 @@ room
     }
 
     this.unlock = (e) => {
-      this.enterToken = true
+      this.enterToken = !this.enterToken
     }
 
     this.hasVoted = (user) => {

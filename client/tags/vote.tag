@@ -31,6 +31,10 @@ vote
     h2 No active voting
 
   style(scoped).
+    :scope {
+      display: block;
+    }
+
     .points {
       display: flex;
       justify-content: center;
