@@ -43,12 +43,8 @@ vote
     }
 
     .points > div {
-      display: inline-block;
-      vertical-align: top;
-    }
-
-    .points > div + div {
-      margin-left: 15px;
+      margin-right: 15px;
+      margin-bottom: 15px;
     }
 
     .points button {
