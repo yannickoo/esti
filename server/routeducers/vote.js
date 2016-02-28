@@ -24,7 +24,7 @@ export default function vote ({ socket, action, rooms, io }) {
   room.users
     .filter((u) => !u.pm)
     .forEach((u) => {
-      socket.to(u.socket).emit('action', vote(user))
+      socket.to(u.socket).emit('action', voteSelected(user))
     })
 
   if (room.roundFinished()) {
