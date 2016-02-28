@@ -12,7 +12,6 @@ import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
 const defaultState = { name: '', users: [], unlocked: false }
 
 export default function room (state = defaultState, action) {
-  console.log(action.type, action)
   if (action.type === USER_CONNECTED) {
     const { user } = action
     const users = [...state.users, user]
