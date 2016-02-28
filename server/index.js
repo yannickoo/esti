@@ -14,7 +14,7 @@ const routes = buildRoutes(actions, routeducers)
 
 const rooms = {}
 
-server.listen(process.env.PORT || 3000, () => console.log('Listening...'))
+server.listen(process.env.ESTI_BACKEND_PORT || 3000, () => console.log('Listening...'))
 io.attach(server)
 
 io.on('connection', (socket) => {
