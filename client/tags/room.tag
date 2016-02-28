@@ -20,8 +20,6 @@ room
   style(scoped).
     :scope {
       display: block;
-      max-width: 900px;
-      margin: 0 auto;
     }
 
     .online-users {
