@@ -17,7 +17,7 @@ function persistState ({ getState }) {
   }
 }
 
-const socket = io('http://localhost:3000')
+const socket = io(process.env.ESTI_BACKEND)
 const socketIoMiddleware = createSocketIoMiddleware(socket, 'server/')
 const createStoreWithMiddleware = applyMiddleware(
   socketIoMiddleware,
