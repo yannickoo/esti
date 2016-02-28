@@ -1,7 +1,18 @@
 'use strict'
 
-const http = require('http')
-const server = http.createServer()
+const production = process.env.NODE_ENV === 'production'
+const http = production ? require('https') : require('http')
+const options = {}
+
+// When using HTTPS we need to provide key and cert file.
+if (production) {
+  const fs = require('fs')
+
+  options.key = fs.readFileSync(process.env.ESTI_KEY_FILE)
+  options.cert = fs.readFileSync(process.env.ESTI_CERT_FILE)
+}
+
+const server = http.createServer(options)
 const Socket = require('socket.io')
 const io = Socket()
 
