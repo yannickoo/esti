@@ -25,7 +25,8 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore)
 
 export default function configureStore (initialState) {
+  const dev = process.env.NODE_ENV === 'development'
   return createStoreWithMiddleware(rootReducer, initialState,
-    window.devToolsExtension ? window.devToolsExtension() : undefined
+    dev && window.devToolsExtension ? window.devToolsExtension() : undefined
   )
 }
