@@ -37,6 +37,7 @@ vote
 
     .points {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       margin-top: 60px;
     }
