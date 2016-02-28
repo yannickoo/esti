@@ -2,7 +2,7 @@ room-create
   h1 Create new room
 
   form(onsubmit='{ createRoom }')
-    input(type='text' name='username' placeholder='Your name' required='required' autofocus='autofocus')
+    input(type='text' name='username' placeholder='Your name' required='required' autofocus='autofocus' if='{ !user.name }')
 
     input(type='text' name='room-name' placeholder='Room name' pattern='[a-z0-9\s]+' required='required')
 
@@ -28,7 +28,9 @@ room-create
     this.createRoom = (e) => {
       e.preventDefault()
 
-      this.claim(this.username.value, this['room-name'].value, this['room-token'].value)
+      const username = this.user.name || this.username.value
+
+      this.claim(username, this['room-name'].value, this['room-token'].value)
 
       riot.route(this['room-name'].value)
     }
