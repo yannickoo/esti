@@ -47,4 +47,6 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     routeducers.disconnect({ socket, rooms, io })
   })
+
+  socket.on('error', (e) => console.error(e.stack))
 })
