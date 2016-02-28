@@ -24,14 +24,13 @@ export default class Room {
 
   updateUser (user) {
     const current = this.findUser(user)
+    const next = { ...current, ...user }
 
-    Object.keys(user)
-      .filter((key) => key !== 'socket')
-      .forEach((key) => {
-        current[key] = user[key]
-      })
+    this
+      .removeUser(current)
+      .addUser(next)
 
-    return current
+    return next
   }
 
   removeUser (user) {
