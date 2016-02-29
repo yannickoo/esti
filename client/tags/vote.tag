@@ -8,7 +8,10 @@ vote
             a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import tickets
             span(if='{ pm.tickets.length }') { pm.tickets.length } tickets have been imported ✅
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
-            a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet' onclick='{ bookmarkletClick }' if='{ showTicketImport && !ticketImportError }') 👲 JIRA Esti
+
+          p.bookmarklet(if='{ showTicketImport && !ticketImportError }')
+            span Try our bookmarklet:&nbsp;
+            a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet-link' onclick='{ bookmarkletClick }') 👲 JIRA Esti
 
           input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
 
@@ -109,7 +112,7 @@ vote
       display: none;
     }
 
-    .bookmarklet {
+    .bookmarklet-link {
       cursor: -webkit-grab;
       cursor: -moz-grab;
     }
