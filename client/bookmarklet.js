@@ -37,7 +37,7 @@
       display: 'block',
       marginTop: '10px',
       width: '260px',
-      padding: '5px',
+      padding: '5px'
     })
     .hide()
     .on('focus', function () {
