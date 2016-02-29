@@ -20,5 +20,5 @@
     })
   })
 
-  console.log(JSON.stringify(stories))
+  window.prompt('Please copy the exported code so we can import it in Esti.', JSON.stringify(stories))
 })(jQuery)
