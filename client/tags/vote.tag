@@ -10,7 +10,7 @@ vote
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
 
           p.bookmarklet(if='{ showTicketImport && !ticketImportError }')
-            span Try our bookmarklet:&nbsp;
+            span Use our bookmarklet to import JIRA tickets:&nbsp;
             a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet-link' onclick='{ bookmarkletClick }') 👲 JIRA Esti
 
           input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
@@ -115,6 +115,11 @@ vote
     .bookmarklet-link {
       cursor: -webkit-grab;
       cursor: -moz-grab;
+    }
+
+    .bookmarklet-link:active {
+      cursor: -webkit-grabbing;
+      cursor: -moz-grabbing;
     }
 
   script(type='babel').
