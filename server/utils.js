@@ -12,7 +12,3 @@ export function buildRoutes (actions, routeducers) {
       return { ...routes, [actionType]: handler }
     }, {})
 }
-
-export function slug (name) {
-  return name.toLowerCase()
-}

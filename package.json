@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy": "mkdirp dist && cp client/index.html dist && cp client/.htaccess dist && cp client/bookmarklet.js dist && cp -r client/assets dist",
     "prestart": "npm run copy && npm run babel",
-    "browserify": "browserify dist/client/esti.js -o dist/esti.js",
+    "browserify": "browserify dist/client/esti.js -o dist/esti.js --ignore unicode/category/So -s slug",
     "babel": "npm run babel:actions && npm run babel:client",
     "babel:client": "babel client/ --out-dir dist/client/ && cp client/tags/*.tag dist/client/tags",
     "babel:server": "mkdirp dist/server && babel server/ -d dist/server/",
@@ -40,6 +40,7 @@
     "riot-redux-mixin": "0.0.4",
     "riotify": "^0.1.2",
     "rx": "^4.0.7",
+    "slug": "^0.9.1",
     "socket.io": "^1.4.4",
     "socket.io-client": "^1.4.4"
   },

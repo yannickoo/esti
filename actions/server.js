@@ -2,6 +2,7 @@ export const VOTE = 'server/vote'
 export const CLAIM = 'server/claim'
 export const USER_KICK = 'server/userKick'
 export const JOIN = 'server/join'
+export const SET_ROOM = 'server/setRoom'
 export const SET_NAME = 'server/setName'
 export const ROUND_START = 'server/startRound'
 export const ROUND_END = 'server/endRound'
@@ -36,6 +37,13 @@ export function join (room, name) {
     type: JOIN,
     room,
     name
+  }
+}
+
+export function setRoom (room) {
+  return {
+    type: SET_ROOM,
+    room
   }
 }
 

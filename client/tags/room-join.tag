@@ -11,8 +11,7 @@ room-join
   script(type='babel').
     this.mixin('redux')
 
-    import { setRoom } from '../../actions/room'
-    import { join } from '../../actions/server'
+    import { join, setRoom } from '../../actions/server'
     this.dispatchify({ join, setRoom })
 
     const subRoute = riot.route.create()

@@ -5,6 +5,7 @@ import roundEnd from './round-end'
 import roundStart from './round-start'
 import setName from './set-name'
 import setPoints from './set-points'
+import setRoom from './set-room'
 import ticket from './ticket'
 import userKick from './user-kick'
 import vote from './vote'
@@ -17,6 +18,7 @@ export default {
   roundStart,
   setName,
   setPoints,
+  setRoom,
   ticket,
   userKick,
   vote

@@ -4,7 +4,7 @@ room-create
   form(onsubmit='{ createRoom }')
     input(type='text' name='username' placeholder='Your name' required='required' autofocus='autofocus' if='{ !user.name }')
 
-    input(type='text' name='room-name' placeholder='Room name' pattern='[a-z0-9\s]+' required='required')
+    input(type='text' name='room-name' placeholder='Room name' required='required')
 
     input(type='text' name='room-token' placeholder='Token' required='required')
 
@@ -14,8 +14,11 @@ room-create
   script(type='babel').
     this.mixin('redux')
 
+    import slug from 'slug'
     import { claim } from '../../actions/server'
     this.dispatchify({ claim })
+
+    slug.defaults.mode = 'rfc3986'
 
     this.subscribe((state) => {
       return {
@@ -37,5 +40,5 @@ room-create
 
       this.claim(username, this['room-name'].value, this['room-token'].value)
 
-      riot.route(this['room-name'].value)
+      riot.route(slug(this['room-name'].value))
     }

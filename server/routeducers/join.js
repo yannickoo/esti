@@ -1,7 +1,9 @@
 import { joined } from '../../actions/user'
 import { userConnected } from '../../actions/room'
 import Room from '../room'
-import { slug } from '../utils'
+import slug from 'slug'
+
+slug.defaults.mode = 'rfc3986'
 
 export default function joinedAction ({ socket, action, rooms }) {
   const { name, room: roomName } = action
