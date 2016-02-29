@@ -2,6 +2,10 @@
   var titleMax = 100
   var issues = []
 
+  if ($('.esti-ticket-export').length) {
+    return;
+  }
+
   $('#ghx-backlog .ghx-backlog-group .js-issue-list .js-issue').each(function () {
     var $issue = $(this)
 
