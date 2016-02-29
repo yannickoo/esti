@@ -173,7 +173,6 @@ vote
 
     this.importTicketTrigger = (e) => {
       this.showTicketImport = true
-      this.tickets.focus()
     }
 
     this.cancelTicketImport = (e) => {
