@@ -4,10 +4,23 @@ vote
       details
         summary Create new round
         div
-          form(onsubmit='{ createRound }')
-            input(type='text' name='ticket-id' placeholder='Ticket ID', pattern='[a-zA-Z0-9]+\-[0-9]+' required)
-            input(type='text' name='ticket-title' placeholder='Ticket title' required)
-            input(type='url' name='ticket-url' placeholder='Ticket URL' required)
+          p
+            a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import tickets
+            span(if='{ pm.tickets.length }') { pm.tickets.length } tickets have been imported ✅
+            span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
+
+          input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
+
+          p
+            a(href='#' onclick='{ cancelTicketImport }' if='{ showTicketImport || ticketImportError }') Cancel
+
+          form(onsubmit='{ createRound }' if='{ !showTicketImport && !ticketImportError }')
+            input(type='text' name='ticket-id' placeholder='Ticket ID', pattern='[a-zA-Z0-9]+\-[0-9]+' required list='{ "ticket-list": pm.tickets.length }' autocomplete='{ off: pm.tickets.length }')
+            input(type='text' name='ticket-title' placeholder='Ticket title' required if='{ !ticketImportError && !pm.tickets.length }')
+            input(type='url' name='ticket-url' placeholder='Ticket URL' required if='{ !ticketImportError && !pm.tickets.length }')
+
+            datalist#ticket-list
+              option(each='{ pm.tickets }' value='{ id }') { formatTicketTitle(title) }
 
             div.actions
               button(type='submit') Start round
@@ -101,11 +114,13 @@ vote
     import { start, restart, end } from '../../actions/round'
     import { startRound, vote, endRound } from '../../actions/server'
     import { voted } from '../../actions/user'
-    this.dispatchify({ start, restart, end, startRound, vote, endRound, voted })
+    import { ticketList } from '../../actions/pm'
+    this.dispatchify({ start, restart, end, startRound, vote, endRound, voted, ticketList })
 
     this.subscribe((state) => {
       return {
         user: state.user,
+        pm: state.pm,
         round: state.round,
         estimations: state.pm.votes
       }
@@ -122,10 +137,18 @@ vote
 
     this.createRound = (e) => {
       e.preventDefault()
-      const ticket = {
-        id: this['ticket-id'].value,
-        title: this['ticket-title'].value,
-        url: this['ticket-url'].value
+
+      const ticketId = this['ticket-id'].value
+      let ticket = this.pm.tickets.find((t) => {
+        return t.id === ticketId
+      })
+
+      if (!ticket) {
+        ticket = {
+          id: ticketId,
+          title: this['ticket-title'].value,
+          url: this['ticket-url'].value
+        }
       }
 
       this.startRound(ticket)
@@ -136,4 +159,44 @@ vote
 
       this.vote(estimation)
       this.voted(estimation)
+    }
+
+    this.formatTicketTitle = (title) => {
+      const max = 100
+
+      if (title.length < max) {
+        return title
+      }
+
+      return `${title.substr(0, max)}…`
+    }
+
+    this.importTicketTrigger = (e) => {
+      this.showTicketImport = true
+      this.tickets.focus()
+    }
+
+    this.cancelTicketImport = (e) => {
+      this.showTicketImport = null
+      this.ticketImportError = null
+    }
+
+    this.ticketsPasted = (e) => {
+      let tickets = []
+      const data = e.clipboardData.getData('text/plain')
+
+      try {
+        tickets = JSON.parse(data)
+
+        if (typeof tickets !== 'object') {
+          throw 'Pasted tickets are in the wrong format'
+        }
+
+        this.ticketImportError = false
+        this.showTicketImport = false
+        this.ticketList(tickets)
+      }
+      catch (e) {
+        this.ticketImportError = true
+      }
     }
