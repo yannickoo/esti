@@ -25,6 +25,11 @@ room-create
       }
     })
 
+    this.on('updated', () => {
+      const focusInput = !this.user.name ? this.username : this['room-name']
+      focusInput.focus()
+    })
+
     this.createRoom = (e) => {
       e.preventDefault()
 

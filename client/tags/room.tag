@@ -66,6 +66,12 @@ room
       this.on('update', kickHandler)
     })
 
+    this.on('updated', () => {
+      if (this.enterToken) {
+        this.token.focus()
+      }
+    })
+
     this.unlockRoom = (e) => {
       e.preventDefault()
       this.enterToken = false
