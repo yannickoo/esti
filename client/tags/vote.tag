@@ -153,8 +153,6 @@ vote
     })
 
     this.createRound = (e) => {
-      e.preventDefault()
-
       const ticketId = this['ticket-id'].value
       let ticket = this.pm.tickets.find((t) => {
         return t.id === ticketId
