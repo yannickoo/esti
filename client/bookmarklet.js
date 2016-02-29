@@ -3,7 +3,7 @@
   var issues = []
 
   if ($('.esti-ticket-export').length) {
-    return;
+    return
   }
 
   $('#ghx-backlog .ghx-backlog-group .js-issue-list .js-issue').each(function () {
