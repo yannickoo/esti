@@ -135,6 +135,12 @@ vote
       }))
     })
 
+    this.on('updated', () => {
+      if (this.showTicketImport) {
+        this.tickets.focus()
+      }
+    })
+
     this.createRound = (e) => {
       e.preventDefault()
 
