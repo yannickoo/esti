@@ -8,6 +8,7 @@ vote
             a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import tickets
             span(if='{ pm.tickets.length }') { pm.tickets.length } tickets have been imported ✅
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
+            a(href='{ bookmarkletCode }' title='Drag this into your bookmark bar' class='bookmarklet' if='{ showTicketImport || ticketImportError }') Prepare tickets for Esti
 
           input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
 
@@ -108,8 +109,15 @@ vote
       display: none;
     }
 
+    .bookmarklet {
+      cursor: -webkit-grab;
+      cursor: -moz-grab;
+    }
+
   script(type='babel').
     this.mixin('redux')
+
+    this.bookmarkletCode = "javascript:(function()%7Bbookmarklet=document.createElement('script');bookmarklet.type='text/javascript';bookmarklet.src='https://esti.io/bookmarklet.js?x='+(Math.random());document.getElementsByTagName('head')%5B0%5D.appendChild(bookmarklet);%7D)();"
 
     import { start, restart, end } from '../../actions/round'
     import { startRound, vote, endRound } from '../../actions/server'
