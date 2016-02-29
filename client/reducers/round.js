@@ -28,7 +28,7 @@ export default function round (state = defaultState, action) {
   }
 
   if (action.type === END) {
-    return { ...state, active: false }
+    return { ...state, active: false, ticket: {} }
   }
 
   if (action.type === RESTART) {

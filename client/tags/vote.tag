@@ -8,7 +8,7 @@ vote
             a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import tickets
             span(if='{ pm.tickets.length }') { pm.tickets.length } tickets have been imported ✅
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
-            a(href='{ bookmarkletCode }' title='Drag this into your bookmarks bar' class='bookmarklet' if='{ showTicketImport && !ticketImportError }') 👲 JIRA Esti
+            a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet' onclick='{ bookmarkletClick }' if='{ showTicketImport && !ticketImportError }') 👲 JIRA Esti
 
           input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
 
@@ -117,7 +117,7 @@ vote
   script(type='babel').
     this.mixin('redux')
 
-    this.bookmarkletCode = "javascript:(function(){if(window.location.hostname==='esti.io'){return window.alert('Drag this into your bookmarks bar and click it on the backlog page in JIRA.')}bookmarklet=document.createElement('script');bookmarklet.type='text/javascript';bookmarklet.src='https://esti.io/bookmarklet.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(bookmarklet);})();"
+    this.bookmarkletCode = "javascript:(function(){bookmarklet=document.createElement('script');bookmarklet.type='text/javascript';bookmarklet.src='https://esti.io/bookmarklet.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(bookmarklet);})();"
 
     import { start, restart, end } from '../../actions/round'
     import { startRound, vote, endRound } from '../../actions/server'
@@ -183,6 +183,10 @@ vote
       }
 
       return `${title.substr(0, max)}…`
+    }
+
+    this.bookmarkletClick = (e) => {
+      window.alert(e.target.title)
     }
 
     this.importTicketTrigger = (e) => {
