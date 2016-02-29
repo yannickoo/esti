@@ -43,9 +43,13 @@ export default function claim ({ socket, action, rooms }) {
 
       if (claimed) {
         if (!room) {
-          join(socket, {
-            name: username,
-            room: roomName
+          join({
+            socket,
+            rooms,
+            action: {
+              name: username,
+              room: roomName
+            }
           })
 
           room = rooms[slugged]
@@ -62,6 +66,6 @@ export default function claim ({ socket, action, rooms }) {
 
       socket.emit('action', authenticated(claimed))
     })
-    .catch(console.error)
+    .catch((e) => console.error(e.stack))
 }
 

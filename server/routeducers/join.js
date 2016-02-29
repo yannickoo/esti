@@ -9,6 +9,10 @@ export default function joinedAction ({ socket, action, rooms }) {
   const slugged = slug(roomName)
   const room = rooms[slugged] || new Room(roomName)
 
+  if (room.findUser(user)) {
+    return
+  }
+
   console.log(name, `(${socket.id})`, 'joins room:', roomName)
 
   socket.username = name
