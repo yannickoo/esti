@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "mkdirp dist && cp client/index.html dist && cp client/.htaccess dist && cp -r client/assets dist",
+    "copy": "mkdirp dist && cp client/index.html dist && cp client/.htaccess dist && cp client/bookmarklet.js dist && cp -r client/assets dist",
     "prestart": "npm run copy && npm run babel",
     "browserify": "browserify dist/client/esti.js -o dist/esti.js",
     "babel": "npm run babel:actions && npm run babel:client",
