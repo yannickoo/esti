@@ -48,11 +48,13 @@ main {
 input {
   display: block;
   width: 300px;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding: 10px 15px;
   font-size: 1.4em;
   border: 2px solid #ddd;
+  box-sizing: border-box;
 }
 
 input:focus {
@@ -152,7 +154,7 @@ header {
 }
 
 .box--small {
-  width: 340px;
+  max-width: 340px;
 }
 
 .remove {
