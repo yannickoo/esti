@@ -28,6 +28,7 @@ gear
       position: absolute;
       top: 5px;
       right: 5px;
+      z-index: 1;
       background: #fff;
       text-align: right;
     }
