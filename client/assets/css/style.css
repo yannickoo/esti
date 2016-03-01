@@ -62,6 +62,10 @@ input:focus {
   border-color: #ccc;
 }
 
+input[disabled] {
+  color: #ccc;
+}
+
 input + input {
   margin-top: 15px;
 }
