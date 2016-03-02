@@ -39,7 +39,6 @@ export default function claim ({ socket, action, rooms }) {
 
   claimRoom(slugged, token)
     .then((claimed) => {
-      console.log('Claimed', claimed)
       let room = rooms[slugged]
 
       if (claimed) {
