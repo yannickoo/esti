@@ -14,11 +14,9 @@ room-create
   script(type='babel').
     this.mixin('redux')
 
-    import slug from 'slug'
+    import { slug } from '../../server/utils'
     import { claim } from '../../actions/server'
     this.dispatchify({ claim })
-
-    slug.defaults.mode = 'rfc3986'
 
     this.subscribe((state) => {
       return {
@@ -33,7 +31,7 @@ room-create
       focusInput.focus()
 
       if (this.user.pm) {
-        riot.route(this['room-name'].value)
+        riot.route(slug(this['room-name'].value))
       }
     })
 
