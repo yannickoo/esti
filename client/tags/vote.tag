@@ -18,7 +18,7 @@ vote
           p
             a(href='#' onclick='{ cancelTicketImport }' if='{ showTicketImport || ticketImportError }') Cancel
 
-          form(onsubmit='{ createRound }' if='{ !showTicketImport && !ticketImportError }')
+          form(onsubmit='{ createRound }' if='{ !showTicketImport && !ticketImportError }' name='ticket-create')
             input(type='text' name='ticket-id' placeholder='Ticket ID', pattern='[a-zA-Z0-9]+\-[0-9]+' required list='{ "ticket-list": pm.tickets.length }' autocomplete='{ off: pm.tickets.length }')
             input(type='text' name='ticket-title' placeholder='Ticket title' required if='{ !ticketImportError && !pm.tickets.length }')
             input(type='url' name='ticket-url' placeholder='Ticket URL' required if='{ !ticketImportError && !pm.tickets.length }')
@@ -34,7 +34,7 @@ vote
 
   div(if='{ round.active }')
     div(if='{ user.pm }')
-      button(onclick='{ endRound }') End round
+      button(onclick='{ stopRound }') End round
 
   .points(if='{ round.active }')
     div(each='{ point in votesByPoints }')
@@ -193,6 +193,11 @@ vote
       }
 
       this.startRound(ticket)
+    }
+
+    this.stopRound = (e) => {
+      this['ticket-create'].reset()
+      this.endRound()
     }
 
     this.voteSelect = (e) => {
