@@ -27,7 +27,7 @@ vote
               option(each='{ pm.tickets }' value='{ id }') { formatTicketTitle(title) }
 
             div.actions
-              button(type='submit') Start round
+              button(type='submit' title='{ "Let me wait for other users": !room.users.length }' disabled='{ disabled: !room.users.length }') Start round
 
   div(if='{ round.active }')
     h2 #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }

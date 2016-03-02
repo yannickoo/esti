@@ -1,5 +1,8 @@
 'use strict'
 
+import low from 'lowdb'
+import storage from 'lowdb/file-async'
+
 const production = process.env.NODE_ENV === 'production'
 const http = production ? require('https') : require('http')
 let options = null
@@ -25,6 +28,7 @@ import routeducers from './routeducers'
 
 const routes = buildRoutes(actions, routeducers)
 
+const db = low('db.json', { storage })
 const rooms = {}
 
 server.listen(process.env.ESTI_BACKEND_PORT || 3000, () => console.log('Listening...'))
@@ -41,7 +45,7 @@ io.on('connection', (socket) => {
       return
     }
 
-    return route({ socket, action, rooms, io })
+    return route({ socket, action, rooms, io, db })
   })
 
   socket.on('disconnect', () => {

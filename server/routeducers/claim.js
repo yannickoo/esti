@@ -1,5 +1,3 @@
-import low from 'lowdb'
-import storage from 'lowdb/file-async'
 import { slug } from '../utils'
 
 import join from './join'
@@ -7,15 +5,14 @@ import join from './join'
 import { unlocked } from '../../actions/room'
 import { authenticated } from '../../actions/user'
 
-const db = low('db.json', { storage })
-
-function claimRoom (name, token) {
-  let room = db('rooms').find({ name })
+function claimRoom (name, token, db) {
+  const slugged = slug(name)
+  let room = db('rooms').find({ slug: slugged })
   const roomExists = !!room
 
   if (!room) {
     console.log('claimed room:', name, 'with token:', token)
-    room = { name, token }
+    room = { name, slug: slugged, token }
   }
 
   if (room.token !== token) {
@@ -32,12 +29,13 @@ function claimRoom (name, token) {
   return Promise.resolve(true)
 }
 
-export default function claim ({ socket, action, rooms }) {
+export default function claim ({ socket, action, rooms, db }) {
   const { username, room: roomName, token } = action
 
   const slugged = slug(roomName)
 
-  claimRoom(slugged, token)
+  // @TODO: remove db parameter.
+  claimRoom(roomName, token, db)
     .then((claimed) => {
       let room = rooms[slugged]
 

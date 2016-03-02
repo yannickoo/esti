@@ -3,13 +3,13 @@ import {
   USER_DISCONNECTED,
   USER_NAMECHANGE,
   USER_KICK,
-  SET_ROOM,
-  UNLOCKED
+  UNLOCKED,
+  SET_ROOM
 } from '../../actions/room'
 
 import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
 
-const defaultState = { name: '', users: [], unlocked: false }
+const defaultState = { name: '', slug: '', users: [], unlocked: false }
 
 export default function room (state = defaultState, action) {
   if (action.type === USER_CONNECTED) {
@@ -45,7 +45,7 @@ export default function room (state = defaultState, action) {
   if (action.type === SET_ROOM) {
     const { room } = action
 
-    return { ...state, name: room }
+    return { ...state, name: room.name, slug: room.slug }
   }
 
   if (action.type === JOINED) {

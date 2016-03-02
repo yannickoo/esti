@@ -88,7 +88,7 @@ room
     }
 
     this.removeUser = (e) => {
-      this.userKick(this.room.name, e.item.u.socket)
+      this.userKick(this.room.slug, e.item.u.socket)
     }
 
     this.unlock = (e) => {

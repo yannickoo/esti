@@ -1,3 +1,5 @@
+import slugged from 'speakingurl'
+
 export function buildRoutes (actions, routeducers) {
   return Object.keys(actions)
     .reduce((routes, key) => {
@@ -14,5 +16,5 @@ export function buildRoutes (actions, routeducers) {
 }
 
 export function slug (name) {
-  return name.toLowerCase()
+  return slugged(name)
 }
