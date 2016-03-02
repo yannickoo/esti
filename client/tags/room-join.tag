@@ -38,6 +38,5 @@ room-join
     })
 
     this.joinRoom = (e) => {
-      e.preventDefault()
       this.join(this.room.name, this.username.value)
     }

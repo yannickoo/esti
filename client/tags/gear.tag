@@ -118,8 +118,6 @@ gear
     }
 
     this.updateSettings = (e) => {
-      e.preventDefault()
-
       const nextName = this['menu-username'].value
       const nextPoints = this['menu-points'].value
 

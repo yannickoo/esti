@@ -31,8 +31,6 @@ room-create
     })
 
     this.createRoom = (e) => {
-      e.preventDefault()
-
       const username = this.user.name || this.username.value
 
       this.claim(username, this['room-name'].value, this['room-token'].value)
