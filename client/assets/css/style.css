@@ -62,6 +62,10 @@ input:focus {
   border-color: #ccc;
 }
 
+input.error:invalid {
+  border-color: #c70b0b;
+}
+
 input[disabled] {
   color: #ccc;
 }
