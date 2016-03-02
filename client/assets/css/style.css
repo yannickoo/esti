@@ -68,6 +68,7 @@ input.error:invalid {
 
 input[disabled] {
   color: #ccc;
+  opacity: 0.5;
 }
 
 input + input {
