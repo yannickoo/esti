@@ -1,4 +1,4 @@
-import slugged from 'slug'
+import slugged from 'speakingurl'
 
 export function buildRoutes (actions, routeducers) {
   return Object.keys(actions)
