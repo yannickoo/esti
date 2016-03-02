@@ -1,6 +1,4 @@
-import slug from 'slug'
-
-slug.defaults.mode = 'rfc3986'
+import { slug } from './utils'
 
 export default class Room {
   constructor (name) {

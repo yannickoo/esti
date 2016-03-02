@@ -1,3 +1,5 @@
+import slugged from 'slug'
+
 export function buildRoutes (actions, routeducers) {
   return Object.keys(actions)
     .reduce((routes, key) => {
@@ -11,4 +13,8 @@ export function buildRoutes (actions, routeducers) {
 
       return { ...routes, [actionType]: handler }
     }, {})
+}
+
+export function slug (name) {
+  return slugged(name, { mode: 'rfc3986' })
 }

@@ -1,8 +1,6 @@
 import { setRoom as changeRoom } from '../../actions/room'
 import Room from '../room'
-import slug from 'slug'
-
-slug.defaults.mode = 'rfc3986'
+import { slug } from '../utils'
 
 export default function setRoom ({ socket, action, rooms, db }) {
   const { room: roomName } = action

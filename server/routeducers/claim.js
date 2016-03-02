@@ -1,6 +1,4 @@
-import slug from 'slug'
-
-slug.defaults.mode = 'rfc3986'
+import { slug } from '../utils'
 
 import join from './join'
 
