@@ -83,6 +83,7 @@ room
     })
 
     this.unlockRoom = (e) => {
+      this.wrongToken = false
       this.claim(this.user.name, this.room.name, this.token.value)
     }
 
