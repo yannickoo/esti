@@ -55,24 +55,45 @@ vote
     .points {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
       margin-top: 60px;
+    }
+
+    @media screen and (min-width: 600px) {
+      .points {
+        justify-content: center;
+      }
     }
 
     .points > div {
       margin-right: 15px;
       margin-bottom: 15px;
+      width: 28%;
+    }
+
+    @media screen and (min-width: 600px) {
+      .points > div {
+        width: auto;
+      }
     }
 
     .points button {
       display: block;
-      min-width: 80px;
+      width: 100%;
       padding: 20px 15px;
-      background: #F7F7F7;
+      background: #f7f7f7;
       color: #ddd;
       font-size: 2.5em;
       line-height: 1em;
       text-shadow: none;
       border: 0;
+    }
+
+    @media screen and (min-width: 600px) {
+     .points button {
+        width: auto;
+        min-width: 80px;
+      }
     }
 
     .points .current button,
