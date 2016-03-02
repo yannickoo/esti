@@ -31,14 +31,14 @@ room-create
     this.on('updated', () => {
       const focusInput = !this.user.name ? this.username : this['room-name']
       focusInput.focus()
+
+      if (this.user.pm) {
+        riot.route(this['room-name'].value)
+      }
     })
 
     this.createRoom = (e) => {
-      e.preventDefault()
-
       const username = this.user.name || this.username.value
 
       this.claim(username, this['room-name'].value, this['room-token'].value)
-
-      riot.route(slug(this['room-name'].value))
     }

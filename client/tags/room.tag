@@ -1,9 +1,9 @@
 room
   h1 {room.name } #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
 
-  form(if='{ enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
+  form(if='{ !room.unlocked && enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
     div
-      input(type='password' name='token' placeholder='Token' required='required')
+      input(type='password' name='token' placeholder='Token' required='required' class='{ error: wrongToken }')
 
      div.actions
       button(type='submit') Unlock room
@@ -70,16 +70,24 @@ room
       if (this.enterToken) {
         this.token.focus()
       }
+
+      this.wrongToken = this.enterToken && !this.user.pm
+
+      if (this.wrongToken) {
+        this.token.value = ''
+      }
+
+      if (this.user.pm) {
+        this.enterToken = false
+      }
     })
 
     this.unlockRoom = (e) => {
-      e.preventDefault()
-      this.enterToken = false
+      this.wrongToken = false
       this.claim(this.user.name, this.room.name, this.token.value)
     }
 
     this.removeUser = (e) => {
-      e.preventDefault()
       this.userKick(this.room.slug, e.item.u.socket)
     }
 

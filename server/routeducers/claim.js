@@ -37,6 +37,7 @@ export default function claim ({ socket, action, rooms, db }) {
   // @TODO: remove db parameter.
   claimRoom(roomName, token, db)
     .then((claimed) => {
+      console.log('Claimed', claimed)
       let room = rooms[slugged]
 
       if (claimed) {

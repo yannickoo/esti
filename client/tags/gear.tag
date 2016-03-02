@@ -28,6 +28,7 @@ gear
       position: absolute;
       top: 5px;
       right: 5px;
+      z-index: 1;
       background: #fff;
       text-align: right;
     }
@@ -117,8 +118,6 @@ gear
     }
 
     this.updateSettings = (e) => {
-      e.preventDefault()
-
       const nextName = this['menu-username'].value
       const nextPoints = this['menu-points'].value
 
