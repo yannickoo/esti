@@ -16,5 +16,5 @@ export function buildRoutes (actions, routeducers) {
 }
 
 export function slug (name) {
-  return slugged(name, { mode: 'rfc3986' })
+  return slugged(name)
 }
