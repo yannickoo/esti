@@ -53,17 +53,13 @@ export default function claim ({ socket, action, rooms, db }) {
           room = rooms[slugged]
         }
 
-        const user = room.users.find((u) => u.socket === socket.id)
-        const roomUser = room
-          .findUser(user)
+        const user = room
+          .updateUser({ socket: socket.id, pm: true })
 
-        roomUser.pm = true
-
-        socket.to(slugged).emit('action', unlocked(roomUser))
+        socket.to(slugged).emit('action', unlocked(user))
       }
 
       socket.emit('action', authenticated(claimed))
     })
     .catch((e) => console.error(e.stack))
 }
-
