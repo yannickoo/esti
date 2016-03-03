@@ -66,6 +66,12 @@ room
       this.on('update', kickHandler)
     })
 
+    this.on('update', () => {
+      if (this.user.pm) {
+        this.enterToken = false
+      }
+    })
+
     this.on('updated', () => {
       if (this.enterToken) {
         this.token.focus()
@@ -75,10 +81,6 @@ room
 
       if (this.wrongToken) {
         this.token.value = ''
-      }
-
-      if (this.user.pm) {
-        this.enterToken = false
       }
     })
 
