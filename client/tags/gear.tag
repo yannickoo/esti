@@ -54,12 +54,12 @@ gear
     form {
       display: none;
       position: relative;
-      left: 2.5px;
       margin-top: 10px;
       padding: 20px;
-      border: 1px solid #828282;
+      border: 1px solid #ddd;
       text-align: left;
       border-radius: 4px;
+      border-top-right-radius: 0;
     }
 
     form.show {
@@ -69,14 +69,14 @@ gear
     form:before {
       display: block;
       position: absolute;
-      top: -10px;
-      right: 2px;
+      top: -11px;
+      right: -1px;
       content: '';
       width: 0;
       height: 0;
       border-style: solid;
       border-width: 0 10px 10px 10px;
-      border-color: transparent transparent #828282 transparent;
+      border-color: transparent transparent #ddd transparent;
     }
 
     form > div + div {
@@ -89,6 +89,10 @@ gear
 
     form input {
       width: auto;
+    }
+
+    form .actions {
+      margin-top: 10px;
     }
 
   script(type='babel').
