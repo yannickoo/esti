@@ -146,8 +146,8 @@ header {
 
 .box {
   position: relative;
-  border: 1px solid #828282;
-  padding: 30px;
+  border: 1px solid #ddd;
+  padding: 25px;
   margin: 0 auto;
 }
 
@@ -161,11 +161,11 @@ header {
   height: 0;
   border-style: solid;
   border-width: 0 10px 10px 10px;
-  border-color: transparent transparent #828282 transparent;
+  border-color: transparent transparent #ddd transparent;
 }
 
 .box--small {
-  max-width: 340px;
+  max-width: 300px;
 }
 
 .remove {
