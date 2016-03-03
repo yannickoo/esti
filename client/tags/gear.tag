@@ -45,7 +45,7 @@ gear
 
     .trigger {
       display: inline-block;
-      padding: 10px 25px 10px 0;
+      padding: 10px 28px 10px 0;
       background: url(/assets/images/icons/gear.svg) no-repeat right center;
       background-size: 20px;
       transition: transform .2s ease;
