@@ -23,10 +23,18 @@ room
     }
 
     .online-users {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      text-align: right;
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    @media screen and (min-width: 600px) {
+      .online-users {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        margin-top: 0;
+        text-align: right;
+      }
     }
 
     .online-users h2 {
