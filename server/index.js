@@ -13,7 +13,8 @@ if (production) {
 
   options = {
     key: fs.readFileSync(process.env.ESTI_KEY_FILE),
-    cert: fs.readFileSync(process.env.ESTI_CERT_FILE)
+    cert: fs.readFileSync(process.env.ESTI_CERT_FILE),
+    ca: fs.readFileSync(process.env.ESTI_CA_FILE)
   }
 }
 
