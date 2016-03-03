@@ -52,8 +52,9 @@ gear
     }
 
     form {
-      position: relative;
       display: none;
+      position: relative;
+      left: 2.5px;
       margin-top: 10px;
       padding: 20px;
       border: 1px solid #828282;
