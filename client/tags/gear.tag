@@ -1,5 +1,5 @@
 gear
-  a.trigger(href='#' onclick='{ openSettings }')
+  a.trigger(href='#' onclick='{ openSettings }') { user.name }
 
   form(onsubmit='{ updateSettings }' class='{ show: showSettings }')
     div
@@ -45,10 +45,9 @@ gear
 
     .trigger {
       display: inline-block;
-      width: 25px;
-      height: 25px;
-      background: url(/assets/images/icons/gear.svg);
-      background-size: 100%;
+      padding: 10px 25px 10px 0;
+      background: url(/assets/images/icons/gear.svg) no-repeat right center;
+      background-size: 20px;
       transition: transform .2s ease;
     }
 
