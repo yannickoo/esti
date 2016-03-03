@@ -4,7 +4,7 @@ esti
     gear(if='{ user.name }')
 
   main
-    span.spinning(if='{ !route }') 'Loading...'
+    span.spinning(if='{ !route }') Loading...
     room-create(if='{ route === "create" }')
     room-join(if='{ route === "join" && !user.name && room.name }')
     room(if='{ route === "join" && user.name && room.name }')
