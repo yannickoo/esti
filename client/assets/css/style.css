@@ -66,8 +66,8 @@ input.error:invalid {
   border-color: #c70b0b;
 }
 
-input[disabled] {
-  color: #ccc;
+input[disabled],
+button[disabled] {
   opacity: 0.5;
 }
 
