@@ -54,10 +54,11 @@ gear
     form {
       position: relative;
       display: none;
-      margin-top: 15px;
+      margin-top: 10px;
       padding: 20px;
       border: 1px solid #828282;
       text-align: left;
+      border-radius: 4px;
     }
 
     form.show {
