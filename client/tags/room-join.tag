@@ -16,13 +16,7 @@ room-join
 
     const subRoute = riot.route.create()
 
-    subRoute('/', () => {
-      this.setRoom('')
-    })
-
     subRoute('/*', (room) => {
-      this.setRoom(room)
-
       const name = this.user.name
       if (name) {
         this.join(room, name)

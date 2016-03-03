@@ -26,13 +26,21 @@ room-create
       }
     })
 
-    this.on('updated', () => {
+    const updated = () => {
       const focusInput = !this.user.name ? this.username : this['room-name']
       focusInput.focus()
 
       if (this.user.pm) {
         riot.route(slug(this['room-name'].value))
       }
+    }
+
+    this.on('mount', () => {
+      this.on('updated', updated)
+    })
+
+    this.on('unmount', () => {
+      this.off('updated', updated)
     })
 
     this.createRoom = (e) => {
