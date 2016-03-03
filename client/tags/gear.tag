@@ -107,12 +107,6 @@ gear
       this.availablePoints = this.round.points.join(',')
     })
 
-    this.on('updated', () => {
-      if (this.showSettings) {
-        this['menu-username'].focus()
-      }
-    })
-
     this.openSettings = (e) => {
       this.showSettings = !this.showSettings
     }
