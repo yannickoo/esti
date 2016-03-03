@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy": "mkdirp dist && cp client/index.html dist && cp client/.htaccess dist && cp client/bookmarklet.js dist && cp -r client/assets dist",
     "minify:html": "sed -i -- 's/esti.js/esti.min.js/' dist/index.html",
-    "minify:js": "uglifyjs --compress -- dist/esti.js > dist/esti.min.js",
+    "minify:js": "uglifyjs --compress --mangle -- dist/esti.js > dist/esti.min.js",
     "minify": "npm run minify:js && npm run minify:html",
     "prestart": "npm run copy && npm run babel",
     "browserify": "browserify dist/client/esti.js -o dist/esti.js",
