@@ -46,8 +46,32 @@ room
       text-transform: uppercase;
     }
 
+    .online-users li {
+      line-height: 1.4em;
+    }
+
+    .online-users li > span {
+      padding-right: 10px;
+    }
+
     .online-users .pm {
       color: gray;
+    }
+
+    .online-users .voted {
+      position: relative;
+    }
+
+    .online-users .voted:after {
+      display: inline-block;
+      position: absolute;
+      top: 5px;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      content: '';
+      background: url(../assets/images/icons/check.svg) no-repeat;
+      background-size: 10px;
     }
 
   script(type='babel').
