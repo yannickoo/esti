@@ -11,17 +11,30 @@ import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
 
 const defaultState = { name: '', slug: '', users: [], unlocked: false }
 
+function byName (a, b) {
+  return a.name.localeCompare(b.name)
+}
+
+function sort (userList) {
+  const pms = userList.filter((u) => u.pm)
+  const users = userList.filter((u) => !u.pm)
+
+  return [...pms.sort(byName), ...users.sort(byName)]
+}
+
 export default function room (state = defaultState, action) {
   if (action.type === USER_CONNECTED) {
     const { user } = action
-    const users = [...state.users, user]
+    const userList = [...state.users, user]
+    const users = sort(userList)
 
     return { ...state, users }
   }
 
   if (action.type === USER_DISCONNECTED) {
     const { user } = action
-    const users = state.users.filter((u) => u.socket !== user.socket)
+    const userList = state.users.filter((u) => u.socket !== user.socket)
+    const users = sort(userList)
     const unlocked = user.pm ? users.some((u) => u.pm) : state.unlocked
 
     return { ...state, users, unlocked }
@@ -30,14 +43,16 @@ export default function room (state = defaultState, action) {
   if (action.type === USER_NAMECHANGE) {
     const { user } = action
     const without = state.users.filter((u) => u.socket !== user.socket)
-    const users = [...without, user]
+    const userList = [...without, user]
+    const users = sort(userList)
 
     return { ...state, users }
   }
 
   if (action.type === USER_KICK) {
     const { user } = action
-    const users = state.users.filter((u) => u.socket !== user.socket)
+    const userList = state.users.filter((u) => u.socket !== user.socket)
+    const users = sort(userList)
 
     return { ...state, users }
   }
@@ -49,15 +64,19 @@ export default function room (state = defaultState, action) {
   }
 
   if (action.type === JOINED) {
-    const { users } = action
-    const unlocked = users.some((u) => u.pm)
+    const { users: userList } = action
+    const users = sort(userList)
+    const unlocked = userList.some((u) => u.pm)
+
     return { ...state, users, unlocked }
   }
 
   if (action.type === UNLOCKED) {
     const { user } = action
     const without = state.users.filter((u) => u.socket !== user.socket)
-    const users = [...without, user]
+    const userList = [...without, user]
+    const users = sort(userList)
+
     return { ...state, users, unlocked: true }
   }
 
