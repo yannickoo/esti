@@ -11,8 +11,11 @@ import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
 
 const defaultState = { name: '', slug: '', users: [], unlocked: false }
 
-const byName = (a, b) => a.name.localeCompare(b.name)
-const sort = (userList) => {
+function byName (a, b) {
+  return a.name.localeCompare(b.name)
+}
+
+function sort (userList) {
   const pms = userList.filter((u) => u.pm)
   const users = userList.filter((u) => !u.pm)
 
