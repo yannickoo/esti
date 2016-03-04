@@ -6,7 +6,7 @@ room-create
 
     input(type='text' name='room-name' placeholder='Room name' required='required')
 
-    input(type='password' name='room-token' placeholder='Token' required='required')
+    input(type='password' name='room-token' placeholder='Token' required='required' title='Enter a password for the room so you can unlock it later on.')
 
     div.actions
       button(type='submit') Create room

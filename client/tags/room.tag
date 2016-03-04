@@ -1,5 +1,5 @@
 room
-  h1 {room.name } #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
+  h1(class='{ "has-padlock": !room.unlocked }') {room.name } #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
 
   form(if='{ !room.unlocked && enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
     div
@@ -20,6 +20,10 @@ room
   style(scoped).
     :scope {
       display: block;
+    }
+
+    h1.has-padlock {
+      padding-left: 36px;
     }
 
     .online-users {

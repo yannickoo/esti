@@ -4,14 +4,14 @@ vote
       details
         summary Create new round
         div
-          p
-            a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import tickets
+          p.import
+            a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import JIRA tickets
             span(if='{ pm.tickets.length }') { pm.tickets.length } tickets have been imported ✅
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
 
           p.bookmarklet(if='{ showTicketImport && !ticketImportError }')
-            span Use our bookmarklet to import JIRA tickets:&nbsp;
-            a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet-link' onclick='{ bookmarkletClick }') 👲 JIRA Esti
+            span Use our bookmarklet to import tickets from&nbsp;
+            a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet-link' onclick='{ bookmarkletClick }') JIRA to Esti
 
           input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
 
@@ -19,9 +19,9 @@ vote
             a(href='#' onclick='{ cancelTicketImport }' if='{ showTicketImport || ticketImportError }') Cancel
 
           form(onsubmit='{ createRound }' if='{ !showTicketImport && !ticketImportError }' name='ticket-create')
-            input(type='text' name='ticket-id' placeholder='Ticket ID', pattern='[a-zA-Z0-9]+\-[0-9]+' required list='{ "ticket-list": pm.tickets.length }' autocomplete='{ off: pm.tickets.length }')
-            input(type='text' name='ticket-title' placeholder='Ticket title' required if='{ !ticketImportError && !pm.tickets.length }')
-            input(type='url' name='ticket-url' placeholder='Ticket URL' required if='{ !ticketImportError && !pm.tickets.length }')
+            input(if='{ pm.tickets.length }' type='text' name='ticket-id' placeholder='Ticket ID', pattern='[a-zA-Z0-9]+\-[0-9]+' required list='{ "ticket-list": pm.tickets.length }' autocomplete='off')
+            input(type='text' name='ticket-title' placeholder='Title' required if='{ !ticketImportError && !pm.tickets.length }' autocomplete='off')
+            input(type='url' name='ticket-url' placeholder='URL' if='{ !ticketImportError && !pm.tickets.length }' autocomplete='off')
 
             datalist#ticket-list
               option(each='{ pm.tickets }' value='{ id }') { formatTicketTitle(title) }
@@ -30,7 +30,9 @@ vote
               button(type='submit' title='{ "Let me wait for other users": !room.users.length }' disabled='{ disabled: !room.users.length }') Start round
 
   div(if='{ round.active }')
-    h2 #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }
+    h2(if='{ round.ticket.id }') #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }] - { round.ticket.title }
+    h2(if='{ !round.ticket.id && round.ticket.url }') #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.title }]
+    h2(if='{ !round.ticket.id && !round.ticket.url }') { round.ticket.title }
 
   div(if='{ round.active }')
     div(if='{ user.pm }')
@@ -50,6 +52,12 @@ vote
   style(scoped).
     :scope {
       display: block;
+      margin-top: 30px;
+    }
+
+    .vote-inactive {
+      margin-top: 80px;
+      color: #e0e0e0;
     }
 
     .points {
@@ -141,6 +149,11 @@ vote
     .bookmarklet-link:active {
       cursor: -webkit-grabbing;
       cursor: -moz-grabbing;
+    }
+
+    .bookmarklet,
+    .import {
+      margin-bottom: 30px;
     }
 
   script(type='babel').

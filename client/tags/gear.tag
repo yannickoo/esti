@@ -16,6 +16,7 @@ gear
         pattern='^([\\d\\w]+(, ?[\\d\\w]+)*)?$'
         value='{ availablePoints }',
         disabled='{ round.active }'
+        autocomplete='off'
         required
       )
 
