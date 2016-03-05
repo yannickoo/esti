@@ -15,7 +15,7 @@ room
     h2(if='{ !room.users.length }') No online users
     ul
       li(each='{ u in room.users }')
-        span(class='{ pm: u.pm, voted: hasVoted(u) }') { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
+        span(class='{ pm: u.pm, voted: hasVoted(u) }' title='{ "This is your project manager": u.pm }') { u.name } #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
 
   style(scoped).
     :scope {
