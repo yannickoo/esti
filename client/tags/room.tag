@@ -1,9 +1,9 @@
 room
-  h1(class='{ "has-padlock": !room.unlocked }') {room.name } #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
+  h1 {room.name } #[span(if='{ user.pm }' class='pencil' onclick='{ editRoomName }')] #[span(if='{ !room.unlocked }' class='padlock' onclick='{ unlock }')]
 
   form(if='{ !room.unlocked && enterToken }' onsubmit='{ unlockRoom }' class='box box--small')
     div
-      input(type='password' name='token' placeholder='Token' required='required' class='{ error: wrongToken }')
+      input(type='password' name='token' placeholder='Password' required='required' class='{ error: wrongToken }')
 
      div.actions
       button(type='submit') Unlock room
@@ -20,10 +20,6 @@ room
   style(scoped).
     :scope {
       display: block;
-    }
-
-    h1.has-padlock {
-      padding-left: 36px;
     }
 
     .online-users {
