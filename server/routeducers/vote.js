@@ -1,4 +1,4 @@
-import { voteSelected, recommended } from '../../actions/round'
+import { vote as voted, voteSelected, recommended } from '../../actions/round'
 import { end } from '../../actions/round'
 import { userVote } from '../../actions/pm'
 
@@ -27,7 +27,7 @@ export default function vote ({ socket, action, rooms, io }) {
   room.users
     .filter((u) => !u.pm)
     .forEach((u) => {
-      socket.to(u.socket).emit('action', voteSelected(estimation))
+      socket.to(u.socket).emit('action', voted(user))
     })
 
   if (room.roundFinished()) {
