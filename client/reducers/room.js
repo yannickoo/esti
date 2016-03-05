@@ -4,7 +4,8 @@ import {
   USER_NAMECHANGE,
   USER_KICK,
   UNLOCKED,
-  SET_ROOM
+  SET_ROOM,
+  RENAMED
 } from '../../actions/room'
 
 import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
@@ -87,6 +88,11 @@ export default function room (state = defaultState, action) {
 
   if (action.type === KICKED) {
     return defaultState
+  }
+
+  if (action.type === RENAMED) {
+    const { name } = action
+    return { ...state, name }
   }
 
   return state

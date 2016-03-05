@@ -173,11 +173,19 @@ header {
   cursor: pointer;
 }
 
-.padlock {
+.padlock,
+.pencil {
   display: inline-block;
   width: 25px;
   height: 25px;
-  background: url(../images/icons/padlock.svg);
   background-size: 100%;
   cursor: pointer;
+}
+
+.padlock {
+  background: url(../images/icons/padlock.svg);
+}
+
+.pencil {
+  background: url(../images/icons/pencil.svg);
 }

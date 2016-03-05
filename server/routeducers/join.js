@@ -1,19 +1,17 @@
 import { joined } from '../../actions/user'
 import { userConnected } from '../../actions/room'
 import Room from '../room'
-import { slug } from '../utils'
 
 export default function joinedAction ({ socket, action, rooms }) {
-  const { name, room: roomName } = action
+  const { name, slug: slugged } = action
   const user = { name, socket: socket.id }
-  const slugged = slug(roomName)
-  const room = rooms[slugged] || new Room(roomName)
+  const room = rooms[slugged] || new Room(slugged)
 
   if (room.findUser(user)) {
     return
   }
 
-  console.log(name, `(${socket.id})`, 'joins room:', roomName)
+  console.log(name, `(${socket.id})`, 'joins room:', slugged)
 
   socket.username = name
   socket.room = slugged
