@@ -6,7 +6,6 @@ vote
         div
           p.import
             a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import JIRA tickets
-            span(if='{ pm.tickets.length }') { pm.tickets.length } tickets have been imported ✅
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
 
           p.bookmarklet(if='{ showTicketImport && !ticketImportError }')
