@@ -46,5 +46,9 @@ room-create
     this.createRoom = (e) => {
       const username = this.user.name || this.username.value
 
-      this.claim(username, this['room-name'].value, this['room-token'].value)
+      this.claim({
+        username,
+        room: this['room-name'].value,
+        token: this['room-token'].value
+      })
     }

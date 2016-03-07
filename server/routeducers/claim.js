@@ -5,8 +5,7 @@ import join from './join'
 import { unlocked } from '../../actions/room'
 import { authenticated } from '../../actions/user'
 
-function claimRoom (name, token, db) {
-  const slugged = slug(name)
+function claimRoom (name, slugged, token, db) {
   let room = db('rooms').find({ slug: slugged })
   const roomExists = !!room
 
@@ -30,12 +29,11 @@ function claimRoom (name, token, db) {
 }
 
 export default function claim ({ socket, action, rooms, db }) {
-  const { username, room: roomName, token } = action
-
-  const slugged = slug(roomName)
+  const { username, room: roomName, slug: slugged, token } = action
+  const roomSlug = slugged || slug(roomName)
 
   // @TODO: remove db parameter.
-  claimRoom(roomName, token, db)
+  claimRoom(roomName, roomSlug, token, db)
     .then((claimed) => {
       let room = rooms[slugged]
 

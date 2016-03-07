@@ -31,5 +31,5 @@ room-join
     })
 
     this.joinRoom = (e) => {
-      this.join(this.room.name, this.username.value)
+      this.join(this.room.slug, this.username.value)
     }

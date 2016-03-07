@@ -3,6 +3,7 @@ export const CLAIM = 'server/claim'
 export const USER_KICK = 'server/userKick'
 export const JOIN = 'server/join'
 export const SET_ROOM = 'server/setRoom'
+export const SET_ROOM_NAME = 'server/setRoomName'
 export const SET_NAME = 'server/setName'
 export const ROUND_START = 'server/startRound'
 export const ROUND_END = 'server/endRound'
@@ -23,19 +24,20 @@ export function userKick (room, id) {
   }
 }
 
-export function claim (username, room, token) {
+export function claim ({ username, room, slug, token }) {
   return {
     type: CLAIM,
     username,
     room,
+    slug,
     token
   }
 }
 
-export function join (room, name) {
+export function join (slug, name) {
   return {
     type: JOIN,
-    room,
+    slug,
     name
   }
 }
@@ -44,6 +46,14 @@ export function setRoom (room) {
   return {
     type: SET_ROOM,
     room
+  }
+}
+
+export function setRoomName (slug, name) {
+  return {
+    type: SET_ROOM_NAME,
+    slug,
+    name
   }
 }
 

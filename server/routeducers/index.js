@@ -4,6 +4,7 @@ import join from './join'
 import roundEnd from './round-end'
 import roundStart from './round-start'
 import setName from './set-name'
+import setRoomName from './set-room-name'
 import setPoints from './set-points'
 import setRoom from './set-room'
 import ticket from './ticket'
@@ -17,6 +18,7 @@ export default {
   roundEnd,
   roundStart,
   setName,
+  setRoomName,
   setPoints,
   setRoom,
   ticket,

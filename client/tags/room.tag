@@ -8,7 +8,14 @@ room
      div.actions
       button(type='submit') Unlock room
 
-  vote(if='{ !enterToken }')
+  form(if='{ changeRoomName }' onsubmit='{ updateRoomName }' class='box box--small')
+    div
+      input(type='textfield' name='room-name', placeholder='New room name' required)
+
+    div.actions
+      button(type='submit') Update name
+
+  vote(if='{ !enterToken && !changeRoomName }')
 
   div.online-users
     h2(if='{ room.users.length }') Online users
@@ -73,8 +80,9 @@ room
   script(type='babel').
     this.mixin('redux')
 
-    import { claim, userKick } from '../../actions/server'
-    this.dispatchify({ claim, userKick })
+    import { slug } from '../../server/utils'
+    import { claim, userKick, setRoomName } from '../../actions/server'
+    this.dispatchify({ claim, userKick, setRoomName })
 
     this.subscribe((state) => {
       return {
@@ -118,7 +126,12 @@ room
 
     this.unlockRoom = (e) => {
       this.wrongToken = false
-      this.claim(this.user.name, this.room.name, this.token.value)
+      this.claim({
+        username: this.user.name,
+        room: this.room.name,
+        slug: this.room.slug,
+        token: this.token.value
+      })
     }
 
     this.removeUser = (e) => {
@@ -131,4 +144,13 @@ room
 
     this.hasVoted = (user) => {
       return !!this.round.userVotes.find((vote) => vote.socket === user.socket)
+    }
+
+    this.editRoomName = (e) => {
+      this.changeRoomName = !this.changeRoomName
+    }
+
+    this.updateRoomName = (e) => {
+      this.setRoomName(this.room.slug, this['room-name'].value)
+      this.changeRoomName = null
     }
