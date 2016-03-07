@@ -180,12 +180,13 @@ header {
   height: 25px;
   background-size: 100%;
   cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .padlock {
-  background: url(../images/icons/padlock.svg);
+  background-image: url(../images/icons/padlock.svg);
 }
 
 .pencil {
-  background: url(../images/icons/pencil.svg);
+  background-image: url(../images/icons/pencil.svg);
 }
