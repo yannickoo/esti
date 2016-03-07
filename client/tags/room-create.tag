@@ -11,6 +11,11 @@ room-create
     div.actions
       button(type='submit') Create room
 
+  style(scoped).
+    h1 {
+      margin-bottom: 1em;
+    }
+
   script(type='babel').
     this.mixin('redux')
 
