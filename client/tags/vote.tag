@@ -160,11 +160,11 @@ vote
 
     this.bookmarkletCode = "javascript:(function(){bookmarklet=document.createElement('script');bookmarklet.type='text/javascript';bookmarklet.src='https://esti.io/bookmarklet.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(bookmarklet);})();"
 
-    import { start, restart, end } from '../../actions/round'
-    import { startRound, vote, endRound } from '../../actions/server'
+    import { start, restart } from '../../actions/round'
+    import { startRound, vote } from '../../actions/server'
     import { voted } from '../../actions/user'
     import { ticketList } from '../../actions/pm'
-    this.dispatchify({ start, restart, end, startRound, vote, endRound, voted, ticketList })
+    this.dispatchify({ start, restart, startRound, vote, voted, ticketList })
 
     this.subscribe((state) => {
       return {
@@ -209,7 +209,7 @@ vote
 
     this.stopRound = (e) => {
       this['ticket-create'].reset()
-      this.endRound()
+      this.vote()
     }
 
     this.voteSelect = (e) => {

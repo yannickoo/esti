@@ -29,7 +29,11 @@ function getMessage (action) {
   }
 
   if (action.type === VOTE_SELECTED) {
-    message.text = `The final estimation is ${action.chosen}`
+    if (action.chosen) {
+      message.text = `The final estimation is ${action.chosen}`
+    } else {
+      message.text = 'The round has been ended'
+    }
   }
 
   if (action.type === TICKET_LIST) {
