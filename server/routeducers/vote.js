@@ -1,5 +1,4 @@
 import { vote as voted, voteSelected, recommended } from '../../actions/round'
-import { end } from '../../actions/round'
 import { userVote } from '../../actions/pm'
 
 export default function vote ({ socket, action, rooms, io }) {
@@ -14,7 +13,6 @@ export default function vote ({ socket, action, rooms, io }) {
   if (user.pm) {
     return io.to(socket.room)
       .emit('action', voteSelected(estimation))
-      .emit('action', end())
   }
 
   room.users

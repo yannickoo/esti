@@ -6,7 +6,6 @@ export const SET_ROOM = 'server/setRoom'
 export const SET_ROOM_NAME = 'server/setRoomName'
 export const SET_NAME = 'server/setName'
 export const ROUND_START = 'server/startRound'
-export const ROUND_END = 'server/endRound'
 export const SET_POINTS = 'server/setPoints'
 
 export function vote (estimation) {
@@ -68,12 +67,6 @@ export function startRound (ticket) {
   return {
     type: ROUND_START,
     ticket
-  }
-}
-
-export function endRound () {
-  return {
-    type: ROUND_END
   }
 }
 

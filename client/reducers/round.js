@@ -1,4 +1,4 @@
-import { START, VOTE, END, RESTART, VOTE_SELECTED, RECOMMENDED, SET_POINTS } from '../../actions/round'
+import { START, VOTE, RESTART, VOTE_SELECTED, RECOMMENDED, SET_POINTS } from '../../actions/round'
 import { VOTED } from '../../actions/user'
 const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 const defaultState = {
@@ -27,10 +27,6 @@ export default function round (state = defaultState, action) {
     return { ...state, userVotes }
   }
 
-  if (action.type === END) {
-    return { ...state, active: false, ticket: {} }
-  }
-
   if (action.type === RESTART) {
     return { ...state, userVotes: [], active: true }
   }
@@ -44,7 +40,7 @@ export default function round (state = defaultState, action) {
   // PM has chosen an estimation
   if (action.type === VOTE_SELECTED) {
     const { chosen } = action
-    return { ...state, chosen }
+    return { ...state, chosen, active: false, ticket: {} }
   }
 
   if (action.type === RECOMMENDED) {
