@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
+
 import user from './user'
 import pm from './pm'
-import round from './round'
 import room from './room'
+import round from './round'
+import notifications from './notifications'
 
-const rootReducer = combineReducers({ user, pm, round, room })
+const rootReducer = combineReducers({ user, pm, room, round, notifications })
 
 export default rootReducer

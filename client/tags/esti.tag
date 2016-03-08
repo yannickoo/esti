@@ -9,9 +9,14 @@ esti
     room-join(if='{ route === "join" && !user.name && room.name }')
     room(if='{ route === "join" && user.name && room.name }')
 
+    notifications
+
   script(type='babel').
     this.mixin('redux')
 
+    this.userInactive = false
+
+    import away from 'away'
     import { setRoom } from '../../actions/server'
     this.dispatchify({ setRoom })
 
@@ -32,4 +37,16 @@ esti
         user: state.user,
         room: state.room
       }
+    })
+
+    this.on('mount', () => {
+      const timer = away(20 * 1000);
+
+      timer.on('idle', () => {
+        this.userInactive = true
+      })
+
+      timer.on('active', () => {
+        this.userInactive = false
+      })
     })

@@ -2,6 +2,8 @@ import { createStore, applyMiddleware } from 'redux'
 import rootReducer from '../reducers'
 import createSocketIoMiddleware from 'redux-socket.io'
 import io from 'socket.io-client'
+import notify from 'redux-notify'
+import notifyEvents from '../events/notifyEvents'
 
 function persistState ({ getState }) {
   return (next) => (action) => {
@@ -21,7 +23,8 @@ const socket = io(process.env.ESTI_BACKEND_URL || 'http://localhost:3000')
 const socketIoMiddleware = createSocketIoMiddleware(socket, 'server/')
 const createStoreWithMiddleware = applyMiddleware(
   socketIoMiddleware,
-  persistState
+  persistState,
+  notify(notifyEvents)
 )(createStore)
 
 export default function configureStore (initialState) {
