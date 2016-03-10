@@ -8,8 +8,7 @@ const defaultState = {
   recommended: [],
   active: false,
   pending: false,
-  estimation: 0,
-  chosen: 0
+  estimation: 0
 }
 
 export default function round (state = defaultState, action) {
@@ -17,7 +16,7 @@ export default function round (state = defaultState, action) {
     const { id, title, url } = action
     const ticket = { id, title, url }
 
-    return { ...state, ticket, userVotes: [], active: true, recommended: [], chosen: 0, estimation: 0 }
+    return { ...state, ticket, userVotes: [], active: true, recommended: [], estimation: 0 }
   }
 
   if (action.type === VOTE) {
@@ -39,8 +38,7 @@ export default function round (state = defaultState, action) {
 
   // PM has chosen an estimation
   if (action.type === VOTE_SELECTED) {
-    const { chosen } = action
-    return { ...state, chosen, active: false, ticket: {} }
+    return { ...state, active: false, ticket: {} }
   }
 
   if (action.type === RECOMMENDED) {

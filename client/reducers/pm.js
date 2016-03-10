@@ -1,7 +1,7 @@
 import { USER_VOTE, TICKET_INFO, TICKET_LIST } from '../../actions/pm'
-import { START } from '../../actions/round'
+import { START, VOTE_SELECTED } from '../../actions/round'
 
-export default function pm (state = { votes: [], ticket: {}, tickets: [] }, action) {
+export default function pm (state = { votes: [], ticket: {}, tickets: [], estimations: [] }, action) {
   if (action.type === START) {
     return { ...state, votes: [] }
   }
@@ -26,6 +26,18 @@ export default function pm (state = { votes: [], ticket: {}, tickets: [] }, acti
     const { tickets } = action
 
     return { ...state, tickets }
+  }
+
+  if (action.type === VOTE_SELECTED) {
+    const { chosen } = action
+    const estimations = [...state.estimations, chosen]
+    let tickets = state.tickets
+
+    if (chosen.ticket) {
+      tickets = tickets.filter((ticket) => ticket.id !== chosen.ticket.id)
+    }
+
+    return { ...state, estimations, tickets }
   }
 
   return state

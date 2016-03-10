@@ -39,7 +39,7 @@ vote
 
   .points(if='{ round.active }')
     div(each='{ point in votesByPoints }')
-      div(class='{ "has-votes": point.userVotes.length, chosen: point.chosen, current: round.estimation === point.value, recommended: point.recommended }')
+      div(class='{ "has-votes": point.userVotes.length, current: round.estimation === point.value, recommended: point.recommended }')
         button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
 
       ul(if='{ user.pm && point.userVotes.length }')
@@ -124,12 +124,6 @@ vote
       background: #15a515;
     }
 
-    .points .chosen button:hover,
-    .points .chosen button:focus,
-    .points .chosen button {
-      background: #808080;
-    }
-
     .points ul {
       text-align: left;
       margin-top: 10px;
@@ -178,7 +172,6 @@ vote
     this.on('update', () => {
       this.votesByPoints = this.round.points.map((value) => ({
         userVotes: this.estimations.filter((vote) => vote.estimation === value),
-        chosen: this.round.chosen === value,
         recommended: this.round.recommended.indexOf('' + value) !== -1,
         value
       }))
@@ -213,14 +206,22 @@ vote
     }
 
     this.voteSelect = (e) => {
-      const estimation = e.item.point.value
+      let estimation = e.item.point.value
+
+      this.voted(estimation)
+
+      if (this.user.pm) {
+        estimation = {
+          ticket: this.round.ticket,
+          estimation: estimation
+        }
+      }
 
       this.vote(estimation)
-      this.voted(estimation)
     }
 
     this.formatTicketTitle = (title) => {
-      const max = 100
+      const max = 140
 
       if (title.length < max) {
         return title

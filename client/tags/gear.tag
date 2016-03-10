@@ -52,34 +52,6 @@ gear
       transition: transform .2s ease;
     }
 
-    form {
-      display: none;
-      position: relative;
-      margin-top: 10px;
-      padding: 20px;
-      border: 1px solid #ddd;
-      text-align: left;
-      border-radius: 4px;
-      border-top-right-radius: 0;
-    }
-
-    form.show {
-      display: block;
-    }
-
-    form:before {
-      display: block;
-      position: absolute;
-      top: -11px;
-      right: -1px;
-      content: '';
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 0 10px 10px 10px;
-      border-color: transparent transparent #ddd transparent;
-    }
-
     form > div + div {
       margin-top: 10px;
     }

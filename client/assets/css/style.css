@@ -174,7 +174,8 @@ header {
 }
 
 .padlock,
-.pencil {
+.pencil,
+.trophy {
   display: inline-block;
   width: 25px;
   height: 25px;
@@ -190,6 +191,42 @@ header {
 .pencil {
   background-image: url(../images/icons/pencil.svg);
 }
+
+.trophy {
+  background-image: url(../images/icons/trophy.svg);
+}
+
+gear form,
+estimations table {
+  display: none;
+  position: relative;
+  margin-top: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  text-align: left;
+  border-radius: 4px;
+  border-top-right-radius: 0;
+}
+
+gear form.show,
+estimations table.show {
+  display: block;
+}
+
+gear form:before,
+estimations table:before {
+  display: block;
+  position: absolute;
+  top: -11px;
+  right: -1px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent #ddd transparent;
+}
+
 
 .slideUp {
   animation-name: slideUp;

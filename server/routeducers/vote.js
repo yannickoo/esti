@@ -6,14 +6,14 @@ export default function vote ({ socket, action, rooms, io }) {
   const { estimation } = action
   const user = room.findUser({ socket: socket.id })
 
-  room.setRoundVote(socket.id, estimation)
-
-  console.log(socket.username, `(PM: ${user.pm})`, 'voted', estimation)
-
   if (user.pm) {
     return io.to(socket.room)
       .emit('action', voteSelected(estimation))
   }
+
+  room.setRoundVote(socket.id, estimation)
+
+  console.log(socket.username, 'voted', estimation)
 
   room.users
     .filter((u) => u.pm)

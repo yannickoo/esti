@@ -17,6 +17,8 @@ room
 
   vote(if='{ !enterToken && !changeRoomName }')
 
+  estimations(if='{ pm && pm.estimations.length }')
+
   div.online-users
     h2(if='{ room.users.length }') Online users
     h2(if='{ !room.users.length }') No online users
@@ -87,6 +89,7 @@ room
     this.subscribe((state) => {
       return {
         user: state.user,
+        pm: state.pm,
         room: state.room,
         round: state.round
       }
