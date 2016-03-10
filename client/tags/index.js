@@ -1,6 +1,7 @@
 import './esti.tag'
 import './room.tag'
 import './vote.tag'
+import './online-users.tag'
 import './estimations.tag'
 import './gear.tag'
 import './room-create.tag'
