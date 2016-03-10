@@ -4,8 +4,11 @@ online-users
   ul
     li(each='{ u in room.users }')
       span(class='{ pm: u.pm, voted: hasVoted(u) }' title='{ "This is your project manager": u.pm }')
+        | #[span(if='{ user.pm && !u.viewer }' class='eye enable' title='Change role to viewer' onclick='{ addViewerRole: user.pm }')]
+        | #[span(if='{ user.pm && u.viewer }' class='eye-closed' title='Remove viewer role' onclick='{ removeViewerRole: user.pm }')]
         | #[span.name { u.name }]
         | #[span(if='{ user.pm }' class='remove' title='Kick user' onclick='{ removeUser }') ×]
+        | #[span(if='{ !user.pm && u.viewer }' class='eye' title='This user has a viewer role')]
 
   style(scoped).
     :scope {

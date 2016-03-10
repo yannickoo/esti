@@ -175,7 +175,9 @@ header {
 
 .padlock,
 .pencil,
-.trophy {
+.trophy,
+.eye,
+.eye-closed {
   display: inline-block;
   width: 25px;
   height: 25px;
@@ -194,6 +196,14 @@ header {
 
 .trophy {
   background-image: url(../images/icons/trophy.svg);
+}
+
+.eye {
+  background-image: url(../images/icons/eye.svg);
+}
+
+.eye-closed {
+  background-image: url(../images/icons/eye-closed.svg);
 }
 
 gear form,

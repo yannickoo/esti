@@ -1,6 +1,6 @@
 import { AUTHENTICATED, SET_NAME, JOINED } from '../../actions/user'
 
-export default function user (state = { name: '', pm: false }, action) {
+export default function user (state = { name: '', pm: false, viewer: false }, action) {
   if (action.type === AUTHENTICATED) {
     const { authenticated: pm } = action
 
