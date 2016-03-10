@@ -19,8 +19,8 @@ estimations
     :scope {
       display: block;
       position: absolute;
-      bottom: 5px;
-      left: 5px;
+      bottom: 20px;
+      left: 20px;
       z-index: 1;
       background: #fff;
       text-align: left;
