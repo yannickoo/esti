@@ -11,7 +11,6 @@ notifications
       left: 50%;
       z-index: 1;
       margin-left: -125px;
-      background: #fff;
       text-align: center;
       user-select: none;
       -webkit-user-select: none;
@@ -21,7 +20,7 @@ notifications
     .notification {
       margin-bottom: 10px;
       padding: 12px;
-      background: rgba(148, 209, 235, 0.89);
+      background: #7ccaea;
       color: #fff;
       border-radius: 2px;
       cursor: pointer;
