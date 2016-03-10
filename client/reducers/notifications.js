@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 
 import { NOTIFICATION_CREATE, NOTIFICATION_REMOVE } from '../../actions/notifications'
 import { USER_CONNECTED, USER_DISCONNECTED, UNLOCKED } from '../../actions/room'
-import { START, VOTE, VOTE_SELECTED } from '../../actions/round'
+import { START, VOTE_SELECTED } from '../../actions/round'
 import { TICKET_LIST } from '../../actions/pm'
 
 function getMessage (action) {
@@ -22,10 +22,6 @@ function getMessage (action) {
 
   if (action.type === START) {
     message.text = 'New estimation round started'
-  }
-
-  if (action.type === VOTE) {
-    message.text = `${action.user.name} has voted`
   }
 
   if (action.type === VOTE_SELECTED) {
