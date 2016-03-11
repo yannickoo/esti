@@ -35,7 +35,7 @@ export default function claim ({ socket, action, rooms, db }) {
   // @TODO: remove db parameter.
   claimRoom(roomName, roomSlug, token, db)
     .then((claimed) => {
-      let room = rooms[slugged]
+      let room = rooms[roomSlug]
 
       if (claimed) {
         if (!room) {
@@ -44,17 +44,17 @@ export default function claim ({ socket, action, rooms, db }) {
             rooms,
             action: {
               name: username,
-              room: roomName
+              slug: roomSlug
             }
           })
 
-          room = rooms[slugged]
+          room = rooms[roomSlug]
         }
 
         const user = room
           .updateUser({ socket: socket.id, pm: true })
 
-        socket.to(slugged).emit('action', unlocked(user))
+        socket.to(roomSlug).emit('action', unlocked(user))
       }
 
       socket.emit('action', authenticated(claimed))
