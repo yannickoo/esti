@@ -38,7 +38,7 @@ export default function round (state = defaultState, action) {
 
   // PM has chosen an estimation
   if (action.type === VOTE_SELECTED) {
-    return { ...state, active: false, ticket: {} }
+    return defaultState
   }
 
   if (action.type === RECOMMENDED) {
