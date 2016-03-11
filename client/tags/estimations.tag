@@ -29,6 +29,7 @@ estimations
     table {
       margin-bottom: 20px;
       margin-left: 2px;
+      padding: 8px;
       border-bottom-left-radius: 0;
       border-top-right-radius: 4px;
     }
