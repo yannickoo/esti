@@ -25,7 +25,7 @@ function getMessage (action) {
   }
 
   if (action.type === VOTE_SELECTED) {
-    if (action.chosen && action.chosen.estimation) {
+    if (action.chosen) {
       message.text = `The final estimation is ${action.chosen.estimation}`
     } else {
       message.text = 'The round has been ended'
