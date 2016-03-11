@@ -13,7 +13,7 @@ estimations
           span(if='{ !round.ticket.id && !round.ticket.url }') { round.ticket.title }
         td { round.estimation }
 
-  span.trophy(onclick='{ toggleEstimations }')
+  span.trophy(title='Display estimation results' onclick='{ toggleEstimations }')
 
   style(scoped).
     :scope {

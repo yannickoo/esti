@@ -16,7 +16,7 @@ room
       button(type='submit') Update name
 
   vote(if='{ !enterToken && !changeRoomName }')
-  estimations(if='{ pm && pm.estimations.length }')
+  estimations(if='{ pm.estimations.length }')
   online-users
 
   style(scoped).
