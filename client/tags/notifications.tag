@@ -1,5 +1,5 @@
 notifications
-  .notification(each='{ notification in notifications }' onclick='{ notificationClicked }' class='slideUp')
+  .notification(each='{ notification in notifications }' onclick='{ notificationClicked }' class='{ slideUp: !timers[notification.id] }')
     p { notification.text }
 
   style(scoped).
