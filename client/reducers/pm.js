@@ -1,4 +1,4 @@
-import { USER_VOTE, TICKET_INFO, TICKET_LIST } from '../../actions/pm'
+import { USER_VOTE, TICKET_LIST } from '../../actions/pm'
 import { START, VOTE_SELECTED } from '../../actions/round'
 
 export default function pm (state = { votes: [], ticket: {}, tickets: [], estimations: [] }, action) {
@@ -13,13 +13,6 @@ export default function pm (state = { votes: [], ticket: {}, tickets: [], estima
     const votes = [...without, vote]
 
     return { ...state, votes }
-  }
-
-  if (action.type === TICKET_INFO) {
-    const { id, title, description } = action
-    const ticket = { id, title, description }
-
-    return { ...state, ticket, tickets: [] }
   }
 
   if (action.type === TICKET_LIST) {
