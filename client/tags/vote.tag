@@ -211,6 +211,8 @@ vote
       this.voted(estimation)
 
       if (this.user.pm) {
+        this['ticket-create'].reset()
+
         estimation = {
           ticket: this.round.ticket,
           estimation: estimation
