@@ -55,7 +55,7 @@ online-users
     .voted:after {
       display: inline-block;
       position: absolute;
-      top: 5px;
+      top: 7px;
       right: -5px;
       width: 10px;
       height: 10px;
