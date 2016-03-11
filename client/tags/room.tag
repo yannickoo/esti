@@ -10,7 +10,7 @@ room
 
   form(if='{ changeRoomName }' onsubmit='{ updateRoomName }' class='box box--small')
     div
-      input(type='textfield' name='room-name', placeholder='New room name' required)
+      input(type='textfield' name='room-name', value='{ room.name }' placeholder='New room name' required)
 
     div.actions
       button(type='submit') Update name
