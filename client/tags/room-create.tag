@@ -54,7 +54,6 @@ room-create
       this.claim({
         username,
         room: this['room-name'].value,
-        slug: slug(this['room-name'].value),
         token: this['room-token'].value
       })
     }
