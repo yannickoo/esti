@@ -1,5 +1,5 @@
 (function ($) {
-  var titleMax = 100
+  var titleMax = 250
   var issues = []
 
   if ($('.esti-ticket-export').length) {
@@ -29,38 +29,20 @@
     })
   })
 
-  var $tickets = $('<input />', {
-    value: JSON.stringify(issues),
-    readonly: 'readonly'
-  })
-    .css({
-      display: 'block',
-      marginTop: '10px',
-      width: '260px',
-      padding: '5px'
-    })
-    .hide()
-    .on('focus', function () {
-      this.select()
-    })
-    .appendTo('#ghx-modes-tools')
-
   $('<button />', {
     class: 'esti-ticket-export aui-button'
   })
     .text('👲 Export tickets')
     .prependTo('#ghx-modes-tools')
     .on('click', function () {
-      $tickets.show()
-      $tickets[0].select()
+      var fields = Object.keys(issues[0])
+      var csv = issues.map(function (row) {
+        return fields.map(function (fieldName) {
+          return '"' + (row[fieldName].replace(/"/g, '""') || '') + '"'
+        })
+      })
+      csv.unshift(fields)
 
-      try {
-        document.execCommand('copy')
-        $tickets.hide()
-        window.alert('The unestimated tickets have been stored in your clipboard :)')
-      } catch (err) {
-        $tickets.show()
-        window.alert('Sorry, I could\'nt copy the tickets for you so you should do this manually :(')
-      }
+      window.open('data:text/csv;charset=utf-8,' + escape(csv.join('\r\n')))
     })
 })(jQuery)
