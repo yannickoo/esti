@@ -12,7 +12,7 @@ vote
             span Use our bookmarklet to import tickets from&nbsp;
             a(href='{ bookmarkletCode }' title='Drag this link into your bookmarks bar' class='bookmarklet-link' onclick='{ bookmarkletClick }') JIRA to Esti
 
-          input(type='text' name='tickets' placeholder='Paste code' required if='{ showTicketImport || ticketImportError }' onpaste='{ ticketsPasted }')
+          input(type='file' name='tickets' required if='{ showTicketImport || ticketImportError }' accept='.csv' onchange='{ ticketsUpload }')
 
           p
             a(href='#' onclick='{ cancelTicketImport }' if='{ showTicketImport || ticketImportError }') Cancel
@@ -154,6 +154,7 @@ vote
 
     this.bookmarkletCode = "javascript:(function(){bookmarklet=document.createElement('script');bookmarklet.type='text/javascript';bookmarklet.src='https://esti.io/bookmarklet.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(bookmarklet);})();"
 
+    import parse from 'csv-parse/lib/sync'
     import { start, restart } from '../../actions/round'
     import { startRound, vote } from '../../actions/server'
     import { voted } from '../../actions/user'
@@ -249,22 +250,29 @@ vote
       this.ticketImportError = null
     }
 
-    this.ticketsPasted = (e) => {
-      let tickets = []
-      const data = e.clipboardData.getData('text/plain')
+    this.ticketsUpload = (e) => {
+      const tickets = []
 
-      try {
-        tickets = JSON.parse(data)
-
-        if (typeof tickets !== 'object') {
-          throw 'Pasted tickets are in the wrong format'
-        }
-
-        this.ticketImportError = false
-        this.showTicketImport = false
-        this.ticketList(tickets)
+      if (!window.File && window.FileReader && window.FileList && window.Blob) {
+        return alert('Not supported :(')
       }
-      catch (e) {
+
+      const file = e.target.files[0]
+      const reader = new FileReader()
+
+      reader.readAsText(file, 'UTF-8')
+      reader.onload = (event) => {
+        tickets = parse(event.target.result, { columns: true })
+
+        this.ticketImportError = !tickets.length
+
+        if (tickets.length) {
+          this.showTicketImport = false
+          this.ticketList(tickets)
+        }
+      }
+
+      reader.onerror = () => {
         this.ticketImportError = true
       }
     }
