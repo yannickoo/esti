@@ -95,6 +95,14 @@ button[disabled] {
   cursor: not-allowed;
 }
 
+details > div {
+  display: none;
+}
+
+details[open] > div {
+  display: block;
+}
+
 summary:focus,
 button:focus {
   outline: 0;

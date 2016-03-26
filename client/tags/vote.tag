@@ -1,8 +1,8 @@
 vote
   .vote-control(if='{ user.pm }')
     .round-create(if='{ !round.pending && !round.active }')
-      details
-        summary Create new round
+      details(open='{ detailsOpen }')
+        summary(onclick='{ summaryClick }') Create new round
         div
           p.import
             a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import JIRA tickets
@@ -230,6 +230,10 @@ vote
       }
 
       return `${title.substr(0, max)}…`
+    }
+
+    this.summaryClick = (e) => {
+      this.detailsOpen = !this.detailsOpen
     }
 
     this.bookmarkletClick = (e) => {
