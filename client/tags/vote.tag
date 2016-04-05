@@ -253,7 +253,7 @@ vote
     this.ticketsUpload = (e) => {
       const tickets = []
 
-      if (!window.File && window.FileReader && window.FileList && window.Blob) {
+      if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
         return alert('Not supported :(')
       }
 
