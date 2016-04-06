@@ -33,6 +33,7 @@
   "dependencies": {
     "away": "^1.0.0",
     "babel-preset-stage-2": "^6.3.13",
+    "csv-parse": "^1.0.2",
     "envify": "^3.4.0",
     "eslint-config-standard": "^4.4.0",
     "eslint-plugin-standard": "^1.3.1",
