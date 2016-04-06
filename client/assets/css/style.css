@@ -83,7 +83,7 @@ button {
   font-size: 1.2em;
   text-shadow: 1px 1px #1887b5;
   border: 2px solid #1887b5;
-  background: #28A3D6;
+  background: #28a3d6;
   color: #fff;
   text-transform: uppercase;
   cursor: pointer;
@@ -112,7 +112,7 @@ summary:focus,
 summary:active,
 button:focus,
 button:active {
-  background: #30B2E8;
+  background: #30b2e8;
 }
 
 summary:active,
@@ -235,17 +235,13 @@ estimations table:before {
   border-color: transparent transparent #ddd transparent;
 }
 
-
 .slideUp {
   animation-name: slideUp;
   -webkit-animation-name: slideUp;
-
   animation-duration: 1s;
   -webkit-animation-duration: 1s;
-
   animation-timing-function: ease;
   -webkit-animation-timing-function: ease-in;
-
   visibility: visible !important;
 }
 
@@ -253,18 +249,23 @@ estimations table:before {
   0% {
     transform: translateY(100%);
   }
-  50%{
+
+  50% {
     transform: translateY(-8%);
   }
-  65%{
+
+  65% {
     transform: translateY(4%);
   }
-  80%{
+
+  80% {
     transform: translateY(-4%);
   }
-  95%{
+
+  95% {
     transform: translateY(2%);
   }
+
   100% {
     transform: translateY(0%);
   }
@@ -274,18 +275,23 @@ estimations table:before {
   0% {
     -webkit-transform: translateY(100%);
   }
-  50%{
+
+  50% {
     -webkit-transform: translateY(-8%);
   }
-  65%{
+
+  65% {
     -webkit-transform: translateY(4%);
   }
-  80%{
+
+  80% {
     -webkit-transform: translateY(-4%);
   }
-  95%{
+
+  95% {
     -webkit-transform: translateY(2%);
   }
+
   100% {
     -webkit-transform: translateY(0%);
   }
