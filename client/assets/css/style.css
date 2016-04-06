@@ -53,8 +53,8 @@ input {
   margin-left: auto;
   margin-right: auto;
   padding: 10px 15px;
-  font-size: 1.4em;
   border: 2px solid #ddd;
+  font-size: 1.4em;
   box-sizing: border-box;
   border-radius: 4px;
 }
