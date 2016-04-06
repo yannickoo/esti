@@ -251,8 +251,6 @@ vote
     }
 
     this.ticketsUpload = (e) => {
-      const tickets = []
-
       if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
         return alert('Not supported :(')
       }
@@ -262,7 +260,7 @@ vote
 
       reader.readAsText(file, 'UTF-8')
       reader.onload = (event) => {
-        tickets = parse(event.target.result, { columns: true })
+        const tickets = parse(event.target.result, { columns: true })
 
         this.ticketImportError = !tickets.length
 
