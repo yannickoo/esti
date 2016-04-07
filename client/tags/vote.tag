@@ -5,7 +5,7 @@ vote
         summary(onclick='{ summaryClick }') Create new round
         div
           p.import
-            a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import JIRA tickets
+            a(href='#' onclick='{ importTicketTrigger }' if='{ !showTicketImport && !ticketImportError && !pm.tickets.length }') Import from CSV
             span(if='{ ticketImportError }') Your exported code seems to be malformed 😬
 
           p.bookmarklet(if='{ showTicketImport && !ticketImportError }')
