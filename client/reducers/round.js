@@ -3,7 +3,7 @@ import { VOTED } from '../../actions/user'
 const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 const defaultState = {
   ticket: {},
-  roundUsers: [],
+  users: [],
   userVotes: [],
   points: points,
   recommended: [],
@@ -17,7 +17,7 @@ export default function round (state = defaultState, action) {
     const { id, title, url } = action
     const ticket = { id, title, url }
 
-    return { ...state, ticket, roundUsers: [], userVotes: [], active: true, recommended: [], estimation: 0 }
+    return { ...state, ticket, users: [], userVotes: [], active: true, recommended: [], estimation: 0 }
   }
 
   if (action.type === VOTE) {

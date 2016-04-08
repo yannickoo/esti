@@ -43,7 +43,7 @@ export default class Room {
   }
 
   startVoteRound () {
-    this.round = { votes: {}, finished: false, roundUsers: this.users }
+    this.round = { votes: {}, finished: false, users: this.users }
   }
 
   setRoundVote (user, value) {
@@ -51,7 +51,7 @@ export default class Room {
   }
 
   roundFinished () {
-    const users = this.round.roundUsers.filter((u) => !u.pm)
+    const users = this.round.users.filter((u) => !u.pm)
     const finished = Object.keys(this.round.votes).length === users.length
 
     if (finished) {
