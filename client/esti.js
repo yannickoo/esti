@@ -24,4 +24,7 @@ let store = configureStore(initialState)
 riot.mixin('redux', mixin(store))
 riot.mount('esti')
 riot.route.base('/')
-riot.route.start(true)
+
+document.addEventListener('DOMContentLoaded', () => {
+  riot.route.start(true)
+})
