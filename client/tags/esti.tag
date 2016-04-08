@@ -3,13 +3,22 @@ esti
     a(href='/' class='name') 👲 Esti
     gear(if='{ user.name }')
 
-  main
+  main(class='{ notifications: notifications.length }')
     span.spinning(if='{ !route }') Loading...
     room-create(if='{ route === "create" }')
     room-join(if='{ route === "join" && !user.name && room.name }')
     room(if='{ route === "join" && user.name && room.name }')
 
     notifications
+
+  style(scoped).
+    :scope {
+      display: block;
+    }
+
+    main.notifications {
+      height: calc(100vh - 55px);
+    }
 
   script(type='babel').
     this.mixin('redux')
@@ -35,7 +44,8 @@ esti
     this.subscribe((state) => {
       return {
         user: state.user,
-        room: state.room
+        room: state.room,
+        notifications: state.notifications.messages
       }
     })
 

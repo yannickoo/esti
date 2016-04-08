@@ -4,26 +4,42 @@ notifications
 
   style(scoped).
     :scope {
-      display: block;
-      width: 250px;
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
       z-index: 1;
-      margin-left: -125px;
       text-align: center;
       user-select: none;
       -webkit-user-select: none;
       -moz-user-select: none;
     }
 
+    @media screen and (min-width: 600px) {
+      :scope {
+        display: block;
+        width: 250px;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        margin-left: -125px;
+      }
+    }
+
     .notification {
-      margin-bottom: 10px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       padding: 12px;
       background: #7ccaea;
       color: #fff;
       border-radius: 2px;
       cursor: pointer;
+    }
+
+    @media screen and (min-width: 600px) {
+      .notification {
+        position: relative;
+        margin-bottom: 10px;
+        width: auto;
+      }
     }
 
     .notification p {
