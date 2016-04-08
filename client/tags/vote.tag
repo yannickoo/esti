@@ -42,7 +42,7 @@ vote
       div(class='{ "has-votes": point.userVotes.length, current: round.estimation === point.value, recommended: point.recommended }')
         button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
 
-      ul(if='{ user.pm && point.userVotes.length }')
+      ul(if='{ (user.pm || round.recommended.length) && point.userVotes.length }')
         li(each='{ user in point.userVotes }') { user.name }
 
   .vote-inactive(if='{ !round.active && !user.pm }')
