@@ -4,6 +4,7 @@ export const RESTART = 'round/restart'
 export const VOTE_SELECTED = 'round/voteSelected'
 export const RECOMMENDED = 'round/recommended'
 export const SET_POINTS = 'round/setPoints'
+export const REVEAL_VOTES = 'round/revealVotes'
 
 export function start (ticket) {
   return { type: START, ...ticket }
@@ -27,4 +28,8 @@ export function recommended (recommended) {
 
 export function setPoints (points) {
   return { type: SET_POINTS, points }
+}
+
+export function revealVotes (votes) {
+  return { type: REVEAL_VOTES, votes }
 }

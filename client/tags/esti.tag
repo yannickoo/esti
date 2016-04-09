@@ -17,7 +17,13 @@ esti
     }
 
     main.notifications {
-      height: calc(100vh - 55px);
+      padding-bottom: 42px;
+    }
+
+    @media screen and (min-width: 600px) {
+      main.notifications {
+        padding-bottom: 0;
+      }
     }
 
   script(type='babel').

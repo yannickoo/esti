@@ -21,15 +21,25 @@ estimations
       position: absolute;
       bottom: 20px;
       left: 20px;
-      z-index: 1;
-      background: #fff;
       text-align: left;
+    }
+
+    main.notifications :scope {
+      bottom: 55px;
+    }
+
+    @media screen and (min-width: 600px) {
+      main.notifications :scope {
+        bottom: 20px;
+      }
     }
 
     table {
       margin-bottom: 20px;
       margin-left: 2px;
       padding: 8px;
+      z-index: 1;
+      background: #fff;
       border-bottom-left-radius: 0;
       border-top-right-radius: 4px;
     }

@@ -43,28 +43,40 @@ export default class Room {
   }
 
   startVoteRound () {
-    this.round = { votes: {}, finished: false, users: this.users }
+    const users = this.users.filter((u) => !u.pm)
+
+    this.round = { votes: [], finished: false, users }
   }
 
   setRoundVote (user, value) {
-    this.round.votes[user] = value
+    const u = this.findUser({ socket: user })
+    const vote = { user: u, estimation: value }
+    const index = this.round.votes.findIndex((v) => {
+      return u.socket === v.user.socket
+    })
+
+    if (index !== -1) {
+      this.round.votes[index] = vote
+    } else {
+      this.round.votes.push(vote)
+    }
   }
 
   roundFinished () {
     const users = this.round.users.filter((u) => !u.pm)
-    const finished = Object.keys(this.round.votes).length === users.length
+    const finished = this.round.votes.length === users.length
 
     if (finished) {
       this.round.finished = true
     }
 
-    return finished || this.round.finished
+    return finished
   }
 
   getRecommendedPoints () {
     // Object of point objects containing amount of votes.
-    const allPoints = Object.keys(this.round.votes).reduce((points, user) => {
-      const userVote = Number.parseInt(this.round.votes[user], 10)
+    const allPoints = this.round.votes.reduce((points, vote) => {
+      const userVote = Number.parseInt(vote.estimation, 10)
 
       points[userVote] = points[userVote] || 0
       points[userVote]++

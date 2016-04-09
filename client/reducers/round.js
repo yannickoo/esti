@@ -1,4 +1,4 @@
-import { START, VOTE, RESTART, VOTE_SELECTED, RECOMMENDED, SET_POINTS } from '../../actions/round'
+import { START, VOTE, RESTART, VOTE_SELECTED, RECOMMENDED, SET_POINTS, REVEAL_VOTES } from '../../actions/round'
 import { VOTED } from '../../actions/user'
 const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 const defaultState = {
@@ -50,6 +50,11 @@ export default function round (state = defaultState, action) {
   if (action.type === SET_POINTS) {
     const { points } = action
     return { ...state, points }
+  }
+
+  if (action.type === REVEAL_VOTES) {
+    const { votes } = action
+    return { ...state, userVotes: votes }
   }
 
   return state

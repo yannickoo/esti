@@ -4,7 +4,7 @@ notifications
 
   style(scoped).
     :scope {
-      z-index: 1;
+      z-index: 10;
       text-align: center;
       user-select: none;
       -webkit-user-select: none;

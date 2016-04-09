@@ -105,5 +105,5 @@ online-users
     }
 
     this.hasVoted = (user) => {
-      return !!this.round.userVotes.find((vote) => vote.socket === user.socket)
+      return !!this.round.userVotes.find((voter) => voter.user.socket === user.socket)
     }

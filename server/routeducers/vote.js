@@ -1,4 +1,4 @@
-import { vote as voted, voteSelected, recommended } from '../../actions/round'
+import { vote as voted, voteSelected, recommended, revealVotes } from '../../actions/round'
 import { userVote } from '../../actions/pm'
 
 export default function vote ({ socket, action, rooms, io }) {
@@ -28,6 +28,11 @@ export default function vote ({ socket, action, rooms, io }) {
     })
 
   if (room.roundFinished()) {
-    io.to(socket.room).emit('action', recommended(room.getRecommendedPoints()))
+    io.to(socket.room)
+      .emit('action', recommended(room.getRecommendedPoints()))
+      .emit('action', revealVotes(room.round.votes))
+  } else {
+    io.to(socket.room)
+      .emit('action', revealVotes(room.round.votes.map(({ user }) => ({ user }))))
   }
 }

@@ -37,16 +37,19 @@ vote
     div(if='{ user.pm }')
       button(onclick='{ stopRound }') End round
 
-  .points(if='{ round.active }')
+  .points(if='{ round.active || round.userVotes.length }')
     div(each='{ point in votesByPoints }')
       div(class='{ "has-votes": point.userVotes.length, current: round.estimation === point.value, recommended: point.recommended }')
-        button(disabled='{ user.pm && !point.userVotes.length }' onclick='{ voteSelect }') { point.value }
+        button(disabled='{ (user.pm && !point.userVotes.length) || !round.active }' onclick='{ voteSelect }') { point.value }
 
-      ul(if='{ (user.pm || round.recommended.length) && point.userVotes.length }')
-        li(each='{ user in point.userVotes }') { user.name }
+      ul(if='{ user.pm || point.userVotes.length }')
+        li(each='{ vote in point.userVotes }') { vote.user.name }
 
-  .vote-inactive(if='{ !round.active && !user.pm }')
+  .vote-inactive(if='{ !user.pm && !round.active && !round.userVotes.length }')
     h2 No active voting
+
+  .vote-inactive(if='{ !user.pm && !round.active && round.userVotes.length }')
+    h2 You are too late! You will join the next round automatically
 
   style(scoped).
     :scope {
@@ -166,13 +169,13 @@ vote
         user: state.user,
         pm: state.pm,
         round: state.round,
-        estimations: state.pm.votes
+        estimations: state.user.pm ? state.pm.votes : state.round.userVotes
       }
     })
 
     this.on('update', () => {
       this.votesByPoints = this.round.points.map((value) => ({
-        userVotes: this.estimations.filter((vote) => vote.estimation === value),
+        userVotes: this.estimations.filter((vote) => vote.estimation && vote.estimation === value),
         recommended: this.round.recommended.indexOf('' + value) !== -1,
         value
       }))
