@@ -7,7 +7,7 @@ estimations
     tbody
       tr(each='{ round in pm.estimations }')
         td.ticket
-          span(if='{ round.ticket.id }') #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }]
+          span(if='{ round.ticket.id && round.ticket.url }') #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.id }]
           span(if='{ round.ticket.id && !round.ticket.url }') { round.ticket.id }
           span(if='{ !round.ticket.id && round.ticket.url }') #[a(href='{ round.ticket.url }' target='_blank') { round.ticket.title }]
           span(if='{ !round.ticket.id && !round.ticket.url }') { round.ticket.title }
