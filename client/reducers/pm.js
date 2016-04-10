@@ -8,8 +8,8 @@ export default function pm (state = { votes: [], ticket: {}, tickets: [], estima
 
   if (action.type === USER_VOTE) {
     const { user, estimation } = action
-    const vote = { ...user, estimation }
-    const without = state.votes.filter((vote) => vote.socket !== user.socket)
+    const vote = { user, estimation }
+    const without = state.votes.filter((vote) => vote.user.socket !== user.socket)
     const votes = [...without, vote]
 
     return { ...state, votes }

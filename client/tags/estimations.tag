@@ -18,10 +18,11 @@ estimations
   style(scoped).
     :scope {
       display: block;
-      position: absolute;
+      position: fixed;
       bottom: 20px;
       left: 20px;
       text-align: left;
+      transition: bottom .3s ease-in;
     }
 
     main.notifications :scope {

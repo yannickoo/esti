@@ -129,8 +129,15 @@ vote
 
     .points ul {
       text-align: left;
-      margin-top: 10px;
+      margin-top: 5px;
+      font-size: 0.9em;
       line-height: 1.4em;
+    }
+
+    .points ul li {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .round-create details[open] summary {
