@@ -1,42 +1,38 @@
-# Esti
+# Esti :man_with_gua_pi_mao:
 
 > :one: :two: :three: :five: :eight: :one::three:
 
-## Install
+## Say what :question:
 
-```js
-npm install esti
-```
+Esti is a tool which helps you organizing voting rounds. You can create a room for your voting and invite other users to it. After they have joined you can ask a question which can be answered by predefined options. You find the average answer and select the winner. That's it. In my case I'm using Esti for scrum projects which need an estimated backlog and Esti helps us.
 
-Acquire user token from JIRA:
+## Motivation :snowflake:
 
-```sh
-# todo
-```
+It's annoying when doing backlog estimation meetings remotely and you need to write all points on pieces of paper. Then you need to show your estimation in the webcam so your project manager can see that. Welcome to the year 2016 :tada: Let's do something useful with our time and simply join a room where all developers can simply vote without getting influenced by others :hatching_chick:
 
-## Usage
+## Demo :tv:
 
-### Claim a room
+You can start by creating a new room on [esti.io](https://esti.io). We have created a [wiki page](https://github.com/yannickoo/esti/wiki/Workflow) with a step by step tutorial.
 
-Project managers can claim a room by just accessing it and connecting it to his JIRA account.
-After an inactivity of at least 30 days rooms may be freed, to ensure privacy (we then delete the JIRA OAuth2 tokens)
+## Install :point_up:
 
 ```sh
-$ open https://esti.io/hwz-daily
+# Clone repository
+$ git clone https://github.com/yannickoo/esti.git
+# Go into repository
+$ cd esti
+$ npm install && npm start
 ```
 
-### Enter a room
+Open [http://localhost:4200](http://localhost:4200) in your browser.
 
-Just open the link in your browser and set a name.
-Settings are persisted via local storage / cookies so you don't have to do it each time.
-You can also specify it behind the room name for additional slickness.
-Please note that you might get kicked from the PM, if you do not belong into this room.
+## Tech Stack :neckbeard:
 
-```sh
-$ open https://esti.io/hwz-daily/zcei
-```
+* [Riot.js](http://riotjs.com) + [Jade](http://jade-lang.com/)
+* [Redux](http://redux.js.org)
+* [Socket.IO](http://socket.io)
+* ES6 via [Babel](https://babeljs.io)
 
-## Contributing
+## Contributing :hammer:
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/yannickoo/esti/issues/new).
-But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) guidelines.
