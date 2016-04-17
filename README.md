@@ -3,8 +3,8 @@
 > :one: :two: :three: :five: :eight: :one::three:
 
 [![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti)
+[![Build Status](https://travis-ci.com/yannickoo/esti.svg?token=AQvqkBySs8piYANqsjMP&branch=master)](https://travis-ci.com/yannickoo/esti)
 [![Dependency Status](https://david-dm.org/yannickoo/esti.svg)](https://david-dm.org/yannickoo/esti)
-[![devDependency Status](https://david-dm.org/yannickoo/esti/dev-status.svg)](https://david-dm.org/yannickoo/esti#info=devDependencies)
 
 ## Say what :question:
 
