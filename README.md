@@ -10,7 +10,7 @@
 
 Esti is a tool which helps you organizing voting rounds. You can create a room for your voting and invite other users to it. After they have joined you can ask a question which can be answered by predefined options. You find the average answer and select the winner. That's it. In my case I'm using Esti for scrum projects which need an estimated backlog and Esti helps us.
 
-## Motivation :snowflake:
+## Motivation :battery:
 
 It's annoying when doing backlog estimation meetings remotely and you need to write all points on pieces of paper. Then you need to show your estimation in the webcam so your project manager can see that. Welcome to the year 2016 :tada: Let's do something useful with our time and simply join a room where all developers can simply vote without getting influenced by others :hatching_chick:
 
