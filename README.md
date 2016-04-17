@@ -2,6 +2,10 @@
 
 > :one: :two: :three: :five: :eight: :one::three:
 
+[![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti)
+[![Dependency Status](https://david-dm.org/yannickoo/esti.svg)](https://david-dm.org/yannickoo/esti)
+[![devDependency Status](https://david-dm.org/yannickoo/esti/dev-status.svg)](https://david-dm.org/yannickoo/esti#info=devDependencies)
+
 ## Say what :question:
 
 Esti is a tool which helps you organizing voting rounds. You can create a room for your voting and invite other users to it. After they have joined you can ask a question which can be answered by predefined options. You find the average answer and select the winner. That's it. In my case I'm using Esti for scrum projects which need an estimated backlog and Esti helps us.
