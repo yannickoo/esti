@@ -40,3 +40,5 @@ Open [http://localhost:4200](http://localhost:4200) in your browser.
 ## Contributing :hammer:
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/yannickoo/esti/issues/new).
+
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
