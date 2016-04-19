@@ -1,8 +1,4 @@
-# Esti :man_with_gua_pi_mao:
-
-[![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti)
-[![Build Status](https://travis-ci.com/yannickoo/esti.svg?token=AQvqkBySs8piYANqsjMP&branch=master)](https://travis-ci.com/yannickoo/esti)
-[![Dependency Status](https://david-dm.org/yannickoo/esti.svg)](https://david-dm.org/yannickoo/esti)
+# Esti [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti) [![Build Status](https://travis-ci.com/yannickoo/esti.svg?token=AQvqkBySs8piYANqsjMP&branch=master)][build-status] [![Dependency Status](https://david-dm.org/yannickoo/esti.svg)][dependency-status]
 
 ## Say what :question:
 
@@ -39,4 +35,11 @@ Open [http://localhost:4200](http://localhost:4200) in your browser.
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/yannickoo/esti/issues/new).
 
+---
+
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+[paypal-donations]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CSBARGZNZ6QPC
+[package-quality]: http://packagequality.com/#?package=esti
+[build-status]: https://travis-ci.com/yannickoo/esti
+[dependency-status]: https://david-dm.org/yannickoo/esti
