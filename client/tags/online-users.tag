@@ -9,7 +9,9 @@ online-users
 
   style(scoped).
     :scope {
+      display: block;
       margin-top: 50px;
+      margin-bottom: 20px;
       text-align: center;
     }
 

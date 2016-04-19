@@ -11,9 +11,22 @@ esti
 
     notifications
 
+  footer
+    ul
+      li
+        a(href='{ links.email }' target='_blank') Contact
+      li
+        a(href='{ links.donate }' target='_blank') Donate
+      li
+        a(href='{ links.github }' target='_blank') Github
+
   style(scoped).
     :scope {
       display: block;
+    }
+
+    main {
+      min-height: 80vh;
     }
 
     main.notifications {
@@ -26,10 +39,26 @@ esti
       }
     }
 
+    footer {
+      text-align: center;
+    }
+
+    footer li {
+      display: inline-block;
+      padding: 6px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
   script(type='babel').
     this.mixin('redux')
 
     this.userInactive = false
+    this.links = {
+      email: ['mailto', ':hel', 'lo@es', 'ti.io'].join(''),
+      github: 'https://github.com/yannickoo/esti',
+      donate: 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CSBARGZNZ6QPC'
+    }
 
     import away from 'away'
     import { setRoom } from '../../actions/server'
