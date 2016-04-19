@@ -1,4 +1,4 @@
-# Esti [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti) [![Build Status](https://travis-ci.org/yannickoo/esti.svg?token=AQvqkBySs8piYANqsjMP&branch=master)][build-status] [![Dependency Status](https://david-dm.org/yannickoo/esti.svg)][dependency-status]
+# Esti [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti) [![Build Status](https://travis-ci.org/yannickoo/esti.svg?branch=master)][build-status] [![Dependency Status](https://david-dm.org/yannickoo/esti.svg)][dependency-status]
 
 ## Say what :question:
 
