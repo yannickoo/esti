@@ -1,4 +1,4 @@
-# Esti [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Package Quality](http://npm.packagequality.com/shield/esti.svg)](http://packagequality.com/#?package=esti) [![Build Status](https://travis-ci.org/yannickoo/esti.svg?branch=master)][build-status] [![Dependency Status](https://david-dm.org/yannickoo/esti.svg)][dependency-status]
+# Esti [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Build Status](https://travis-ci.org/yannickoo/esti.svg?branch=master)][build-status] [![Dependency Status](https://david-dm.org/yannickoo/esti.svg)][dependency-status]
 
 ## Say what :question:
 
@@ -40,6 +40,5 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 [paypal-donations]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CSBARGZNZ6QPC
-[package-quality]: http://packagequality.com/#?package=esti
 [build-status]: https://travis-ci.org/yannickoo/esti
 [dependency-status]: https://david-dm.org/yannickoo/esti
