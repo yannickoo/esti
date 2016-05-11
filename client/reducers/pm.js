@@ -29,7 +29,7 @@ export default function pm (state = { votes: [], ticket: {}, tickets: [], estima
       return { ...state }
     }
 
-    const without = state.estimations.filter((e) => e.ticket.id !== chosen.ticket.id)
+    const without = state.estimations.filter((e) => !e.ticket.id || e.ticket.id !== chosen.ticket.id)
     const estimations = [...without, chosen]
     let tickets = state.tickets.filter((ticket) => ticket.id !== chosen.ticket.id)
 
