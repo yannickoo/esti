@@ -1,28 +1,23 @@
-import { USER_VOTE, TICKET_LIST } from '../../actions/pm'
-import { START, VOTE_SELECTED } from '../../actions/round'
+import { handleActions } from 'redux-actions'
 
-export default function pm (state = { votes: [], ticket: {}, tickets: [], estimations: [] }, action) {
-  if (action.type === START) {
-    return { ...state, votes: [] }
-  }
+import { userVote, ticketList } from '../../actions/pm'
+import { start, voteSelected } from '../../actions/round'
 
-  if (action.type === USER_VOTE) {
-    const { user, estimation } = action
-    const vote = { user, estimation }
-    const without = state.votes.filter((vote) => vote.user.socket !== user.socket)
+const defaultState = { votes: [], ticket: {}, tickets: [], estimations: [] }
+
+export default handleActions({
+  [userVote]: (state, action) => {
+    const { payload: vote } = action
+    const without = state.votes.filter(({ user }) => vote.user.socket !== user.socket)
     const votes = [...without, vote]
 
     return { ...state, votes }
-  }
+  },
 
-  if (action.type === TICKET_LIST) {
-    const { tickets } = action
+  [ticketList]: (state, { payload: tickets }) => ({ ...state, tickets }),
 
-    return { ...state, tickets }
-  }
-
-  if (action.type === VOTE_SELECTED) {
-    const { chosen } = action
+  [voteSelected]: (state, action) => {
+    const { payload: chosen } = action
 
     // chosen is not set if "End round" was clicked.
     if (!chosen) {
@@ -34,7 +29,7 @@ export default function pm (state = { votes: [], ticket: {}, tickets: [], estima
     let tickets = state.tickets.filter((ticket) => ticket.id !== chosen.ticket.id)
 
     return { ...state, estimations, tickets }
-  }
+  },
 
-  return state
-}
+  [start]: (state) => ({ ...state, votes: [] })
+}, defaultState)

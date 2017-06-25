@@ -2,7 +2,7 @@ import { userNamechange } from '../../actions/room'
 import { setName as changeName } from '../../actions/user'
 
 export default function setName ({ socket, action, rooms }) {
-  const { name } = action
+  const { payload: name } = action
   const room = rooms[socket.room]
 
   if (room) {

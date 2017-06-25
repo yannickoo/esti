@@ -1,7 +1,7 @@
 import { start } from '../../actions/round'
 
 export default function roundStart ({ socket, action, rooms, io }) {
-  const { ticket } = action
+  const { payload: ticket } = action
 
   const room = rooms[socket.room]
   room.startVoteRound()

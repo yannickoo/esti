@@ -1,51 +1,42 @@
 import { v4 as uuid } from 'uuid'
+import { handleActions } from 'redux-actions'
 
-import { NOTIFICATION_CREATE, NOTIFICATION_REMOVE } from '../../actions/notifications'
-import { USER_CONNECTED, USER_DISCONNECTED, UNLOCKED } from '../../actions/room'
-import { START, VOTE_SELECTED } from '../../actions/round'
-import { TICKET_LIST } from '../../actions/pm'
+import { notify, removeNotification } from '../../actions/notifications'
+import { userConnected, userDisconnected, unlocked } from '../../actions/room'
+import { start, voteSelected } from '../../actions/round'
+import { ticketList } from '../../actions/pm'
 
-function getMessage (action) {
-  const message = {}
-
-  if (action.type === USER_CONNECTED) {
-    message.text = `${action.user.name} has joined the room`
-  }
-
-  if (action.type === USER_DISCONNECTED) {
-    message.text = `${action.user.name} has left the room`
-  }
-
-  if (action.type === UNLOCKED) {
-    message.text = `${action.user.name} has unlocked the room`
-  }
-
-  if (action.type === START) {
-    message.text = 'New estimation round started'
-  }
-
-  if (action.type === VOTE_SELECTED) {
-    if (action.chosen) {
-      message.text = `The final estimation is ${action.chosen.estimation}`
+const messageMap = {
+  [userConnected]: (user) => `${user.name} has joined the room`,
+  [userDisconnected]: (user) => `${user.name} has left the room`,
+  [unlocked]: (user) => `${user.name} has unlocked the room`,
+  [start]: () => 'New estimation round started',
+  [voteSelected]: (chosen) => {
+    if (chosen) {
+      return `The final estimation is ${chosen.estimation}`
     } else {
-      message.text = 'The round has been ended'
+      return 'The round has been ended'
     }
-  }
-
-  if (action.type === TICKET_LIST) {
-    message.text = `${action.tickets.length} tickets have been imported`
-  }
-
-  if (message.text) {
-    message.id = uuid()
-  }
-
-  return message
+  },
+  [ticketList]: (tickets) => `${tickets.length} tickets have been imported`
 }
 
-export default function notifications (state = { messages: [] }, action) {
-  if (action.type === NOTIFICATION_CREATE) {
-    const { caller } = action
+function getMessage ({ type, payload }) {
+  const messageCreator = messageMap[type]
+
+  if (typeof messageCreator !== 'function') {
+    return {}
+  }
+
+  const message = messageCreator(payload)
+  const id = uuid()
+
+  return { message, id }
+}
+
+export default handleActions({
+  [notify]: (state, action) => {
+    const { payload: caller } = action
     const message = getMessage(caller)
 
     if (!message.id) {
@@ -55,14 +46,12 @@ export default function notifications (state = { messages: [] }, action) {
     const messages = [...state.messages, message]
 
     return { ...state, messages }
-  }
+  },
 
-  if (action.type === NOTIFICATION_REMOVE) {
-    const { id } = action
+  [removeNotification]: (state, action) => {
+    const { payload: id } = action
     const messages = state.messages.filter((msg) => msg.id !== id)
 
     return { ...state, messages }
   }
-
-  return state
-}
+}, { messages: [] })

@@ -1,14 +1,6 @@
-export const USER_VOTE = 'pm/userVote'
-export const TICKET_LIST = 'pm/ticketList'
+import { createAction } from 'redux-actions'
 
-export function userVote (user, estimation) {
-  return {
-    type: USER_VOTE,
-    user,
-    estimation
-  }
-}
+export const userVote = createAction('USER_VOTE', (user, estimation) => ({ user, estimation }))
+export const ticketList = createAction('TICKET_LIST')
 
-export function ticketList (tickets) {
-  return { type: TICKET_LIST, tickets }
-}
+export const TICKET_LIST = ticketList.toString()

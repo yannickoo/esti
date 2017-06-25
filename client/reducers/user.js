@@ -1,22 +1,13 @@
-import { AUTHENTICATED, SET_NAME, JOINED } from '../../actions/user'
+import { handleActions, combineActions } from 'redux-actions'
 
-export default function user (state = { name: '', pm: false }, action) {
-  if (action.type === AUTHENTICATED) {
-    const { authenticated: pm } = action
+import { authenticated, setName, joined } from '../../actions/user'
 
-    return { ...state, pm }
-  }
+export default handleActions({
+  [authenticated]: (state, { payload: pm }) => ({ ...state, pm }),
 
-  if (action.type === JOINED) {
-    const { name } = action
+  [combineActions(joined, setName)]: (state, action) => {
+    const { name } = action.payload
 
     return { ...state, name }
   }
-
-  if (action.type === SET_NAME) {
-    const { name } = action
-    return { ...state, name }
-  }
-
-  return state
-}
+}, { name: '', pm: false })

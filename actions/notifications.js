@@ -1,16 +1,4 @@
-export const NOTIFICATION_CREATE = 'notification/create'
-export const NOTIFICATION_REMOVE = 'notification/remove'
+import { createAction } from 'redux-actions'
 
-export function notify (caller) {
-  return {
-    type: NOTIFICATION_CREATE,
-    caller
-  }
-}
-
-export function removeNotification (id) {
-  return {
-    type: NOTIFICATION_REMOVE,
-    id
-  }
-}
+export const notify = createAction('NOTIFICATION_CREATE')
+export const removeNotification = createAction('NOTIFICATION_REMOVE')

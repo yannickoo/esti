@@ -3,7 +3,7 @@ import { userVote } from '../../actions/pm'
 
 export default function vote ({ socket, action, rooms, io }) {
   const room = rooms[socket.room]
-  const { estimation } = action
+  const { payload: estimation } = action
   const user = room.findUser({ socket: socket.id })
 
   if (user.pm) {

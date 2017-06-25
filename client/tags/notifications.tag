@@ -1,6 +1,6 @@
 notifications
   .notification(each='{ notification in notifications }' onclick='{ notificationClicked }' class='{ slideUp: !timers[notification.id] }')
-    p { notification.text }
+    p { notification.message }
 
   style(scoped).
     :scope {

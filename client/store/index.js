@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from '../reducers'
 import createSocketIoMiddleware from 'redux-socket.io'
 import io from 'socket.io-client'
@@ -20,16 +20,15 @@ function persistState ({ getState }) {
 }
 
 const socket = io(process.env.ESTI_BACKEND_URL || 'http://localhost:3000')
-const socketIoMiddleware = createSocketIoMiddleware(socket, 'server/')
-const createStoreWithMiddleware = applyMiddleware(
+const socketIoMiddleware = createSocketIoMiddleware(socket, 'SERVER/')
+const middewareEnhancer = applyMiddleware(
   socketIoMiddleware,
   persistState,
   notify(notifyEvents)
-)(createStore)
+)
 
 export default function configureStore (initialState) {
   const dev = process.env.NODE_ENV === 'development'
-  return createStoreWithMiddleware(rootReducer, initialState,
-    dev && window.devToolsExtension ? window.devToolsExtension() : undefined
-  )
+  const composeEnhancers = (dev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
+  return createStore(rootReducer, initialState, composeEnhancers(middewareEnhancer))
 }

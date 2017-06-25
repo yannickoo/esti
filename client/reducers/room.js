@@ -1,14 +1,15 @@
+import { handleActions } from 'redux-actions'
+
 import {
-  USER_CONNECTED,
-  USER_DISCONNECTED,
-  USER_NAMECHANGE,
-  USER_KICK,
-  UNLOCKED,
-  SET_ROOM,
-  RENAMED
+  userConnected,
+  userDisconnected,
+  userNamechange,
+  unlocked,
+  setRoom,
+  roomRenamed
 } from '../../actions/room'
 
-import { JOINED, AUTHENTICATED, KICKED } from '../../actions/user'
+import { joined, authenticated, kicked } from '../../actions/user'
 
 const defaultState = { name: '', slug: '', users: [], unlocked: false }
 
@@ -23,77 +24,58 @@ function sort (userList) {
   return [...pms.sort(byName), ...users.sort(byName)]
 }
 
-export default function room (state = defaultState, action) {
-  if (action.type === USER_CONNECTED) {
-    const { user } = action
+export default handleActions({
+  [userConnected]: (state, { payload: user }) => {
     const userList = [...state.users, user]
     const users = sort(userList)
 
     return { ...state, users }
-  }
+  },
 
-  if (action.type === USER_DISCONNECTED) {
-    const { user } = action
+  [userDisconnected]: (state, { payload: user }) => {
     const userList = state.users.filter((u) => u.socket !== user.socket)
     const users = sort(userList)
     const unlocked = user.pm ? users.some((u) => u.pm) : state.unlocked
 
     return { ...state, users, unlocked }
-  }
+  },
 
-  if (action.type === USER_NAMECHANGE) {
-    const { user } = action
+  [userNamechange]: (state, { payload: user }) => {
     const without = state.users.filter((u) => u.socket !== user.socket)
     const userList = [...without, user]
     const users = sort(userList)
 
     return { ...state, users }
-  }
+  },
 
-  if (action.type === USER_KICK) {
-    const { user } = action
-    const userList = state.users.filter((u) => u.socket !== user.socket)
-    const users = sort(userList)
+  // [USER_KICK]: (state, { payload: user }) => {
+  //   const userList = state.users.filter((u) => u.socket !== user.socket)
+  //   const users = sort(userList)
+  //
+  //   return { ...state, users }
+  // },
 
-    return { ...state, users }
-  }
+  [setRoom]: (state, { payload: room }) => ({ ...state, name: room.name, slug: room.slug }),
 
-  if (action.type === SET_ROOM) {
-    const { room } = action
-
-    return { ...state, name: room.name, slug: room.slug }
-  }
-
-  if (action.type === JOINED) {
-    const { users: userList } = action
+  [joined]: (state, action) => {
+    const { users: userList } = action.payload
     const users = sort(userList)
     const unlocked = userList.some((u) => u.pm)
 
     return { ...state, users, unlocked }
-  }
+  },
 
-  if (action.type === UNLOCKED) {
-    const { user } = action
+  [unlocked]: (state, { payload: user }) => {
     const without = state.users.filter((u) => u.socket !== user.socket)
     const userList = [...without, user]
     const users = sort(userList)
 
     return { ...state, users, unlocked: true }
-  }
+  },
 
-  if (action.type === AUTHENTICATED) {
-    const { authenticated: unlocked } = action
-    return { ...state, unlocked }
-  }
+  [authenticated]: (state, { payload: unlocked }) => ({ ...state, unlocked }),
 
-  if (action.type === KICKED) {
-    return defaultState
-  }
+  [kicked]: () => defaultState,
 
-  if (action.type === RENAMED) {
-    const { name } = action
-    return { ...state, name }
-  }
-
-  return state
-}
+  [roomRenamed]: (state, { payload: name }) => ({ ...state, name })
+}, defaultState)
