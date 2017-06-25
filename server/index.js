@@ -41,6 +41,8 @@ io.on('connection', (socket) => {
   socket.on('action', (action) => {
     const route = routes[action.type]
 
+    console.log('handling', action.type)
+
     if (!route) {
       console.warn(`No route found for: ${action.type}`)
       return

@@ -1,35 +1,13 @@
-export const START = 'round/start'
-export const VOTE = 'round/vote'
-export const RESTART = 'round/restart'
-export const VOTE_SELECTED = 'round/voteSelected'
-export const RECOMMENDED = 'round/recommended'
-export const SET_POINTS = 'round/setPoints'
-export const REVEAL_VOTES = 'round/revealVotes'
+import { createAction } from 'redux-actions'
 
-export function start (ticket) {
-  return { type: START, ...ticket }
-}
+export const start = createAction('START')
+export const voteSelected = createAction('VOTE_SELECTED')
+export const vote = createAction('VOTE')
+export const restart = createAction('RESTART')
+export const recommended = createAction('RECOMMENDED')
+export const setPoints = createAction('SET_POINTS')
+export const revealVotes = createAction('REVEAL_VOTES')
 
-export function vote (user) {
-  return { type: VOTE, user }
-}
-
-export function restart () {
-  return { type: RESTART }
-}
-
-export function voteSelected (chosen) {
-  return { type: VOTE_SELECTED, chosen }
-}
-
-export function recommended (recommended) {
-  return { type: RECOMMENDED, recommended }
-}
-
-export function setPoints (points) {
-  return { type: SET_POINTS, points }
-}
-
-export function revealVotes (votes) {
-  return { type: REVEAL_VOTES, votes }
-}
+export const START = start.toString()
+export const VOTE = vote.toString()
+export const VOTE_SELECTED = voteSelected.toString()

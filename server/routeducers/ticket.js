@@ -2,8 +2,8 @@ import { ticketInfo } from '../../actions/pm'
 
 // TODO: Legacy, will this be used with our integration?
 export default function ticket ({ socket, action, rooms }) {
-  const room = rooms.get(action.room)
-  const ticket = action.ticket
+  const { room: roomName, ticket } = action.payload
+  const room = rooms.get(roomName)
 
   if (!room || !room.managers.has(socket)) {
     socket.emit('action', { type: 'ticket', error: true })

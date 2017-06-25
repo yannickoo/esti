@@ -29,7 +29,7 @@ function claimRoom (name, slugged, token, db) {
 }
 
 export default function claim ({ socket, action, rooms, db }) {
-  const { username, room: roomName, slug: slugged, token } = action
+  const { username, room: roomName, slug: slugged, token } = action.payload
   const roomSlug = slugged || slug(roomName)
 
   // @TODO: remove db parameter.

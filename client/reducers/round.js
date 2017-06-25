@@ -1,5 +1,7 @@
-import { START, VOTE, RESTART, VOTE_SELECTED, RECOMMENDED, SET_POINTS, REVEAL_VOTES } from '../../actions/round'
-import { VOTED } from '../../actions/user'
+import { handleActions } from 'redux-actions'
+
+import { start, vote, restart, voteSelected, recommended, setPoints, revealVotes } from '../../actions/round'
+import { voted } from '../../actions/user'
 const points = [1, 2, 3, 5, 8, 13, 20, 40, 100]
 const defaultState = {
   ticket: {},
@@ -12,50 +14,32 @@ const defaultState = {
   estimation: 0
 }
 
-export default function round (state = defaultState, action) {
-  if (action.type === START) {
-    const { id, title, url } = action
+export default handleActions({
+  [start]: (state, action) => {
+    const { id, title, url } = action.payload
     const ticket = { id, title, url }
 
     return { ...state, ticket, users: [], userVotes: [], active: true, recommended: [], estimation: 0 }
-  }
+  },
 
-  if (action.type === VOTE) {
-    const { user } = action
+  // PM has chosen an estimation
+  [voteSelected]: () => defaultState,
+
+  [vote]: (state, action) => {
+    const { payload: user } = action
     const userVotes = [...state.userVotes, user]
 
     return { ...state, userVotes }
-  }
+  },
 
-  if (action.type === RESTART) {
-    return { ...state, userVotes: [], active: true }
-  }
+  [restart]: (state) => ({ ...state, userVotes: [], active: true }),
+
+  [recommended]: (state, { payload: recommended }) => ({ ...state, recommended }),
+
+  [setPoints]: (state, { payload: points }) => ({ ...state, points }),
+
+  [revealVotes]: (state, { payload: userVotes }) => ({ ...state, userVotes }),
 
   // This client has voted for an estimation
-  if (action.type === VOTED) {
-    const { estimation } = action
-    return { ...state, estimation }
-  }
-
-  // PM has chosen an estimation
-  if (action.type === VOTE_SELECTED) {
-    return defaultState
-  }
-
-  if (action.type === RECOMMENDED) {
-    const { recommended } = action
-    return { ...state, recommended }
-  }
-
-  if (action.type === SET_POINTS) {
-    const { points } = action
-    return { ...state, points }
-  }
-
-  if (action.type === REVEAL_VOTES) {
-    const { votes } = action
-    return { ...state, userVotes: votes }
-  }
-
-  return state
-}
+  [voted]: (state, { payload: estimation }) => ({ ...state, estimation })
+}, defaultState)

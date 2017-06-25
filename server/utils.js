@@ -3,7 +3,7 @@ import slugged from 'speakingurl'
 export function buildRoutes (actions, routeducers) {
   return Object.keys(actions)
     .reduce((routes, key) => {
-      const action = key.toLowerCase().replace(/_(\w)/g, (m, p) => p.toUpperCase())
+      const action = key // .toLowerCase().replace(/_(\w)/g, (m, p) => p.toUpperCase())
       const handler = routeducers[action]
       const actionType = actions[key]
 

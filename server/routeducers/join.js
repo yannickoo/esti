@@ -3,7 +3,7 @@ import { userConnected } from '../../actions/room'
 import Room from '../room'
 
 export default function joinedAction ({ socket, action, rooms }) {
-  const { name, slug: slugged } = action
+  const { name, slug: slugged } = action.payload
   const user = { name, socket: socket.id }
   const room = rooms[slugged] || new Room(slugged)
 

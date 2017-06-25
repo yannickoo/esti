@@ -2,9 +2,9 @@ import { userDisconnected } from '../../actions/room'
 import { kicked } from '../../actions/user'
 
 export default function userKick ({ action, rooms, io }) {
-  const roomName = action.room
+  const { id: socket, room: roomName } = action.payload
   const room = rooms[roomName]
-  const user = room.findUser({ socket: action.id })
+  const user = room.findUser({ socket })
 
   if (user) {
     console.log(`Kicking user: ${user.name} (${user.socket})`)

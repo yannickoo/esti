@@ -16,7 +16,7 @@ export default {
   disconnect,
   join,
   roundEnd,
-  roundStart,
+  startRound: roundStart,
   setName,
   setRoomName,
   setPoints,

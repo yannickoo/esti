@@ -3,7 +3,7 @@ import Room from '../room'
 import { slug } from '../utils'
 
 export default function setRoom ({ socket, action, rooms, db }) {
-  const { room: roomName } = action
+  const { payload: roomName } = action
   const slugged = slug(roomName)
   const room = db('rooms').find({ slug: slugged }) || new Room(roomName)
 
