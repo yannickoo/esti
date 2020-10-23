@@ -10,7 +10,7 @@ It's annoying when doing backlog estimation meetings remotely and you need to wr
 
 ## Demo :tv:
 
-You can start by creating a new room on [esti.io](https://esti.io). Check the [wiki](https://github.com/yannickoo/esti/wiki) for a step by step tutorial.
+You can start by creating a new room on [esti.io](https://esti.uber.space). Check the [wiki](https://github.com/yannickoo/esti/wiki) for a step by step tutorial.
 
 ## Install :point_up:
 
