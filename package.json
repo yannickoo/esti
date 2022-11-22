@@ -46,7 +46,7 @@
     "riot-redux-mixin": "1.0.0",
     "riotify": "^1.0.0",
     "rx": "^4.0.7",
-    "socket.io": "^1.4.4",
+    "socket.io": "^4.5.3",
     "socket.io-client": "^1.4.4",
     "speakingurl": "^9.0.0",
     "uglify-js": "^2.6.2",
